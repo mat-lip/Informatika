@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informatika – Maturitné Zadania</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1117;--sur:#161b27;--sur2:#1e2535;--bor:#2a3348;--a1:#4ade80;--a2:#38bdf8;--a3:#f472b6;--tx:#e2e8f0;--txm:#64748b;--txd:#94a3b8;--pc:#4ade80;--ic:#38bdf8}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,222,128,.03)1px,transparent 1px),linear-gradient(90deg,rgba(74,222,128,.03)1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+header{position:relative;z-index:10;padding:3rem 2rem 2rem;text-align:center;border-bottom:1px solid var(--bor);background:linear-gradient(180deg,rgba(74,222,128,.06)0%,transparent 100%)}
+.hb{display:inline-flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--a1);letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(74,222,128,.3);padding:.35rem .8rem;border-radius:2px;margin-bottom:1.2rem;background:rgba(74,222,128,.05)}
+.hb::before{content:'//';opacity:.5}
+h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:800;letter-spacing:-.02em;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--a1)60%,var(--a2)100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hs{margin-top:.8rem;font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--txm);letter-spacing:.05em}
+.leg{display:flex;justify-content:center;gap:2rem;margin:1.5rem auto 0;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--txd);font-family:'JetBrains Mono',monospace}
+.ld{width:10px;height:10px;border-radius:2px}
+.ld.p{background:var(--pc)}.ld.i{background:var(--ic)}
+.ctrl{position:sticky;top:0;z-index:20;background:rgba(15,17,23,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bor);padding:.8rem 2rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.sw{flex:1;min-width:200px;position:relative}
+.sw::before{content:'⌕';position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--txm);font-size:1.1rem;pointer-events:none}
+#si{width:100%;background:var(--sur2);border:1px solid var(--bor);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:.6rem 1rem .6rem 2.5rem;border-radius:4px;outline:none;transition:border-color .2s}
+#si:focus{border-color:var(--a1)}
+#si::placeholder{color:var(--txm)}
+.fbs{display:flex;gap:.5rem}
+.fb{font-family:'JetBrains Mono',monospace;font-size:.75rem;padding:.5rem .9rem;border-radius:3px;border:1px solid var(--bor);background:transparent;color:var(--txm);cursor:pointer;transition:all .2s;letter-spacing:.05em}
+.fb:hover{border-color:var(--a1);color:var(--a1)}
+.fb.active{background:rgba(74,222,128,.12);border-color:var(--a1);color:var(--a1)}
+#sp{display:none;position:fixed;right:0;top:0;height:100vh;width:300px;background:var(--sur);border-left:1px solid var(--bor);z-index:50;overflow-y:auto;padding:1.5rem;transform:translateX(100%);transition:transform .3s ease}
+#sp.open{display:block;transform:translateX(0)}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--bor)}
+.pt2{font-size:1rem;font-weight:700;color:var(--a1)}
+.cpb{background:none;border:none;color:var(--txm);cursor:pointer;font-size:1.2rem;line-height:1}
+.cpb:hover{color:var(--tx)}
+#sl{list-style:none}
+#sl li{padding:.5rem 0;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--txd);border-bottom:1px solid rgba(42,51,72,.5);cursor:pointer;transition:color .2s}
+#sl li:hover{color:var(--a1)}
+#sl li span{color:var(--a1);margin-right:.5rem;font-weight:700}
+.stb{position:fixed;bottom:2rem;right:2rem;z-index:40;background:var(--sur2);border:1px solid var(--a1);color:var(--a1);width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(74,222,128,.2);transition:all .2s}
+.stb:hover{background:rgba(74,222,128,.15)}
+#sc{position:absolute;top:-4px;right:-4px;background:var(--a1);color:#000;font-size:.6rem;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace}
+main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:1.2rem}
+.card{background:var(--sur);border:1px solid var(--bor);border-radius:6px;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s;cursor:pointer;animation:fi .4s ease both}
+.card:hover{transform:translateY(-3px);border-color:rgba(74,222,128,.4);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.card.starred{border-color:rgba(244,114,182,.4)}
+.ch{display:flex;align-items:center;gap:.8rem;padding:.9rem 1rem;border-bottom:1px solid var(--bor);background:var(--sur2)}
+.cn{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;color:#000;background:var(--a1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:3px;flex-shrink:0}
+.ct{font-size:.8rem;font-weight:700;color:var(--txd);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;flex:1}
+.sb{background:none;border:none;cursor:pointer;font-size:1rem;color:var(--txm);padding:.2rem;transition:color .2s,transform .2s;line-height:1;z-index:2;position:relative}
+.sb:hover{transform:scale(1.2)}
+.sb.active{color:var(--a3)}
+.cb{padding:.8rem 1rem 1rem;display:flex;flex-direction:column;gap:.7rem}
+.sec{border-radius:4px;padding:.6rem .8rem;border-left:3px solid}
+.sec.p{background:rgba(74,222,128,.05);border-color:var(--pc)}
+.sec.i{background:rgba(56,189,248,.05);border-color:var(--ic)}
+.sl2{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.35rem}
+.sec.p .sl2{color:var(--pc)}.sec.i .sl2{color:var(--ic)}
+.sto{font-size:.88rem;font-weight:600;color:var(--tx);line-height:1.4}
+.ss{list-style:none;margin-top:.35rem}
+.ss li{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--txm);padding-left:.8rem;position:relative;margin-bottom:.1rem}
+.ss li::before{content:'→';position:absolute;left:0;opacity:.4}
+.chint{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--txm);text-align:center;padding:.5rem;border-top:1px solid var(--bor);opacity:.5}
+.empty{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--txm);font-family:'JetBrains Mono',monospace}
+#dov{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);overflow-y:auto}
+#dov.open{display:block;animation:fi .25s ease}
+.dh{position:sticky;top:0;z-index:10;background:rgba(15,17,23,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bor);padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
+.dback{background:var(--sur2);border:1px solid var(--bor);color:var(--txd);font-family:'JetBrains Mono',monospace;font-size:.8rem;padding:.5rem 1rem;border-radius:4px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.dback:hover{border-color:var(--a1);color:var(--a1)}
+.dbadge{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;color:#000;background:var(--a1);padding:.3rem .7rem;border-radius:3px}
+.dnav{display:flex;gap:.5rem;margin-left:auto}
+.dnb{background:var(--sur2);border:1px solid var(--bor);color:var(--txm);font-family:'JetBrains Mono',monospace;font-size:.8rem;padding:.4rem .8rem;border-radius:3px;cursor:pointer;transition:all .2s}
+.dnb:hover{border-color:var(--a1);color:var(--a1)}
+.dnb:disabled{opacity:.3;cursor:default;pointer-events:none}
+.dbody{max-width:880px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.dtitle{font-size:1.6rem;font-weight:800;margin-bottom:2rem;color:var(--tx);letter-spacing:-.01em}
+.ds{margin-bottom:2.5rem;border:1px solid var(--bor);border-radius:8px;overflow:hidden}
+.dsh{display:flex;align-items:center;gap:.8rem;padding:1rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em}
+.dsh.p{background:rgba(74,222,128,.08);color:var(--pc);border-bottom:1px solid rgba(74,222,128,.15)}
+.dsh.i{background:rgba(56,189,248,.08);color:var(--ic);border-bottom:1px solid rgba(56,189,248,.15)}
+.dsh .dot{width:8px;height:8px;border-radius:50%}
+.dsh.p .dot{background:var(--pc)}.dsh.i .dot{background:var(--ic)}
+.dtop{padding:1rem 1.4rem .5rem;font-size:1.05rem;font-weight:700;color:var(--tx)}
+.dc{padding:.5rem 1.4rem 1.4rem;font-size:.87rem;color:var(--txd);line-height:1.72}
+.dc strong{color:var(--tx);font-weight:600}
+.dc em{color:var(--a2);font-style:normal}
+.dc p{margin-bottom:.7rem}
+.nc{display:block;margin:.8rem 0;background:rgba(0,0,0,.5);border:1px solid var(--bor);border-left:3px solid var(--pc);border-radius:4px;padding:.9rem 1.1rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#a5f3c4;white-space:pre;overflow-x:auto;line-height:1.6}
+.nl{list-style:none;margin:.5rem 0}
+.nl li{font-size:.85rem;color:var(--txd);padding-left:1.2rem;position:relative;line-height:1.65;margin-bottom:.32rem}
+.nl li::before{content:'▸';position:absolute;left:0;color:var(--a1);opacity:.7;font-size:.72rem;top:.22rem}
+.nl li strong{color:var(--tx)}
+.nl li em{color:var(--a2);font-style:normal}
+.ntip{margin:.8rem 0;background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);border-radius:4px;padding:.7rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--a1)}
+.ntip::before{content:'💡 '}
+.nwarn{margin:.8rem 0;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:4px;padding:.7rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#fbbf24}
+.nwarn::before{content:'⚠️ '}
+.ntbl{width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.82rem}
+.ntbl th{background:var(--sur2);color:var(--tx);padding:.5rem .8rem;text-align:left;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.05em;border-bottom:1px solid var(--bor)}
+.ntbl td{padding:.45rem .8rem;border-bottom:1px solid rgba(42,51,72,.5);color:var(--txd);vertical-align:top}
+.ntbl tr:last-child td{border-bottom:none}
+.ntbl td:first-child{color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:.78rem;white-space:nowrap}
+footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px solid var(--bor);font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--txm)}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card:nth-child(1){animation-delay:.03s}.card:nth-child(2){animation-delay:.06s}.card:nth-child(3){animation-delay:.09s}.card:nth-child(4){animation-delay:.12s}.card:nth-child(5){animation-delay:.15s}.card:nth-child(6){animation-delay:.18s}.card:nth-child(n+7){animation-delay:.2s}
+@media(max-width:600px){main{grid-template-columns:1fr;padding:1rem}.ctrl{padding:.6rem 1rem}h1{font-size:2rem}.dbody{padding:1.5rem 1rem 3rem}}
+
+/* NAV BUTTON */
+.nav-cvicenia-btn {
+  position: fixed; bottom: 2rem; left: 2rem; z-index: 40;
+  background: var(--sur2); border: 1px solid var(--a2); color: var(--a2);
+  font-family: 'JetBrains Mono', monospace; font-size: .78rem;
+  padding: .6rem 1.1rem; border-radius: 4px; cursor: pointer;
+  transition: all .2s; letter-spacing: .05em;
+  box-shadow: 0 0 16px rgba(56,189,248,.2);
+}
+.nav-cvicenia-btn:hover { background: rgba(56,189,248,.12); box-shadow: 0 0 28px rgba(56,189,248,.4); }
+
+/* CV HEADER */
+.cv-header { position: relative; z-index: 10; padding: 2.5rem 2rem 1.5rem; border-bottom: 1px solid var(--bor); background: linear-gradient(180deg, rgba(56,189,248,.06) 0%, transparent 100%); }
+.cv-back { background: var(--sur2); border: 1px solid var(--bor); color: var(--txd); font-family: 'JetBrains Mono', monospace; font-size: .8rem; padding: .5rem 1rem; border-radius: 4px; cursor: pointer; transition: all .2s; margin-bottom: 1rem; display: inline-flex; align-items: center; gap: .5rem; }
+.cv-back:hover { border-color: var(--a2); color: var(--a2); }
+.cv-title { font-size: clamp(1.8rem,4vw,3rem); font-weight: 800; background: linear-gradient(135deg, #fff 0%, var(--a2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.cv-sub { margin-top: .5rem; font-family: 'JetBrains Mono', monospace; font-size: .82rem; color: var(--txm); }
+
+/* CV CONTROLS */
+.cv-controls { position: sticky; top: 0; z-index: 20; background: rgba(15,17,23,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--bor); padding: .8rem 2rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+#cvSearch { width: 100%; background: var(--sur2); border: 1px solid var(--bor); color: var(--tx); font-family: 'JetBrains Mono', monospace; font-size: .85rem; padding: .6rem 1rem; border-radius: 4px; outline: none; transition: border-color .2s; }
+#cvSearch:focus { border-color: var(--a2); }
+#cvSearch::placeholder { color: var(--txm); }
+
+/* CV GRID */
+.cv-grid { max-width: 1400px; margin: 0 auto; padding: 2rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1rem; }
+
+/* CV CARD */
+.cv-card { background: var(--sur); border: 1px solid var(--bor); border-radius: 6px; overflow: hidden; cursor: pointer; transition: transform .2s, border-color .2s, box-shadow .2s; animation: fi .3s ease both; }
+.cv-card:hover { transform: translateY(-3px); border-color: rgba(56,189,248,.4); box-shadow: 0 8px 28px rgba(0,0,0,.4); }
+.cv-card-header { display: flex; align-items: center; gap: .7rem; padding: .8rem 1rem; background: var(--sur2); border-bottom: 1px solid var(--bor); }
+.cv-kat-badge { font-family: 'JetBrains Mono', monospace; font-size: .62rem; font-weight: 700; color: #000; background: var(--a2); padding: .2rem .5rem; border-radius: 2px; white-space: nowrap; }
+.cv-card-num { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--txm); margin-left: auto; }
+.cv-card-body { padding: .8rem 1rem 1rem; }
+.cv-card-nazov { font-size: .9rem; font-weight: 700; color: var(--tx); line-height: 1.4; margin-bottom: .4rem; }
+.cv-card-popis { font-size: .78rem; color: var(--txm); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.cv-card-hint { font-family: 'JetBrains Mono', monospace; font-size: .62rem; color: var(--a2); opacity: .6; padding: .4rem 1rem; border-top: 1px solid var(--bor); }
+
+/* CV DETAIL */
+.cv-detail-header { position: sticky; top: 0; z-index: 10; background: rgba(15,17,23,.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--bor); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+.cv-back-sm { background: var(--sur2); border: 1px solid var(--bor); color: var(--txd); font-family: 'JetBrains Mono', monospace; font-size: .8rem; padding: .5rem 1rem; border-radius: 4px; cursor: pointer; transition: all .2s; }
+.cv-back-sm:hover { border-color: var(--a2); color: var(--a2); }
+.cv-detail-badge { font-family: 'JetBrains Mono', monospace; font-size: .75rem; font-weight: 700; color: #000; background: var(--a2); padding: .3rem .7rem; border-radius: 3px; }
+.cv-detail-body { max-width: 860px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+.cv-detail-body h3 { font-size: 1.4rem; font-weight: 800; color: var(--tx); margin-bottom: 1.5rem; }
+.cv-popis-box { background: rgba(56,189,248,.05); border: 1px solid rgba(56,189,248,.2); border-left: 3px solid var(--a2); border-radius: 4px; padding: 1rem 1.2rem; margin-bottom: 1.5rem; }
+.cv-popis-label { font-family: 'JetBrains Mono', monospace; font-size: .65rem; color: var(--a2); font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: .5rem; }
+.cv-popis-box p { font-size: .88rem; color: var(--tx); line-height: 1.7; }
+
+/* GEN BUTTON */
+.cv-gen-btn { display: flex; align-items: center; gap: .6rem; background: linear-gradient(135deg, rgba(56,189,248,.15), rgba(56,189,248,.05)); border: 1px solid var(--a2); color: var(--a2); font-family: 'JetBrains Mono', monospace; font-size: .9rem; font-weight: 700; padding: .9rem 1.8rem; border-radius: 5px; cursor: pointer; transition: all .25s; letter-spacing: .05em; margin-bottom: 1.5rem; }
+.cv-gen-btn:hover { background: rgba(56,189,248,.2); box-shadow: 0 0 24px rgba(56,189,248,.3); transform: translateY(-1px); }
+.cv-gen-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.cv-gen-icon { font-size: 1rem; }
+
+/* OUTPUT */
+.cv-output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .6rem; }
+.cv-output-label { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--a1); font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+.cv-copy-btn { background: var(--sur2); border: 1px solid var(--bor); color: var(--txd); font-family: 'JetBrains Mono', monospace; font-size: .72rem; padding: .3rem .7rem; border-radius: 3px; cursor: pointer; transition: all .2s; }
+.cv-copy-btn:hover { border-color: var(--a1); color: var(--a1); }
+.cv-code { background: rgba(0,0,0,.5); border: 1px solid var(--bor); border-left: 3px solid var(--a1); border-radius: 5px; padding: 1.2rem; font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: #e2e8f0; white-space: pre; overflow-x: auto; line-height: 1.65; max-height: 70vh; overflow-y: auto; }
+
+/* LOADING */
+.cv-loading { display: flex; align-items: center; gap: 1rem; padding: 2rem; background: var(--sur); border: 1px solid var(--bor); border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: .85rem; color: var(--a2); }
+.cv-spinner { width: 20px; height: 20px; border: 2px solid rgba(56,189,248,.3); border-top-color: var(--a2); border-radius: 50%; animation: spin .8s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ERROR */
+.cv-error { background: rgba(239,68,68,.06); border: 1px solid rgba(239,68,68,.3); border-radius: 5px; padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: .82rem; color: #f87171; }
+
+@media(max-width:600px){.cv-grid{grid-template-columns:1fr;padding:1rem}}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="hb">Maturita 2025/2026</div>
+  <h1>Informatika</h1>
+  <p class="hs">Tematické okruhy · Maturitné zadania Z1–Z30</p>
+  <div class="leg">
+    <div class="li"><div class="ld p"></div>Programovanie C++</div>
+    <div class="li"><div class="ld i"></div>Základy informatiky</div>
+  </div>
+</header>
+<div class="ctrl">
+  <div class="sw"><input type="text" id="si" placeholder="Hľadaj zadanie alebo tému..."></div>
+  <div class="fbs">
+    <button class="fb active" data-filter="all">Všetky</button>
+    <button class="fb" data-filter="starred">⭐ Moje</button>
+  </div>
+</div>
+<main id="grid"></main>
+<div id="sp">
+  <div class="ph"><span class="pt2">⭐ Označené</span><button class="cpb" id="cpb">✕</button></div>
+  <ul id="sl"><li style="color:var(--txm)">Žiadne označené.</li></ul>
+</div>
+<button class="stb" id="stb">⭐<span id="sc" style="display:none">0</span></button>
+<div id="dov">
+  <div class="dh">
+    <button class="dback" id="back">← Späť</button>
+    <div class="dbadge" id="dbadge">Z1</div>
+    <div style="flex:1"></div>
+    <div class="dnav">
+      <button class="dnb" id="prev">‹ Predch.</button>
+      <button class="dnb" id="next">Nasl. ›</button>
+    </div>
+  </div>
+  <div class="dbody" id="dbody"></div>
+</div>
+<footer>Informatika · Programovanie C++ + Základy informatiky · 2025/2026</footer>
+<script>
+const Z=[
+{n:1,pt:'Makrá bez parametrov',ps:["Symbolická konštanta – význam a spôsob použitia"],pn:`<p><strong>Preprocesor</strong> beží pred kompilátorom a vykonáva textové náhrady. Direktíva <strong>#define</strong> definuje makro — pomenovanú hodnotu.</p>
+<p>Makro bez parametrov = <strong>symbolická konštanta</strong>. Ak treba hodnotu zmeniť, stačí to urobiť na jednom mieste.</p>
+<code class="nc">#define PI 3.14159265
+#define MAX 100
+#define SKOLA "SPŠ Informatiky"
+
+double obvod = 2 * PI * r;  // preprocesor nahradí PI hodnotou
+int pole[MAX];</code>
+<ul class="nl">
+<li><strong>Syntax:</strong> #define NAZOV hodnota — bez bodkočiarky!</li>
+<li>Konvencia: názvy VEĽKÝMI_PÍSMENAMI.</li>
+<li>Preprocesor vykonáva doslova textovú náhradu — makrá nemajú dátový typ.</li>
+<li>Môžeme definovať aj makrá bez hodnoty ako príznaky: #define DEBUG</li>
+</ul>
+<div class="ntip">Moderná alternatíva: <strong>const int MAX = 100;</strong> — má typ, kompilátor ho skontroluje.</div>
+<code class="nc">// Porovnanie:
+#define MAX 100        // makro — bez typu
+const int MAX2 = 100;  // konštanta — bezpečnejšia</code>`,it:'Interaktívna komunikácia',is_:[],in_:`<p><strong>Interaktívna (synchrónna) komunikácia</strong> prebieha v reálnom čase — obaja účastníci sú prítomní súčasne.</p>
+<ul class="nl">
+<li><strong>Chat / IM</strong> – Messenger, WhatsApp, Telegram, Discord</li>
+<li><strong>Videohovor</strong> – Zoom, MS Teams, Google Meet</li>
+<li><strong>VoIP</strong> – hlasový hovor cez internet: Skype, Discord</li>
+<li><strong>Online hry</strong> – interakcia v reálnom čase</li>
+</ul>
+<p>Vyžaduje stabilné pripojenie a súčasnú prítomnosť. Hlavná výhoda: okamžitá spätná väzba.</p>`},
+{n:2,pt:'Mnohonásobné vetvenie programu',ps:["Príkaz SWITCH"],pn:`<p>Príkaz <strong>switch</strong> je elegantná náhrada dlhého reťazca if–else if, keď porovnávame jednu premennú oproti viacerým hodnotám.</p>
+<code class="nc">int den = 3;
+switch (den) {
+  case 1: cout &lt;&lt; "Pondelok"; break;
+  case 2: cout &lt;&lt; "Utorok";   break;
+  case 3: cout &lt;&lt; "Streda";   break;
+  case 4:
+  case 5: cout &lt;&lt; "Štvrtok alebo Piatok"; break;
+  default: cout &lt;&lt; "Víkend"; break;
+}</code>
+<ul class="nl">
+<li><strong>case X:</strong> — vetva vykonaná ak premenná == X</li>
+<li><strong>break;</strong> — bez neho pokračuje do ďalšej vetvy (fall-through)!</li>
+<li><strong>default:</strong> — vykoná sa ak žiadny case nesedí. Nie je povinný.</li>
+<li>Funguje len s <strong>int, char, enum</strong> — nie s float ani string!</li>
+<li>Viacero case môže zdieľať rovnaký kód — napíšeme ich za sebou.</li>
+</ul>
+<div class="nwarn">Zabudnutý break → program vykoná aj všetky nasledujúce vetvy. Najčastejšia chyba!</div>`,it:'Relačné databázy',is_:[],in_:`<p><strong>Relačná databáza</strong> uchováva dáta v tabuľkách (reláciách) prepojených cez kľúče.</p>
+<ul class="nl">
+<li><strong>Tabuľka</strong> = entita (Žiaci, Predmety)</li>
+<li><strong>Stĺpec</strong> = atribút (Meno, Vek, ID)</li>
+<li><strong>Riadok</strong> = jeden konkrétny záznam</li>
+<li><strong>Primárny kľúč (PK)</strong> – unikátny identifikátor záznamu</li>
+<li><strong>Cudzí kľúč (FK)</strong> – odkazuje na PK inej tabuľky</li>
+<li>Dopytovací jazyk: <strong>SQL</strong> — SELECT, INSERT, UPDATE, DELETE</li>
+</ul>
+<p>Príklady RDBMS: MySQL, PostgreSQL, SQLite, MS Access.</p>`},
+{n:3,pt:'Iteračné príkazy – cyklus so známym počtom opakovaní',ps:["Cyklus FOR"],pn:`<p>Cyklus <strong>for</strong> použijeme keď <em>vopred vieme</em>, koľkokrát sa má telo opakovať.</p>
+<code class="nc">// Základná syntax:
+for (inicializacia; podmienka; krok) { telo }
+
+for (int i = 0; i &lt; 10; i++)   cout &lt;&lt; i &lt;&lt; " "; // 0..9
+for (int i = 10; i >= 1; i--)  cout &lt;&lt; i &lt;&lt; " "; // 10..1
+for (int i = 0; i &lt; 20; i+=2)  cout &lt;&lt; i &lt;&lt; " "; // 0,2,4...
+
+// Súčet čísel 1–100:
+int s = 0;
+for (int i = 1; i &lt;= 100; i++) s += i;
+cout &lt;&lt; s; // 5050
+
+// Vnorené cykly — násobilka:
+for (int r = 1; r &lt;= 5; r++) {
+  for (int c = 1; c &lt;= 5; c++) cout &lt;&lt; setw(4) &lt;&lt; r*c;
+  cout &lt;&lt; endl;
+}</code>
+<ul class="nl">
+<li><strong>Inicializácia</strong> – vykoná sa raz pred začiatkom (napr. int i = 0)</li>
+<li><strong>Podmienka</strong> – overuje sa pred každou iteráciou. Ak false → koniec.</li>
+<li><strong>Krok</strong> – vykoná sa po každej iterácii (i++, i--, i+=2...)</li>
+<li>Premenná i (čítač) je lokálna pre cyklus — po skončení zanikne.</li>
+<li>Vnorené for cykly: pre každú kombináciu riadku a stĺpca.</li>
+</ul>`,it:'Číselné sústavy, prevody',is_:[],in_:`<p>Počítač pracuje vnútorne v <strong>dvojkovej sústave</strong>.</p>
+<table class="ntbl"><tr><th>Sústava</th><th>Základ</th><th>Cifry</th><th>Použitie</th></tr>
+<tr><td>Desiatková</td><td>10</td><td>0–9</td><td>Bežný život</td></tr>
+<tr><td>Dvojková</td><td>2</td><td>0,1</td><td>Vnútro počítača</td></tr>
+<tr><td>Osmičková</td><td>8</td><td>0–7</td><td>Unix oprávnenia</td></tr>
+<tr><td>Šestnástková</td><td>16</td><td>0–9,A–F</td><td>Farby #FF5500, adresy</td></tr></table>
+<ul class="nl">
+<li><strong>Do dvojkovej:</strong> delíme číslom 2, zvyšky zdola nahor. 13→1101₂</li>
+<li><strong>Z dvojkovej:</strong> každá pozícia = 2ⁿ. 1101₂=8+4+0+1=13</li>
+<li><strong>Hex skratka:</strong> 1 hex cifra = 4 bity. FF=11111111=255</li>
+</ul>`},
+{n:4,pt:'Programovací jazyk C++',ps:["Syntax programovacieho jazyka"],pn:`<p><strong>C++</strong> je kompilovaný, staticky typovaný jazyk. Podporuje OOP, veľmi rýchly — hry, OS, embedded systémy.</p>
+<code class="nc">#include &lt;iostream&gt;     // knižnica pre vstup/výstup
+using namespace std;    // skratka namiesto std::cout
+
+int main() {            // každý program začína tu
+  cout &lt;&lt; "Ahoj!" &lt;&lt; endl;
+  return 0;             // 0 = úspešné ukončenie
+}</code>
+<ul class="nl">
+<li><strong>#include</strong> — vloží hlavičkový súbor: iostream, cmath, string, fstream, cstdlib, ctime, iomanip</li>
+<li><strong>using namespace std;</strong> — bez neho: std::cout, std::cin...</li>
+<li>Každý príkaz končí <strong>bodkočiarkou ;</strong></li>
+<li>Bloky ohraničené <strong>{ }</strong>, case-sensitive (main ≠ Main)</li>
+<li>Komentáre: <strong>// jednoriadkový</strong> alebo <strong>/* viacriadkový */</strong></li>
+</ul>
+<table class="ntbl"><tr><th>Fáza</th><th>Popis</th></tr>
+<tr><td>Preprocesor</td><td>Spracuje #include, #define pred kompiláciou</td></tr>
+<tr><td>Kompilácia</td><td>C++ kód → objektový súbor .o</td></tr>
+<tr><td>Linkovanie</td><td>Spojí .o súbory a knižnice → .exe</td></tr></table>`,it:'Digitalizácia informácií, rastrová a vektorová grafika',is_:[],in_:`<p><strong>Digitalizácia</strong> = prevod analógového signálu na digitálny (číselný) formát.</p>
+<ul class="nl">
+<li><strong>Rastrová grafika</strong> – mriežka pixelov. Pri zväčšení sa rozpadne. Formáty: JPG, PNG, BMP, GIF. Programy: Photoshop, GIMP.</li>
+<li><strong>Vektorová grafika</strong> – matematické krivky a tvary. Ľubovoľné zväčšenie bez straty. Formáty: SVG, AI, EPS. Programy: Illustrator, Inkscape.</li>
+<li><strong>Rozlíšenie</strong> – počet pixelov (1920×1080 = Full HD)</li>
+<li><strong>DPI</strong> – bodov na palec. 300 DPI = tlač, 72 DPI = web</li>
+<li><strong>Farebná hĺbka</strong> – bitov/pixel. 24-bit = 16,7M farieb (true color)</li>
+</ul>`},
+{n:5,pt:'Ladenie (logické a syntaktické chyby), analýza programu',ps:[],pn:`<p><strong>Ladenie (debugging)</strong> = hľadanie a oprava chýb v programe.</p>
+<table class="ntbl"><tr><th>Typ chyby</th><th>Kedy</th><th>Príklad</th></tr>
+<tr><td>Syntaktická</td><td>Kompilácia — neskompiluje sa</td><td>Chýba ; alebo )</td></tr>
+<tr><td>Logická</td><td>Beh — zlé výsledky</td><td>i &lt; n namiesto i &lt;= n</td></tr>
+<tr><td>Runtime</td><td>Beh — program spadne</td><td>Delenie nulou, index mimo poľa</td></tr></table>
+<code class="nc">// SYNTAKTICKÁ — kompilátor nahlási chybu:
+int x = 5    // chýba ;
+
+// LOGICKÁ — off-by-one (klasická chyba):
+for (int i = 0; i &lt;= 5; i++) // malo byť i < 5
+  cout &lt;&lt; pole[i];           // i==5 je MIMO poľa!
+
+// LOGICKÁ — chýba číslo v súčte:
+for (int i = 1; i &lt; 100; i++) // malo byť i &lt;= 100
+  sucet += i;</code>
+<ul class="nl">
+<li><strong>Debugger</strong> — krokovanie riadok po riadku, sledovanie hodnôt premenných</li>
+<li><strong>Breakpoint</strong> — miesto zastavenia debuggera v kóde</li>
+<li><strong>Watch variables</strong> — sledovanie hodnôt konkrétnych premenných</li>
+<li>Rýchla technika: výpis hodnôt cez cout — tzv. „printf debugging"</li>
+<li><strong>Analýza programu (dry run)</strong> — sledovanie toku kódu bez spustenia, na papieri</li>
+</ul>
+<div class="ntip">Pri hľadaní logickej chyby si kresli tabuľku — po každom riadku zaznač hodnoty premenných.</div>`,it:'Internet',is_:[],in_:`<p><strong>Internet</strong> = globálna sieť počítačov prepojených protokolom <strong>TCP/IP</strong>. Vznikol z ARPANET v 60-70. rokoch.</p>
+<ul class="nl">
+<li><strong>WWW</strong> – World Wide Web, systém hypertextov. Nie je to isté čo internet — je to len jedna zo služieb!</li>
+<li><strong>IP adresa</strong> – adresa zariadenia. IPv4: 4 číslice (192.168.1.1), IPv6: 128-bitová</li>
+<li><strong>DNS</strong> – prekladá domény na IP adresy (google.com → IP)</li>
+<li><strong>HTTP/HTTPS</strong> – protokol pre web. S = šifrované (SSL/TLS)</li>
+<li><strong>ISP</strong> – poskytovateľ pripojenia (Orange, T-Com, Slovanet)</li>
+<li>Služby: WWW, e-mail (SMTP/IMAP), FTP, VoIP, streaming, online hry</li>
+</ul>`},
+{n:6,pt:'Funkcie s parametrami',ps:[],pn:`<p>Parametry umožňujú tej istej funkcii pracovať s rôznymi hodnotami.</p>
+<code class="nc">// Definícia a volanie:
+double plocha(double a, double b) { return a * b; }
+cout &lt;&lt; plocha(5.0, 3.0);  // 15.0
+cout &lt;&lt; plocha(10.0, 2.5); // 25.0
+
+// ODOVZDÁVANIE HODNOTOU — kópia, originál sa nezmení:
+void zvys(int x) { x++; }
+int a = 5; zvys(a);  // a zostáva 5
+
+// ODOVZDÁVANIE REFERENCIOU (&) — originál sa zmení:
+void zvys_ref(int &amp;x) { x++; }
+int b = 5; zvys_ref(b); // b je teraz 6
+
+// PREDVOLENÁ HODNOTA:
+void pozdrav(string meno = "svet") {
+  cout &lt;&lt; "Ahoj, " &lt;&lt; meno &lt;&lt; "!";
+}
+pozdrav();         // "Ahoj, svet!"
+pozdrav("Janko");  // "Ahoj, Janko!"</code>
+<ul class="nl">
+<li><strong>Formálny parameter</strong> — premenná v definícii funkcie (a, b)</li>
+<li><strong>Skutočný parameter (argument)</strong> — hodnota pri volaní (5.0, 3.0)</li>
+<li><strong>By value</strong> — kópia, originál sa nezmení.</li>
+<li><strong>By reference (&amp;)</strong> — originál sa zmení. Vhodné aj pre veľké objekty (úspora kopírovania).</li>
+</ul>`,it:'Operačný systém',is_:[],in_:`<p><strong>Operačný systém (OS)</strong> spravuje hardvér a poskytuje prostredie pre aplikácie.</p>
+<ul class="nl">
+<li><strong>Správa procesov</strong> — spúšťanie, pozastavovanie programov. Multitasking = zdieľanie CPU.</li>
+<li><strong>Správa pamäte</strong> — prideľovanie RAM, virtuálna pamäť (swap)</li>
+<li><strong>Správa súborov</strong> — súborový systém (NTFS, ext4, APFS)</li>
+<li><strong>Správa zariadení</strong> — komunikácia s HW cez ovládače (drivers)</li>
+<li><strong>Jadro (kernel)</strong> — centrálna časť, komunikuje priamo s HW</li>
+<li><strong>GUI</strong> – grafické rozhranie. <strong>CLI</strong> – príkazový riadok (cmd, bash)</li>
+<li>Príklady: Windows 11, macOS, Ubuntu, Android, iOS</li>
+</ul>`},
+{n:7,pt:'Generovanie náhodných čísel',ps:["Funkcie srand a rand"],pn:`<p>Počítač je deterministický — <strong>rand()</strong> generuje <em>pseudonáhodné</em> čísla vypočítané zo semienka.</p>
+<code class="nc">#include &lt;cstdlib&gt;
+#include &lt;ctime&gt;
+
+srand(time(NULL));      // semienko = čas → každý beh iná séria
+
+int a = rand();         // 0 až RAND_MAX (min 32767)
+int b = rand() % 10;    // 0 až 9
+int c = rand() % 10+1;  // 1 až 10
+int d = rand() % 6+1;   // kocka: 1–6
+
+// Všeobecný vzorec pre rozsah [min, max]:
+int x = rand() % (max - min + 1) + min;</code>
+<ul class="nl">
+<li><strong>srand(seed)</strong> — nastaví semienko. Rovnaké semienko → rovnaká séria!</li>
+<li><strong>time(NULL)</strong> — sekundy od 1.1.1970 → pri každom spustení iné semienko.</li>
+<li>srand() voláme raz na začiatku main()!</li>
+<li><strong>rand() % N</strong> → 0 až N-1. <strong>rand() % N + 1</strong> → 1 až N.</li>
+</ul>
+<div class="ntip">Vzorec: <strong>rand() % (max - min + 1) + min</strong> pre číslo v rozsahu [min, max].</div>
+<div class="nwarn">rand() nie je vhodný pre kryptografiu — nie je dostatočne bezpečný.</div>`,it:'Prezentácia informácií',is_:[],in_:`<p><strong>Prezentácia</strong> = vizuálne podanie informácií pre publikum, zvyčajne sprevádzané výkladom.</p>
+<ul class="nl">
+<li><strong>Softvér:</strong> MS PowerPoint, Google Slides, LibreOffice Impress, Canva, Prezi</li>
+<li><strong>Pravidlo 5×5:</strong> max 5 bodov na snímke, max 5 slov v bode</li>
+<li>Dôležité: kontrast, čitateľné písmo (min 24pt), jednotný dizajn</li>
+<li><strong>Animácie a prechody</strong> — striedmo, len kde to má zmysel</li>
+<li>Formáty exportu: PPTX, ODP, PDF</li>
+</ul>`},
+{n:8,pt:'Údajové typy pre prácu s reťazcami',ps:[],pn:`<p>V C++ môžeme pracovať s textom dvoma spôsobmi: starší C-štýl (pole znakov) alebo moderný <strong>string</strong>.</p>
+<code class="nc">#include &lt;string&gt;
+string meno = "Janko";
+string priezvisko = "Hrasko";
+
+// Spájanie (konkatenácia):
+string plne = meno + " " + priezvisko; // "Janko Hrasko"
+meno += "!";  // "Janko!"
+
+// Základné operácie:
+meno.length()      // dĺžka reťazca
+meno.size()        // rovnaké ako length()
+meno.empty()       // je prázdny?
+meno[0]            // prístup ku znaku od indexu 0
+meno.at(0)         // s kontrolou rozsahu (bezpečnejšie)
+
+// Vstup:
+string slovo; cin >> slovo;         // jedno slovo (do medzery)
+string veta;  getline(cin, veta);   // celý riadok vrátane medzier
+
+// Porovnávanie:
+if (meno == "Janko!") cout &lt;&lt; "Zhoda!";
+if (meno != "Ferko")  cout &lt;&lt; "Rôzne!";</code>
+<ul class="nl">
+<li><strong>string</strong> — moderný typ, automaticky spravuje pamäť.</li>
+<li><strong>char pole[]</strong> — starší C-štýl, ukončený znakom '\\0', menej pohodlný.</li>
+<li><strong>cin &gt;&gt;</strong> číta jedno slovo. <strong>getline()</strong> číta celý riadok.</li>
+<li>Reťazce sa porovnávajú pomocou <strong>==</strong> (nie strcmp ako v C).</li>
+<li>Reťazce sa spájajú pomocou <strong>+</strong> alebo <strong>+=</strong>.</li>
+</ul>`,it:'Tvorba www stránok',is_:[],in_:`<p>Webové stránky tvoria tri základné technológie:</p>
+<ul class="nl">
+<li><strong>HTML</strong> – štruktúra: nadpisy, odseky, obrázky, tabuľky, formuláre, odkazy</li>
+<li><strong>CSS</strong> – vzhľad: farby, fonty, rozloženie, animácie, responzivita</li>
+<li><strong>JavaScript</strong> – interaktivita: reakcia na kliknutia, dynamický obsah</li>
+<li><strong>Statická stránka</strong> – rovnaký obsah pre každého (HTML+CSS)</li>
+<li><strong>Dynamická stránka</strong> – generovaná podľa používateľa (PHP, Python, Node.js)</li>
+<li><strong>Webový server</strong> – posiela stránky klientom (Apache, Nginx)</li>
+</ul>`},
+{n:9,pt:'Úplný a neúplný podmienený príkaz',ps:[],pn:`<p>Podmienený príkaz <strong>if</strong> umožňuje programu rozhodovať sa.</p>
+<code class="nc">// NEÚPLNÝ — len if, nič ak podmienka nesedí:
+if (teplota &lt; 0) cout &lt;&lt; "Mráz!";
+
+// ÚPLNÝ — if aj else, vždy jedna vetva:
+if (cislo % 2 == 0) cout &lt;&lt; "Párne";
+else cout &lt;&lt; "Nepárne";
+
+// Reťazenie if – else if – else:
+if (znamka == 1)      cout &lt;&lt; "Výborný";
+else if (znamka == 2) cout &lt;&lt; "Chválitebný";
+else if (znamka == 3) cout &lt;&lt; "Dobrý";
+else if (znamka == 4) cout &lt;&lt; "Dostatočný";
+else                  cout &lt;&lt; "Nedostatočný";
+
+// Ternárny operátor — kompaktný if-else:
+int abs_val = (x >= 0) ? x : -x;
+string s = (n%2==0) ? "párne" : "nepárne";
+
+// Vnorený if — podmienka vo vnútri podmienky:
+if (x > 0) {
+  if (x % 2 == 0) cout &lt;&lt; "Kladné párne";
+  else cout &lt;&lt; "Kladné nepárne";
+}</code>
+<ul class="nl">
+<li><strong>Neúplný</strong> — len vetva if. Ak podmienka nesedí, nič sa nestane.</li>
+<li><strong>Úplný</strong> — vetvy if aj else. Vždy sa vykoná práve jedna.</li>
+<li>Podmienky sa vyhodnocujú zhora nadol — vykoná sa prvá platná vetva.</li>
+<li>Ternárny operátor <strong>? :</strong> — krátky zápis jednoduchého if-else pre výrazy.</li>
+</ul>`,it:'Etika vo svete počítačov',is_:[],in_:`<p><strong>Počítačová etika</strong> rieši morálne otázky v digitálnom svete.</p>
+<ul class="nl">
+<li><strong>Autorské právo</strong> – ochrana duševného vlastníctva: softvér, hudba, text, obrázky</li>
+<li><strong>Pirátstvo</strong> – nelegálne kopírovanie a distribúcia — je trestné</li>
+<li><strong>Licencie:</strong> proprietárna (platená), freeware (zadarmo), open-source (voľný kód: MIT, GPL)</li>
+<li><strong>GDPR</strong> – európske nariadenie o ochrane osobných údajov</li>
+<li><strong>Kyberšikana</strong> – obťažovanie cez internet</li>
+<li><strong>Netiketa</strong> – slušné správanie online (VEĽKÉ PÍSMENÁ = kričanie)</li>
+<li><strong>Digitálna stopa</strong> – dáta, ktoré po sebe zanecháme (takmer nezmazateľné)</li>
+</ul>`},
+{n:10,pt:'Iteračné príkazy – cyklus s podmienkou na začiatku',ps:["Cyklus WHILE"],pn:`<p>Cyklus <strong>while</strong> sa opakuje, kým platí podmienka. Podmienka sa overuje <em>pred</em> každou iteráciou.</p>
+<code class="nc">// Výpis 1–10:
+int i = 1;
+while (i &lt;= 10) { cout &lt;&lt; i &lt;&lt; " "; i++; }
+
+// Opakuj kým nezadáš kladné číslo:
+int cislo;
+cout &lt;&lt; "Zadaj kladne: ";
+cin >> cislo;
+while (cislo &lt;= 0) {
+  cout &lt;&lt; "Zle! Skus znova: ";
+  cin >> cislo;
+}
+
+// Čítanie kým nezadáš 0 (sentinel loop):
+int x, s = 0;
+cin >> x;
+while (x != 0) { s += x; cin >> x; }
+
+// Zámerný nekonečný cyklus:
+while (true) {
+  string vstup; cin >> vstup;
+  if (vstup == "koniec") break;
+  cout &lt;&lt; vstup &lt;&lt; endl;
+}</code>
+<ul class="nl">
+<li>Podmienka na <strong>začiatku</strong> → telo sa môže nevykonať ani raz (0×)</li>
+<li>Používame keď <em>nevieme vopred</em>, koľkokrát sa opakuje</li>
+<li><strong>break</strong> — ukončí cyklus okamžite. <strong>continue</strong> — preskočí na ďalšiu iteráciu.</li>
+</ul>
+<div class="nwarn">Zabudnúť zmeniť premennú v podmienke → nekonečný cyklus (program zamrzne)!</div>`,it:'Počítačové vírusy, antivírusová ochrana',is_:[],in_:`<p><strong>Malvér</strong> = škodlivý softvér navrhnutý na poškodenie systému alebo krádež dát.</p>
+<table class="ntbl"><tr><th>Typ</th><th>Popis</th></tr>
+<tr><td>Vírus</td><td>Pripája sa k súborom, šíri sa pri ich otvorení</td></tr>
+<tr><td>Červ (worm)</td><td>Šíri sa sieťou samostatne bez hostiteľa</td></tr>
+<tr><td>Trójsky kôň</td><td>Maskuje sa za užitočný program</td></tr>
+<tr><td>Ransomware</td><td>Zašifruje dáta a žiada výkupné</td></tr>
+<tr><td>Spyware</td><td>Sleduje aktivitu, kradne heslá</td></tr></table>
+<p><strong>Ochrana:</strong> antivírus (ESET, Defender), firewall, aktualizácie OS, silné heslá, zálohovanie, opatrnosť pri prílohách.</p>`},
+{n:11,pt:'Číselné údajové typy',ps:[],pn:`<p>C++ je staticky typovaný — každá premenná musí mať typ pri deklarácii.</p>
+<table class="ntbl"><tr><th>Typ</th><th>Veľkosť</th><th>Rozsah</th><th>Použitie</th></tr>
+<tr><td>int</td><td>4 B</td><td>±2 147 483 647</td><td>Bežné celé čísla</td></tr>
+<tr><td>short</td><td>2 B</td><td>±32 767</td><td>Malé čísla</td></tr>
+<tr><td>long long</td><td>8 B</td><td>±9,2×10¹⁸</td><td>Veľké čísla</td></tr>
+<tr><td>unsigned int</td><td>4 B</td><td>0 až ~4,3 mld</td><td>Len kladné</td></tr>
+<tr><td>float</td><td>4 B</td><td>~7 des. miest</td><td>Desatinné (menej presné)</td></tr>
+<tr><td>double</td><td>8 B</td><td>~15 des. miest</td><td>Desatinné (odporúčané)</td></tr>
+<tr><td>char</td><td>1 B</td><td>0–127 ASCII</td><td>Jeden znak</td></tr>
+<tr><td>bool</td><td>1 B</td><td>true/false</td><td>Logická hodnota</td></tr></table>
+<code class="nc">int a = 7, b = 2;
+cout &lt;&lt; a / b;          // 3  (celé delenie!)
+cout &lt;&lt; a % b;          // 1  (zvyšok po delení = modulo)
+cout &lt;&lt; (double)a / b;  // 3.5 (casting na double)
+
+// Pretypovanie odsekne, nezaokrúhli!
+double d = 3.9;
+int i = (int)d;  // i = 3 (nie 4!)</code>
+<div class="ntip">Pre desatinné čísla preferuj <strong>double</strong> pred float — je presnejší.</div>
+<div class="nwarn">Celé delenie: 7/2 = 3, nie 3.5! Pre desatinný výsledok aspoň jedno číslo musí byť double.</div>`,it:'Prídavné zariadenia PC',is_:[],in_:`<p><strong>Periférne zariadenia</strong> rozširujú možnosti počítača.</p>
+<table class="ntbl"><tr><th>Kategória</th><th>Príklady</th></tr>
+<tr><td>Vstupné</td><td>Klávesnica, myš, skener, mikrofón, webkamera, joystick</td></tr>
+<tr><td>Výstupné</td><td>Monitor, tlačiareň, reproduktory, projektor, slúchadlá</td></tr>
+<tr><td>Vstupno-výstupné</td><td>Dotykový displej, externý disk, USB hub</td></tr></table>
+<ul class="nl">
+<li><strong>Rozhrania:</strong> USB (A, C), HDMI, DisplayPort, Bluetooth, Wi-Fi, Thunderbolt</li>
+<li><strong>Ovládač (driver)</strong> – softvér pre komunikáciu OS s konkrétnym zariadením</li>
+</ul>`},
+{n:12,pt:'Makrá s parametrami',ps:["Definícia a použitie", "Preprocesor jazyka C++"],pn:`<p>Makrá s parametrami sú šablóny — preprocesor dosadí argumenty a vloží výsledok na miesto volania. Ide o textovú náhradu, nie volanie funkcie!</p>
+<code class="nc">#define KVADRAT(x)    ((x) * (x))
+#define MAX(a, b)     ((a) > (b) ? (a) : (b))
+#define ABS(x)        ((x) >= 0 ? (x) : -(x))
+
+int v  = KVADRAT(5);       // ((5)*(5)) = 25
+int v2 = KVADRAT(3 + 2);   // ((3+2)*(3+2)) = 25 ✓
+int m  = MAX(3, 7);        // 7
+
+// BEZ zátvork — chyba!
+#define ZLE(x) x * x
+int chyba = ZLE(3+2); // 3+2*3+2 = 11 ✗ (nie 25!)</code>
+<ul class="nl">
+<li>Parametre <strong>vždy obaľuj zátvork ami</strong>: ((x)*(x)) — inak chyba pri zložených výrazoch!</li>
+<li><strong>Preprocesor</strong> beží pred kompilátorom. Direktívy: #include, #define, #ifdef, #ifndef, #endif</li>
+<li>Makrá nemajú typ — kompilátor ich nekontroluje. Ťažko sa debugujú.</li>
+<li>Moderná alternatíva: <strong>inline funkcie</strong> — majú typ, bezpečnejšie.</li>
+</ul>
+<div class="nwarn">Makrá sú len textové náhrady — žiadny typ, žiadna kontrola kompilátorom!</div>`,it:'Princíp činnosti počítača – von Neumannova schéma',is_:[],in_:`<p><strong>Von Neumannova architektúra</strong> (1945): program aj dáta sú uložené v rovnakej pamäti. Základ všetkých moderných počítačov.</p>
+<table class="ntbl"><tr><th>Komponent</th><th>Popis</th></tr>
+<tr><td>CPU (procesor)</td><td>Vykonáva inštrukcie. ALU (výpočty) + riadiaca jednotka (CU). Rýchlosť v GHz.</td></tr>
+<tr><td>RAM</td><td>Dočasná pamäť — bežiaci program a dáta. Stráca sa po vypnutí.</td></tr>
+<tr><td>ROM</td><td>Trvalá pamäť (BIOS/UEFI). Nelze bežne prepísať.</td></tr>
+<tr><td>I/O zariadenia</td><td>Komunikácia s okolím: klávesnica, monitor, disk...</td></tr>
+<tr><td>Zbernica (bus)</td><td>Dátová, adresová, riadiaca — spája komponenty.</td></tr></table>
+<p><strong>Cyklus Fetch-Decode-Execute:</strong> načítaj inštrukciu → dekóduj → vykonaj → ulož → opakuj.</p>`},
+{n:13,pt:'Jednorozmerné polia – vyhľadávanie v poli',ps:["Lineárne a binárne vyhľadávanie"],pn:`<p>Vyhľadávanie = nájdenie prvku v poli. Dva základné algoritmy sa dramaticky líšia efektívnosťou.</p>
+<code class="nc">// LINEÁRNE — funguje na ľubovoľnom (aj nezoradenom) poli:
+int pole[]={5,12,3,8,47,2,19}, n=7, h=8, pos=-1;
+for (int i=0; i&lt;n; i++)
+  if (pole[i]==h) { pos=i; break; }
+// pos=3 alebo -1 ak nenájdené</code>
+<code class="nc">// BINÁRNE — pole MUSÍ byť zoradené!
+// Každý krok rozpolí oblasť hľadania.
+int z[]={2,3,5,8,12,19,47}, n2=7, h2=12;
+int l=0, r=n2-1, mid, res=-1;
+while (l&lt;=r) {
+  mid=(l+r)/2;
+  if (z[mid]==h2)     { res=mid; break; }
+  else if (z[mid]&lt;h2) l=mid+1; // pravá polovica
+  else                 r=mid-1; // ľavá polovica
+}</code>
+<table class="ntbl"><tr><th></th><th>Lineárne</th><th>Binárne</th></tr>
+<tr><td>Požiadavka</td><td>Žiadna (aj nezoradené)</td><td>Pole musí byť zoradené!</td></tr>
+<tr><td>Zložitosť</td><td>O(n) — prechádza celé pole</td><td>O(log₂n) — rozpoľuje oblasť</td></tr>
+<tr><td>Pre 1 milión prvkov</td><td>Až 1 000 000 porovnaní</td><td>Max ~20 porovnaní</td></tr></table>`,it:'Neinteraktívna komunikácia',is_:[],in_:`<p><strong>Neinteraktívna (asynchrónna) komunikácia</strong> — príjemca číta správy neskôr, keď mu to vyhovuje.</p>
+<ul class="nl">
+<li><strong>E-mail</strong> – SMTP (odosielanie), IMAP (prijímanie so synch.), POP3 (stiahnutie)</li>
+<li><strong>Diskusné fóra</strong> – vlákna správ (Reddit, Stack Overflow)</li>
+<li><strong>Blogy</strong> – online denníky s komentármi</li>
+<li><strong>SMS</strong> – krátke správy cez mobilnú sieť</li>
+</ul>
+<p>Výhoda: príjemca nemusí byť online. Nevýhoda: oneskorenie odpovede.</p>`},
+{n:14,pt:'Analýza algoritmov – riešenie problému',ps:["Sekvencia príkazov, vetvenie, cykly"],pn:`<p>Každý algoritmus je zložený z troch základných štruktúr. Tieto tri stačia na vyjadrenie akéhokoľvek algoritmu.</p>
+<code class="nc">// 1. SEKVENCIA — príkazy za sebou:
+int a=5, b=3, s=a+b;
+cout &lt;&lt; s;
+
+// 2. VETVENIE — podľa podmienky:
+if (s>0) cout &lt;&lt; "Kladný";
+else     cout &lt;&lt; "Nekladný";
+
+// 3. ITERÁCIA — opakuje sa:
+for (int i=0; i&lt;5; i++) cout &lt;&lt; i;</code>
+<ul class="nl">
+<li><strong>Sekvencia</strong> — príkazy presne v poradí zapísania, zhora nadol</li>
+<li><strong>Vetvenie (selekcia)</strong> — if, switch — výber vetvy podľa podmienky</li>
+<li><strong>Iterácia (cyklus)</strong> — for, while, do-while — opakovanie časti</li>
+<li>Dobrý algoritmus = správny výsledok + čo najmenej krokov</li>
+</ul>
+<table class="ntbl"><tr><th>Zložitosť</th><th>Príklad</th><th>Pre n=1000</th></tr>
+<tr><td>O(1) konštantná</td><td>Prístup k prvku poľa</td><td>1 krok</td></tr>
+<tr><td>O(n) lineárna</td><td>Lineárne vyhľadávanie</td><td>1 000 krokov</td></tr>
+<tr><td>O(log n) log.</td><td>Binárne vyhľadávanie</td><td>~10 krokov</td></tr>
+<tr><td>O(n²) kvadr.</td><td>Bubble sort</td><td>1 000 000 krokov</td></tr></table>`,it:'Získavanie informácií z internetu',is_:[],in_:`<p>Efektívne vyhľadávanie vyžaduje kritické myslenie a schopnosť hodnotiť zdroje.</p>
+<ul class="nl">
+<li><strong>Vyhľadávač</strong> – Google, Bing, DuckDuckGo. Indexuje web pomocou robotov.</li>
+<li><strong>Pokročilé vyhľadávanie:</strong> "presná fráza", -vyluc, site:domena.sk, filetype:pdf</li>
+<li><strong>Hodnotenie zdrojov:</strong> dátum, autor, vydavateľ. TLD .gov, .edu = spoľahlivejšie</li>
+<li><strong>Dezinformácie</strong> – fact-checking na demagog.sk, faktbar.sk</li>
+</ul>`},
+{n:15,pt:'Textové súbory',ps:["Deklarácia, čítanie, zápis údajov"],pn:`<p>Textové súbory umožňujú <strong>trvalé ukladanie dát</strong>. V C++ slúži knižnica <strong>&lt;fstream&gt;</strong>.</p>
+<code class="nc">#include &lt;fstream&gt;
+#include &lt;string&gt;
+
+// ZÁPIS:
+ofstream f("data.txt");       // vytvorí/prepíše súbor
+// ofstream f("data.txt", ios::app); // pridá na koniec
+if (!f) { cerr &lt;&lt; "Chyba!"; return 1; }
+f &lt;&lt; "Ahoj" &lt;&lt; endl;
+f &lt;&lt; 42 &lt;&lt; " " &lt;&lt; 3.14 &lt;&lt; endl;
+f.close();  // VŽDY zatvoriť!
+
+// ČÍTANIE po riadkoch:
+ifstream g("data.txt");
+if (!g) { cerr &lt;&lt; "Nenajdeny!"; return 1; }
+string r;
+while (getline(g, r)) cout &lt;&lt; r &lt;&lt; endl;
+g.close();
+
+// ČÍTANIE čísel:
+ifstream h("cisla.txt");
+int x;
+while (h >> x) cout &lt;&lt; x*2 &lt;&lt; " ";
+h.close();</code>
+<ul class="nl">
+<li><strong>ofstream</strong> — zápis. Ak súbor existuje, PREPÍŠE ho!</li>
+<li><strong>ifstream</strong> — čítanie. <strong>fstream</strong> — obojsmerný.</li>
+<li><strong>ios::app</strong> — pridávanie na koniec, neprepíše obsah</li>
+<li>Vždy overiť otvorenie: <strong>if (!subor)</strong></li>
+<li>Vždy zatvoriť: <strong>.close()</strong> — zapíše buffer a uvoľní zdroj</li>
+</ul>`,it:'Uchovávanie informácií, pamäťové médiá',is_:[],in_:`<p><strong>Pamäťové médium</strong> slúži na trvalé alebo dočasné uchovávanie dát.</p>
+<table class="ntbl"><tr><th>Médium</th><th>Vlastnosti</th></tr>
+<tr><td>HDD</td><td>Magnetický, lacný, veľká kapacita, pomalší, citlivý na otrasenie</td></tr>
+<tr><td>SSD</td><td>Flash, rýchly, tichý, odolný, drahší za GB</td></tr>
+<tr><td>USB flash</td><td>Prenosný, flash pamäť</td></tr>
+<tr><td>CD/DVD/BD</td><td>700MB / 4,7GB / 25GB, optický, dlhá trvanlivosť</td></tr>
+<tr><td>Cloud</td><td>Google Drive, OneDrive — prístup odkiaľkoľvek, závisí od internetu</td></tr></table>
+<p><strong>Zálohovanie (backup):</strong> pravidlo 3-2-1 — 3 kópie, 2 rôzne médiá, 1 mimo lokality.</p>`},
+{n:16,pt:'Algoritmus, vlastnosti algoritmov',ps:[],pn:`<p><strong>Algoritmus</strong> = presne definovaná, konečná postupnosť krokov na riešenie problému.</p>
+<table class="ntbl"><tr><th>Vlastnosť</th><th>Vysvetlenie</th></tr>
+<tr><td>Elementárnosť</td><td>Každý krok je jednoduchý a zrozumiteľný pre vykonávateľa</td></tr>
+<tr><td>Determinovanosť</td><td>V každom kroku je jednoznačne určené čo robiť ďalej. Rovnaký vstup → rovnaký výstup.</td></tr>
+<tr><td>Rezultatívnosť</td><td>Po konečnom počte krokov musí dospieť k správnemu výsledku.</td></tr>
+<tr><td>Konečnosť</td><td>Musí sa skončiť po konečnom počte krokov — nesmie bežať donekonečna.</td></tr>
+<tr><td>Hromadnosť</td><td>Rieši celú triedu podobných problémov, nielen jeden konkrétny prípad.</td></tr>
+<tr><td>Efektívnosť</td><td>(Nepovinná) Čo najmenej krokov — rýchlosť a úspora pamäte.</td></tr></table>
+<code class="nc">// Príklad — maximum v poli:
+int max_val = pole[0];
+for (int i = 1; i &lt; n; i++)
+  if (pole[i] > max_val) max_val = pole[i];
+// Spĺňa: elementárny, determinovaný, konečný, rezultatívny</code>`,it:'Grafická informácia',is_:[],in_:`<p><strong>Grafická informácia</strong> = vizuálne vyjadrenie dát pomocou obrázkov, grafov, diagramov.</p>
+<ul class="nl">
+<li><strong>Grafy:</strong> stĺpcový (porovnanie), čiarový (trend), koláčový (podiel), bodový (závislosť)</li>
+<li><strong>Infografika</strong> – kombinácia grafiky a textu na vysvetlenie</li>
+<li><strong>Vývojový diagram</strong> – grafický zápis algoritmu pomocou symbolov</li>
+<li><strong>Farebná hĺbka:</strong> 1-bit (ČB), 8-bit (256), 24-bit (16,7M = true color), 32-bit (+alfa)</li>
+<li>Formáty: JPG (fotky, stratový), PNG (priehľadnosť, bezstratový), GIF (animácie), SVG (vektory)</li>
+</ul>`},
+{n:17,pt:'Textové súbory – načítanie vstupných údajov',ps:["Význam a výhody použitia", "Spôsob deklarácie"],pn:`<p>Pri veľkom množstve vstupných dát je ručné zadávanie cez cin nepraktické. Textové súbory to elegantne riešia.</p>
+<p><strong>Výhody použitia súborov pre vstup:</strong></p>
+<ul class="nl">
+<li>Veľké množstvo dát môžeme pripraviť vopred — úspora času</li>
+<li>Reprodukovateľnosť — testujeme opakovane s rovnakými dátami</li>
+<li>Trvalé uloženie — dáta nezmiznú po skončení programu</li>
+<li>Ľahká výmena dát medzi programami</li>
+</ul>
+<code class="nc">// Súbor vstup.txt obsahuje:
+// 5
+// 10 20 30 40 50
+
+ifstream vstup("vstup.txt");
+if (!vstup) { cerr &lt;&lt; "Chyba!"; return 1; }
+
+int n; vstup >> n;        // načíta počet = 5
+int pole[100];
+for (int i=0; i&lt;n; i++) vstup >> pole[i];
+vstup.close();
+
+int s=0;
+for (int i=0; i&lt;n; i++) s += pole[i];
+cout &lt;&lt; "Sucet: " &lt;&lt; s;  // 150</code>
+<div class="ntip">Na maturite bývajú vstupy v súbore — naučte sa čítať zo súboru <em>namiesto</em> cin.</div>`,it:'Formátovanie a triedenie údajov',is_:[],in_:`<p><strong>Formátovanie</strong> = úprava vzhľadu a štruktúry dát pre lepšiu čitateľnosť.</p>
+<ul class="nl">
+<li><strong>Formát buniek (Excel):</strong> číslo, dátum, čas, mena, percento, text</li>
+<li><strong>Podmienené formátovanie</strong> – automatická zmena farby podľa hodnoty (napr. červená ak &lt; 0)</li>
+<li><strong>Triedenie (sort)</strong> – zoradenie záznamov podľa stĺpca vzostupne/zostupne</li>
+<li><strong>Viacúrovňové triedenie</strong> – primárne podľa priezviska, sekundárne podľa mena</li>
+<li><strong>Filtrovanie</strong> – zobrazenie len riadkov spĺňajúcich podmienku</li>
+<li>Dôvod triedenia: čitateľnosť, rýchlejšie vyhľadávanie (binárne vyhľadávanie vyžaduje zoradené dáta)</li>
+</ul>`},
+{n:18,pt:'Iteračné príkazy – cyklus s podmienkou na konci',ps:["Cyklus DO WHILE"],pn:`<p>Cyklus <strong>do-while</strong> vykoná telo <em>aspoň raz</em>, pretože podmienka sa overuje až na konci.</p>
+<code class="nc">// Základná syntax:
+do {
+  // telo — vykoná sa VŽDY aspoň raz
+} while (podmienka);  // POZOR: bodkočiarka je povinná!
+
+// Validácia vstupu — klasické použitie:
+int volba;
+do {
+  cout &lt;&lt; "Zadaj 1, 2 alebo 3: ";
+  cin >> volba;
+  if (volba &lt; 1 || volba > 3)
+    cout &lt;&lt; "Nespravna volba!" &lt;&lt; endl;
+} while (volba &lt; 1 || volba > 3);
+
+// Menu aplikácie:
+char odpoved;
+do {
+  cout &lt;&lt; "=== MENU ===" &lt;&lt; endl;
+  // ... zobraziť možnosti, spracovať voľbu ...
+  cout &lt;&lt; "Pokracovat? (a/n): ";
+  cin >> odpoved;
+} while (odpoved == 'a' || odpoved == 'A');</code>
+<table class="ntbl"><tr><th></th><th>while</th><th>do-while</th></tr>
+<tr><td>Podmienka</td><td>Na začiatku</td><td>Na konci</td></tr>
+<tr><td>Min. vykonanie</td><td>0× (možno nikdy)</td><td>Vždy aspoň 1×</td></tr>
+<tr><td>Typické použitie</td><td>Keď nevieme počet opakovaní</td><td>Validácia vstupu, menu</td></tr></table>`,it:'Organizácia a sumarizácia údajov rozsiahlych tabuliek a databáz',is_:[],in_:`<p>Pri veľkom objeme dát potrebujeme nástroje na ich organizáciu a zhrnutie.</p>
+<ul class="nl">
+<li><strong>Kontingenčná tabuľka (Pivot Table)</strong> – automatický súhrn v Exceli, drag &amp; drop</li>
+<li><strong>Agregačné funkcie:</strong> SUMA, PRIEMER, MIN, MAX, POČET, POČET2</li>
+<li><strong>SQL GROUP BY</strong> – zoskupí záznamy a aplikuje agregáciu: SELECT odd, AVG(plat) FROM zam GROUP BY odd;</li>
+<li><strong>Index v databáze</strong> – zrýchľuje vyhľadávanie (ako register v knihe)</li>
+<li><strong>Normalizácia</strong> – rozdelenie dát do tabuliek, aby sa eliminovala redundancia</li>
+</ul>`},
+{n:19,pt:'Etapy tvorby programu',ps:[],pn:`<p>Profesionálne programovanie je systematický proces pozostávajúci z viacerých fáz.</p>
+<table class="ntbl"><tr><th>#</th><th>Etapa</th><th>Popis</th></tr>
+<tr><td>1</td><td>Analýza problému</td><td>Čo má program robiť? Vstupy, výstupy, obmedzenia.</td></tr>
+<tr><td>2</td><td>Návrh algoritmu</td><td>Vývojový diagram alebo pseudokód. Rozdelenie na podproblémy.</td></tr>
+<tr><td>3</td><td>Kódovanie</td><td>Zápis algoritmu v C++. Dodržiavanie konvencií a čitateľnosti.</td></tr>
+<tr><td>4</td><td>Kompilácia</td><td>Preklad zdrojového kódu. Oprava syntaktických chýb.</td></tr>
+<tr><td>5</td><td>Testovanie</td><td>Overenie správnosti na testovacích príkladoch vrátane hraničných.</td></tr>
+<tr><td>6</td><td>Ladenie</td><td>Hľadanie a oprava logických chýb. Debugger, breakpoints.</td></tr>
+<tr><td>7</td><td>Dokumentácia</td><td>Komentáre v kóde, návod na použitie, popis funkcionality.</td></tr>
+<tr><td>8</td><td>Nasadenie, údržba</td><td>Odovzdanie, opravy chýb, rozšírenia funkcionality.</td></tr></table>
+<code class="nc">// Testovanie — dôležité testovať aj hraničné prípady:
+// Pre program hľadajúci maximum:
+// Bežný: {3,1,4,1,5,9}  → 9
+// Jedno číslo: {42}       → 42
+// Záporné: {-3,-1,-7}    → -1
+// Max na prvom/poslednom mieste</code>`,it:'Vyhľadávanie a nahradenie údajov',is_:[],in_:`<p><strong>Vyhľadávanie a nahradenie</strong> je dostupné v každom textovom editore, tabuľkovom procesore aj databáze.</p>
+<ul class="nl">
+<li><strong>Ctrl+F</strong> – Find (vyhľadaj). <strong>Ctrl+H</strong> – Find &amp; Replace (vyhľadaj a nahraď).</li>
+<li><strong>Možnosti:</strong> rozlišovanie veľkých/malých, celé slovo, regulárne výrazy</li>
+<li><strong>Regulárne výrazy (RegEx)</strong> – výkonné vzory: \\d+ = číslice, [a-z]+ = malé písmená</li>
+<li><strong>V SQL:</strong> UPDATE tbl SET col='new' WHERE col='old';</li>
+<li><strong>Replace All</strong> – nahradí všetky výskyty naraz</li>
+</ul>`},
+{n:20,pt:'Dátové štruktúry – jednorozmerné polia',ps:["Charakteristika, deklarácia", "Možnosti použitia"],pn:`<p><strong>Pole (array)</strong> = usporiadaná kolekcia prvkov <em>rovnakého dátového typu</em> na po sebe idúcich miestach v pamäti.</p>
+<code class="nc">// Deklarácia a inicializácia:
+int pole[5];                         // neinicializované — náhodné hodnoty!
+int pole2[5] = {10, 20, 30, 40, 50}; // inicializované
+int pole3[] = {1, 2, 3, 4, 5};       // veľkosť určená automaticky
+int nuly[10] = {0};                  // všetky prvky = 0
+
+// Prístup (indexovanie od 0!):
+cout &lt;&lt; pole2[0];  // 10 (prvý)
+cout &lt;&lt; pole2[4];  // 50 (posledný, index = n-1)
+pole2[2] = 99;     // zmena tretieho prvku
+
+// Prechádzanie cyklom:
+for (int i=0; i&lt;5; i++) cout &lt;&lt; pole2[i] &lt;&lt; " ";
+
+// Typické operácie:
+int s=0, mn=pole2[0], mx=pole2[0];
+for (int i=0; i&lt;5; i++) {
+  s += pole2[i];
+  if (pole2[i]&lt;mn) mn=pole2[i];
+  if (pole2[i]>mx) mx=pole2[i];
+}
+cout &lt;&lt; "Sucet=" &lt;&lt; s &lt;&lt; " Min=" &lt;&lt; mn &lt;&lt; " Max=" &lt;&lt; mx;</code>
+<ul class="nl">
+<li>Indexovanie od <strong>0</strong> — posledný prvok z n prvkov má index <strong>n-1</strong>.</li>
+<li>Veľkosť poľa je <strong>pevne daná</strong> pri deklarácii — nedá sa meniť za behu.</li>
+<li>Prístup k prvku je O(1) — okamžitý, bez ohľadu na veľkosť.</li>
+<li>Pole sa odovzdáva do funkcie vždy referenciou — funkcia pracuje s originálom.</li>
+</ul>
+<div class="nwarn">Prístup mimo rozsah (index &lt; 0 alebo ≥ n) = nedefinované správanie — program môže spadnúť!</div>`,it:'Výhody a spôsob vzájomného prepojenia dokumentov – hypertexty',is_:[],in_:`<p><strong>Hypertext</strong> = text s aktívnymi odkazmi (hypertextovými odkazmi / linkami), ktoré vedú na iné dokumenty.</p>
+<ul class="nl">
+<li><strong>Hyperlink</strong> – kliknuteľné prepojenie. V HTML: &lt;a href="adresa"&gt;text&lt;/a&gt;</li>
+<li><strong>Absolútna URL</strong> – plná adresa (https://www.skola.sk/kontakt)</li>
+<li><strong>Relatívna URL</strong> – v rámci tej istej stránky (../kontakt.html)</li>
+<li><strong>Kotva (anchor)</strong> – odkaz na konkrétne miesto v dokumente (#sekcia)</li>
+<li><strong>Výhody:</strong> nelineárna navigácia, okamžitý prístup k súvisiacim informáciám</li>
+<li>Hypertext je základný princíp <strong>World Wide Web</strong></li>
+</ul>`},
+{n:21,pt:'Príkazy skoku',ps:["Charakteristika, výhody, nevýhody"],pn:`<p><strong>Príkazy skoku</strong> menia normálny sekvenčný tok programu.</p>
+<code class="nc">// BREAK — ukončí cyklus alebo switch okamžite:
+for (int i=0; i&lt;100; i++) {
+  if (pole[i]==hladany) { cout &lt;&lt; i; break; }
+}
+
+// CONTINUE — preskočí zvyšok iterácie:
+for (int i=0; i&lt;10; i++) {
+  if (i%2==0) continue;  // párne preskočíme
+  cout &lt;&lt; i &lt;&lt; " ";     // vypíše: 1 3 5 7 9
+}
+
+// RETURN — ukončí funkciu a vráti hodnotu:
+int abs_val(int x) {
+  if (x>=0) return x;
+  return -x;
+}
+
+// GOTO — skok na návestie: NEPOUŽÍVAŤ!
+goto koniec;
+cout &lt;&lt; "Toto sa nevykona";
+koniec:
+cout &lt;&lt; "Tu sme";</code>
+<table class="ntbl"><tr><th>Príkaz</th><th>Kde funguje</th><th>Čo robí</th></tr>
+<tr><td>break</td><td>Cykly, switch</td><td>Okamžite ukončí cyklus / switch</td></tr>
+<tr><td>continue</td><td>Cykly</td><td>Preskočí na ďalšiu iteráciu</td></tr>
+<tr><td>return</td><td>Funkcie</td><td>Ukončí funkciu, vráti hodnotu</td></tr>
+<tr><td>goto</td><td>Kdekoľvek</td><td>Skok na návestie — NEODPORÚČA SA</td></tr></table>
+<div class="nwarn">goto vedie k neprehľadnému spaghetti code. V modernom C++ sa nepoužíva.</div>`,it:'Overenie vstupných údajov',is_:[],in_:`<p><strong>Validácia vstupu</strong> = overenie, či dáta spĺňajú očakávaný formát, typ a rozsah.</p>
+<ul class="nl">
+<li><strong>Rozsah</strong> – je číslo v povolenom intervale? (napr. vek 0–150)</li>
+<li><strong>Typ</strong> – je to naozaj číslo a nie text?</li>
+<li><strong>Formát</strong> – má e-mail tvar x@y.z?</li>
+<li><strong>Povinnosť</strong> – nie je pole prázdne?</li>
+<li><strong>Sanitizácia</strong> – odstránenie nebezpečných znakov (ochrana pred SQL injection)</li>
+</ul>
+<p>Dôvod: nevalidovaný vstup spôsobuje pád programov, bezpečnostné diery a chybné výsledky.</p>`},
+{n:22,pt:'Štandardný vstup a výstup na obrazovku',ps:["Príkazy vstupu a výstupu", "Manipulátory výstupu"],pn:`<p>V C++ sa vstup/výstup realizuje cez <strong>prúdy (streams)</strong> z knižnice <strong>&lt;iostream&gt;</strong>.</p>
+<code class="nc">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;  // pre manipulátory
+using namespace std;
+
+int x; cin >> x;          // vstup jedného čísla
+double a, b; cin >> a >> b; // vstup dvoch čísel
+
+cout &lt;&lt; "Hodnota: " &lt;&lt; x &lt;&lt; endl;  // výpis
+
+// MANIPULÁTORY VÝSTUPU:
+double pi = 3.14159265;
+cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; pi; // 3.14
+cout &lt;&lt; fixed &lt;&lt; setprecision(4) &lt;&lt; pi; // 3.1416
+
+// Zarovnanie — setw nastavuje šírku JEDNÉHO nasledujúceho výpisu:
+cout &lt;&lt; setw(10) &lt;&lt; "Ahoj";      //      Ahoj (vpravo)
+cout &lt;&lt; left &lt;&lt; setw(10) &lt;&lt; "Ahoj"; // Ahoj      (vľavo)
+
+// Výplňový znak:
+cout &lt;&lt; setfill('0') &lt;&lt; setw(5) &lt;&lt; 42; // 00042
+
+// Zarovnaná tabuľka:
+cout &lt;&lt; left  &lt;&lt; setw(15) &lt;&lt; "Meno"
+     &lt;&lt; right &lt;&lt; setw(5)  &lt;&lt; "Vek" &lt;&lt; endl;
+cout &lt;&lt; left  &lt;&lt; setw(15) &lt;&lt; "Janko"
+     &lt;&lt; right &lt;&lt; setw(5)  &lt;&lt; 18   &lt;&lt; endl;</code>
+<table class="ntbl"><tr><th>Manipulátor</th><th>Popis</th></tr>
+<tr><td>setw(n)</td><td>Šírka nasledujúceho výpisu (platí len pre jeden výpis)</td></tr>
+<tr><td>setprecision(n)</td><td>Počet desatinných miest (s fixed)</td></tr>
+<tr><td>fixed</td><td>Pevný počet des. miest — kombinuj so setprecision</td></tr>
+<tr><td>left / right</td><td>Zarovnanie vo vnútri setw (default: right)</td></tr>
+<tr><td>setfill(c)</td><td>Výplňový znak namiesto medzery</td></tr>
+<tr><td>endl</td><td>Nový riadok + flush bufferu</td></tr></table>`,it:'Počítačové siete',is_:[],in_:`<p><strong>Počítačová sieť</strong> = skupina zariadení, ktoré môžu komunikovať a zdieľať zdroje.</p>
+<table class="ntbl"><tr><th>Typ</th><th>Rozsah</th><th>Príklad</th></tr>
+<tr><td>PAN</td><td>Osobná (~10m)</td><td>Bluetooth slúchadlá</td></tr>
+<tr><td>LAN</td><td>Lokálna (~budova)</td><td>Školská sieť, domáca Wi-Fi</td></tr>
+<tr><td>MAN</td><td>Mestská</td><td>Mestský optický internet</td></tr>
+<tr><td>WAN</td><td>Rozľahlá (krajiny)</td><td>Internet — najväčšia WAN</td></tr></table>
+<ul class="nl">
+<li><strong>Switch</strong> – prepája zariadenia v LAN podľa MAC adresy</li>
+<li><strong>Router</strong> – smeruje dáta medzi sieťami podľa IP adresy</li>
+<li><strong>TCP/IP</strong> – základ internetu. TCP = spoľahlivý prenos, IP = adresovanie</li>
+<li><strong>MAC adresa</strong> – fyzická adresa sieťovej karty (jedinečná)</li>
+<li><strong>IP adresa</strong> – logická adresa zariadenia v sieti</li>
+</ul>`},
+{n:23,pt:'Funkcie bez parametrov',ps:[],pn:`<p><strong>Funkcia</strong> = pomenovaný, opakovane použiteľný blok kódu. Bez parametrov vždy robí to isté.</p>
+<code class="nc">// Funkcia nič nevracia (void):
+void vypis_hlavicku() {
+  cout &lt;&lt; "================================" &lt;&lt; endl;
+  cout &lt;&lt; "      Program na spracovanie    " &lt;&lt; endl;
+  cout &lt;&lt; "================================" &lt;&lt; endl;
+}
+
+// Funkcia vracia hodnotu:
+int nacitaj_kladne() {
+  int x;
+  do {
+    cout &lt;&lt; "Zadaj kladne cislo: ";
+    cin >> x;
+  } while (x &lt;= 0);
+  return x;
+}
+
+// PROTOTYP — deklarácia pred main():
+void vypis_hlavicku();  // prototyp
+
+int main() {
+  vypis_hlavicku();             // volanie
+  int c = nacitaj_kladne();
+  cout &lt;&lt; "Zadal si: " &lt;&lt; c;
+  return 0;
+}
+
+// Definícia môže byť za main():
+void vypis_hlavicku() { /* ... */ }</code>
+<ul class="nl">
+<li><strong>void</strong> — funkcia nič nevracia. Bez return (alebo len prázdne return;).</li>
+<li><strong>Prototyp</strong> — deklarácia pred main(). Musí sa zhodovať s definíciou (názov, typy, návratový typ).</li>
+<li>Výhody: znovupoužiteľnosť, čitateľnosť, jednoduchšie testovanie.</li>
+<li>Princíp <em>DRY</em> — Don't Repeat Yourself. Každá funkcia robí jednu vec.</li>
+</ul>`,it:'Prenos častí dokumentov medzi aplikáciami',is_:[],in_:`<p>Výmena dát medzi rôznymi programami je každodennou súčasťou práce.</p>
+<ul class="nl">
+<li><strong>Schránka (Clipboard)</strong> – Ctrl+C (kopíruj), Ctrl+X (vystrihni), Ctrl+V (vlož)</li>
+<li><strong>Vložiť špeciálne (Paste Special)</strong> – výber formátu: s formátovaním, bez, ako obrázok, ako odkaz</li>
+<li><strong>OLE (Object Linking and Embedding)</strong> – technológia MS Windows pre vkladanie objektov</li>
+<li><strong>Vloženie (Embed)</strong> – kópia objektu, nezávisí od zdroja</li>
+<li><strong>Prepojenie (Link)</strong> – odkaz na zdrojový súbor. Pri zmene zdroja sa aktualizuje aj vložený objekt.</li>
+<li>Príklad: Excel tabuľka prepojená do Word dokumentu</li>
+</ul>`},
+{n:24,pt:'Iteračné príkazy',ps:["FOR, WHILE, DO WHILE – prehľad"],pn:`<p>C++ poskytuje tri typy cyklov. Všetky sú ekvivalentné, ale každý má svoje ideálne použitie.</p>
+<table class="ntbl"><tr><th>Cyklus</th><th>Podmienka</th><th>Min. vykonania</th><th>Ideálne pre</th></tr>
+<tr><td>for</td><td>Na začiatku</td><td>0×</td><td>Známy počet opakovaní</td></tr>
+<tr><td>while</td><td>Na začiatku</td><td>0×</td><td>Neznámy počet, sentinel loop</td></tr>
+<tr><td>do-while</td><td>Na konci</td><td>Vždy 1×</td><td>Validácia vstupu, menu</td></tr></table>
+<code class="nc">// Rovnaký efekt — výpis 1 až 5:
+for (int i=1; i&lt;=5; i++) cout &lt;&lt; i &lt;&lt; " ";
+
+int i=1;
+while (i&lt;=5) { cout &lt;&lt; i &lt;&lt; " "; i++; }
+
+int i2=1;
+do { cout &lt;&lt; i2 &lt;&lt; " "; i2++; } while(i2&lt;=5);
+
+// Vnorené cykly — násobenie:
+for (int r=1; r&lt;=3; r++) {
+  for (int c=1; c&lt;=3; c++) cout &lt;&lt; setw(4) &lt;&lt; r*c;
+  cout &lt;&lt; endl;
+}
+// Výstup:
+//    1   2   3
+//    2   4   6
+//    3   6   9</code>
+<div class="ntip">Pri výbere cyklu: „Viem počet vopred?" → for. „Musím aspoň raz?" → do-while. „Neviem, možno 0-krát?" → while.</div>`,it:'Farebné modely',is_:[],in_:`<p><strong>Farebný model</strong> je matematický systém na popis farieb.</p>
+<table class="ntbl"><tr><th>Model</th><th>Zložky</th><th>Použitie</th></tr>
+<tr><td>RGB</td><td>Red, Green, Blue (0–255)</td><td>Monitor, web, digitálna fotografia</td></tr>
+<tr><td>CMYK</td><td>Cyan, Magenta, Yellow, Black</td><td>Farebná tlač</td></tr>
+<tr><td>HSB/HSL</td><td>Hue, Saturation, Brightness/Lightness</td><td>Dizajn, výber farieb</td></tr></table>
+<ul class="nl">
+<li><strong>Aditívne (RGB)</strong> – kombinovanie svetla. R+G+B = biela. Pre monitory, LEDky.</li>
+<li><strong>Subtraktívne (CMYK)</strong> – kombinovanie farbív. C+M+Y+K = čierna. Pre tlač.</li>
+<li><strong>Hex #RRGGBB:</strong> #FF0000=červená, #00FF00=zelená, #FFFFFF=biela, #000000=čierna</li>
+<li><strong>Alfa kanál (A)</strong> – priehľadnosť (0=plne priehľadný, 255=nepriehľadný)</li>
+</ul>`},
+{n:25,pt:'Premenné a výrazy',ps:["Lokálne a globálne premenné", "Operátory"],pn:`<p><strong>Premenná</strong> = pomenované miesto v pamäti pre ukladanie hodnoty daného dátového typu.</p>
+<code class="nc">// GLOBÁLNA — deklarovaná mimo všetkých funkcií:
+int globalny = 0;  // dostupná v celom programe
+
+void funkcia() {
+  // LOKÁLNA — existuje len v tomto bloku {}:
+  int lokalny = 5;
+  globalny++;      // globálna je tu dostupná
+}  // lokalny tu zanikne
+
+int main() {
+  cout &lt;&lt; globalny; // OK
+  // cout &lt;&lt; lokalny; // CHYBA — lokálna neexistuje tu
+}</code>
+<code class="nc">// OPERÁTORY:
+int a=10, b=3;
+cout &lt;&lt; a+b;   // 13 — sčítanie
+cout &lt;&lt; a-b;   // 7  — odčítanie
+cout &lt;&lt; a*b;   // 30 — násobenie
+cout &lt;&lt; a/b;   // 3  — celé delenie!
+cout &lt;&lt; a%b;   // 1  — zvyšok (modulo)
+
+// Porovnávacie (výsledok je bool):
+a==b, a!=b, a&gt;b, a&lt;b, a&gt;=b, a&lt;=b
+
+// Logické:
+(a>0 &amp;&amp; b>0)   // AND — obe true
+(a>0 || b&lt;0)   // OR  — aspoň jedna true
+!(a==b)         // NOT — negácia
+
+// Priradenie:
+a+=5; a-=2; a*=3; a/=2; a%=3;
+
+// Inkrementácia:
+a++;  // post-increment (vráti pôvodnú hodnotu, potom zvýši)
+++a;  // pre-increment  (najprv zvýši, potom vráti)</code>
+<div class="nwarn">Celé delenie: 10/3 = 3, nie 3.33! Pre desatinný výsledok: (double)a/b = 3.33.</div>`,it:'Efektívne spracovanie údajov',is_:[],in_:`<p><strong>Efektívnosť</strong> = dosiahnuť správny výsledok s čo najmenšou spotrebou času a pamäte.</p>
+<ul class="nl">
+<li><strong>Algoritmy triedenia:</strong> Bubble sort O(n²) — jednoduchý, pomalý. Quick sort O(n log n) — rýchly, bežne používaný.</li>
+<li><strong>Indexovanie v databáze</strong> – dramaticky zrýchli vyhľadávanie (ako register v knihe)</li>
+<li><strong>Memoizácia / caching</strong> – ukladanie výsledkov opakujúcich sa výpočtov</li>
+<li><strong>Dátové formáty:</strong> CSV (tabuľky), JSON (webové API), XML (konfigurácia)</li>
+<li>Dobrá dátová štruktúra + vhodný algoritmus = efektívny program</li>
+</ul>`},
+{n:26,pt:'Funkcie pre prácu s reťazcami',ps:["Základné funkcie – string"],pn:`<p>Knižnica <strong>&lt;string&gt;</strong> poskytuje bohatú sadu metód. Voláme ich bodkovou notáciou: <strong>retazec.metoda()</strong>.</p>
+<code class="nc">#include &lt;string&gt;
+#include &lt;cctype&gt;  // pre tolower, toupper, isdigit...
+
+string s = "Ahoj, svet!";
+
+// INFORMÁCIE:
+s.length()         // 11 — dĺžka
+s.empty()          // false — je prázdny?
+s[0]               // 'A' — prístup ku znaku
+s.front()          // 'A' — prvý znak
+s.back()           // '!' — posledný znak
+
+// VYHĽADÁVANIE:
+s.find("svet")     // 6 — index prvého výskytu
+s.find("xyz")      // string::npos — nenájdené!
+
+// MODIFIKÁCIA:
+s.substr(6, 4)     // "svet" — od indexu 6, dĺžka 4
+s.replace(0,4,"Cau")   // "Cau, svet!"
+s.erase(4, 1)      // vymaže 1 znak od pozície 4
+
+// KONVERZIA:
+to_string(42)      // číslo → reťazec "42"
+stoi("123")        // reťazec → int 123
+stod("3.14")       // reťazec → double 3.14
+
+// PRÁCA SO ZNAKMI (jednotlivé char):
+toupper('a')       // 'A'
+tolower('A')       // 'a'
+isdigit('5')       // true  — je číslica?
+isalpha('A')       // true  — je písmeno?
+isspace(' ')       // true  — je medzera?
+
+// Konverzia celého reťazca na malé:
+for (int i=0; i&lt;s.length(); i++) s[i]=tolower(s[i]);</code>
+<div class="nwarn">find() vracia <strong>string::npos</strong> ak sa nenájde — vždy skontroluj! if (s.find("x") != string::npos)</div>`,it:'Informačná spoločnosť',is_:[],in_:`<p><strong>Informačná spoločnosť</strong> = spoločnosť, kde informácia a jej spracovanie pomocou IKT zohrávajú kľúčovú úlohu.</p>
+<ul class="nl">
+<li><strong>IKT</strong> – Informačné a komunikačné technológie: počítače, internet, mobilné zariadenia</li>
+<li><strong>E-government</strong> – elektronická komunikácia s úradmi (slovensko.sk)</li>
+<li><strong>E-commerce</strong> – elektronický obchod (Alza, Amazon)</li>
+<li><strong>E-learning</strong> – online vzdelávanie (Coursera, YouTube, Khan Academy)</li>
+<li><strong>Digitálna priepasť</strong> – nerovnosť v prístupe k technológiám</li>
+<li><strong>GDPR</strong> – európske nariadenie o ochrane osobných údajov</li>
+<li>Výzvy: ochrana súkromia, dezinformácie, závislosť od technológií, kybernetická bezpečnosť</li>
+</ul>`},
+{n:27,pt:'Vyhodnocovanie logických výrazov',ps:["Booleovské výrazy, logické operátory"],pn:`<p><strong>Logický výraz</strong> = výraz s hodnotou <em>true (1)</em> alebo <em>false (0)</em>. Základ všetkých podmienok.</p>
+<code class="nc">bool a=true, b=false;
+
+// AND (&&) — pravda len ak OBE true:
+(a &amp;&amp; b) == false   // true AND false = false
+(a &amp;&amp; a) == true    // true AND true  = true
+
+// OR (||) — pravda ak ASPOŇ JEDNA true:
+(a || b) == true    // true OR false = true
+(b || b) == false   // false OR false = false
+
+// NOT (!) — negácia:
+(!a) == false       // NOT true  = false
+(!b) == true        // NOT false = true
+
+// Praktické príklady:
+int vek=20, body=75;
+bool moze = (vek>=18) &amp;&amp; (body>60);    // true
+bool ziadost = (vek&lt;15) || (body>=90); // false
+
+// De Morganove zákony:
+!(a &amp;&amp; b) == (!a || !b)  // obe ekvivalentné!
+!(a || b) == (!a &amp;&amp; !b)</code>
+<code class="nc">// Skrátené vyhodnocovanie (short-circuit):
+// Pri &amp;&amp;: ak prvá false → druhá sa NEVYHODNOTÍ
+// Pri ||:  ak prvá true  → druhá sa NEVYHODNOTÍ
+
+// Bezpečné delenie — ak n==0, výraz 100/n sa nevykoná:
+if (n != 0 &amp;&amp; 100/n > 5) cout &lt;&lt; "OK";</code>
+<table class="ntbl"><tr><th>A</th><th>B</th><th>A &amp;&amp; B</th><th>A || B</th><th>!A</th></tr>
+<tr><td>false</td><td>false</td><td>false</td><td>false</td><td>true</td></tr>
+<tr><td>false</td><td>true</td><td>false</td><td>true</td><td>true</td></tr>
+<tr><td>true</td><td>false</td><td>false</td><td>true</td><td>false</td></tr>
+<tr><td>true</td><td>true</td><td>true</td><td>true</td><td>false</td></tr></table>
+<div class="ntip">Priorita: <strong>!</strong> (najvyššia) → <strong>&amp;&amp;</strong> → <strong>||</strong> (najnižšia). Na istotu používaj zátvork y!</div>`,it:'Hromadná korešpondencia – nástroje a využitie',is_:[],in_:`<p><strong>Hromadná korešpondencia (Mail Merge)</strong> = automatizované vytváranie personalizovaných dokumentov kombináciou šablóny so zdrojom dát.</p>
+<ul class="nl">
+<li><strong>Šablóna</strong> – dokument s pevným textom a zástepcami: «Meno», «Adresa»</li>
+<li><strong>Zdroj dát</strong> – zoznam príjemcov v tabuľke (Excel, CSV, Outlook kontakty)</li>
+<li>Výsledok: jeden personalizovaný dokument pre každý záznam</li>
+<li><strong>Využitie:</strong> listy, pozvánky, menovky, obálky, faktúry, certifikáty, newsletters</li>
+<li><strong>Postup v MS Word:</strong> Korešpondencia → Spustiť hromadnú korešpondenciu → Vybrať príjemcov → Vložiť polia zlúčenia → Ukážka → Dokončiť a zlúčiť</li>
+</ul>`},
+{n:28,pt:'Príkazy vetvenia',ps:[],pn:`<p><strong>Vetvenie</strong> umožňuje programu robiť rozhodnutia — vykonávať rôzne časti kódu podľa podmienok.</p>
+<code class="nc">// 1. Jednoduchý if — neúplný:
+if (teplota &lt; 0) cout &lt;&lt; "Mráz!";
+
+// 2. if-else — úplný:
+if (n%2==0) cout &lt;&lt; "Párne";
+else        cout &lt;&lt; "Nepárne";
+
+// 3. if – else if – else:
+int sc = 75; char g;
+if (sc>=90) g='A';
+else if (sc>=80) g='B';
+else if (sc>=70) g='C';
+else if (sc>=60) g='D';
+else g='F';
+cout &lt;&lt; g;  // 'C'
+
+// 4. SWITCH — pre konkrétne hodnoty:
+switch (den) {
+  case 1: cout &lt;&lt; "Pon"; break;
+  case 2: cout &lt;&lt; "Uto"; break;
+  default: cout &lt;&lt; "Iný";
+}
+
+// 5. Ternárny operátor — kompaktný if-else:
+int abs_val = (x>=0) ? x : -x;
+cout &lt;&lt; ((n%2==0) ? "párne" : "nepárne");
+
+// 6. Vnorené vetvenie:
+if (x>0) {
+  if (x%2==0) cout &lt;&lt; "Kladné párne";
+  else cout &lt;&lt; "Kladné nepárne";
+} else cout &lt;&lt; "Nekladné";</code>
+<ul class="nl">
+<li>Podmienky v reťazení sa vyhodnocujú zhora nadol — vykoná sa prvá platná vetva.</li>
+<li>switch funguje len s int, char, enum — nie s float ani string!</li>
+</ul>`,it:'Grafická reprezentácia údajov',is_:[],in_:`<p><strong>Graf</strong> = vizuálne znázornenie číselných dát pre lepšie pochopenie trendov a vzťahov.</p>
+<table class="ntbl"><tr><th>Typ grafu</th><th>Použitie</th><th>Príklad</th></tr>
+<tr><td>Stĺpcový</td><td>Porovnanie medzi kategóriami</td><td>Predaje podľa mesiacov</td></tr>
+<tr><td>Čiarový</td><td>Trend a vývoj v čase</td><td>Vývoj teploty, kurzu</td></tr>
+<tr><td>Koláčový</td><td>Podiel častí z celku</td><td>Rozdelenie výdavkov</td></tr>
+<tr><td>Bodový (scatter)</td><td>Závislosť dvoch veličín</td><td>Výška vs. váha</td></tr>
+<tr><td>Histogram</td><td>Frekvenčné rozdelenie</td><td>Rozdelenie bodov v triede</td></tr></table>
+<ul class="nl">
+<li>Povinné prvky: <strong>nadpis, popis osí, jednotky, legenda</strong></li>
+<li>Softvér: MS Excel, Google Sheets, LibreOffice Calc, Tableau</li>
+<li>Výber grafu závisí od typu dát a otázky, na ktorú chceme odpovedať</li>
+</ul>`},
+{n:29,pt:'Funkcie',ps:["Funkcie bez parametrov", "Funkcie s parametrami"],pn:`<p>Funkcie sú základným nástrojom štruktúrovaného programovania — rozkladanie veľkého problému na menšie časti.</p>
+<code class="nc">// PROTOTYPY pred main():
+void vypis_menu();
+int zvol(int min, int max);
+double priemer(int pole[], int n);
+bool je_prvocislo(int x);
+
+int main() {
+  vypis_menu();
+  int v = zvol(1, 4);
+  int d[] = {85,92,78,96,88};
+  cout &lt;&lt; priemer(d, 5);  // 87.8
+  if (je_prvocislo(17)) cout &lt;&lt; "Je prvocislo";
+  return 0;
+}
+
+void vypis_menu() { cout &lt;&lt; "1.A 2.B 3.C 4.D" &lt;&lt; endl; }
+
+int zvol(int min, int max) {
+  int v;
+  do { cout &lt;&lt; "Volba: "; cin >> v; }
+  while (v&lt;min || v>max);
+  return v;
+}
+
+double priemer(int pole[], int n) {
+  double s=0;
+  for (int i=0; i&lt;n; i++) s+=pole[i];
+  return s/n;
+}
+
+bool je_prvocislo(int x) {
+  if (x&lt;2) return false;
+  for (int i=2; i*i&lt;=x; i++)
+    if (x%i==0) return false;
+  return true;
+}</code>
+<code class="nc">// REKURZIA — funkcia volá samu seba:
+int faktorial(int n) {
+  if (n&lt;=1) return 1;         // základný prípad — STOP
+  return n * faktorial(n-1);  // rekurzívny krok
+}
+// f(5)=5*f(4)=5*4*f(3)=5*4*3*f(2)=5*4*3*2*f(1)=120</code>`,it:'Reprezentácia údajov v počítači, číselné sústavy',is_:[],in_:`<p>Počítač ukladá <em>všetko</em> ako postupnosť bitov (0 a 1).</p>
+<table class="ntbl"><tr><th>Jednotka</th><th>Veľkosť</th></tr>
+<tr><td>Bit (b)</td><td>1 binárna cifra (0 alebo 1)</td></tr>
+<tr><td>Byte (B)</td><td>8 bitov</td></tr>
+<tr><td>Kilobyte (KB)</td><td>1 024 B</td></tr>
+<tr><td>Megabyte (MB)</td><td>1 024 KB</td></tr>
+<tr><td>Gigabyte (GB)</td><td>1 024 MB</td></tr></table>
+<ul class="nl">
+<li><strong>ASCII</strong> – kódovanie znakov: A=65, a=97, '0'=48, medzera=32</li>
+<li><strong>Unicode (UTF-8)</strong> – kódovanie pre všetky jazyky sveta vrátane háčikov, emojis</li>
+<li><strong>Celé čísla</strong> – doplnkový kód (umožňuje záporné čísla)</li>
+<li><strong>Desatinné čísla</strong> – IEEE 754: znamienko + exponent + mantisa</li>
+<li><strong>Obrázok</strong> – mriežka pixelov. Každý pixel = RGB (3×8 = 24 bitov)</li>
+<li><strong>Zvuk</strong> – vzorky amplitúdy (44 100 vzoriek/s = CD kvalita)</li>
+</ul>`},
+{n:30,pt:'Spôsoby zápisu algoritmov',ps:[],pn:`<p>Algoritmus môžeme vyjadriť rôznymi spôsobmi podľa účelu a publika.</p>
+<table class="ntbl"><tr><th>Spôsob</th><th>Popis</th><th>Výhody / Nevýhody</th></tr>
+<tr><td>Prirodzený jazyk</td><td>Slovný popis krokov</td><td>Zrozumiteľný / Nepresný, nejednoznačný</td></tr>
+<tr><td>Pseudokód</td><td>Štrukt. zápis podobný kódu</td><td>Jazykovo nezávislý / Nie je štandardizovaný</td></tr>
+<tr><td>Vývojový diagram</td><td>Grafický zápis symbolmi</td><td>Prehľadný vizuálne / Zložitý pre dlhé alg.</td></tr>
+<tr><td>Štruktogram (N-S)</td><td>Bloková grafická štruktúra</td><td>Jasná štruktúra / Menej rozšírený</td></tr>
+<tr><td>Zdrojový kód</td><td>Kód v konkrétnom jazyku</td><td>Spustiteľný / Závislý od jazyka</td></tr></table>
+<code class="nc">// Príklad — maximum v poli, tri zápisy:
+
+// PSEUDOKÓD:
+// max ← A[0]
+// PRE i OD 1 DO n-1:
+//   AK A[i] > max: max ← A[i]
+// VÝSTUP: max
+
+// ZDROJOVÝ KÓD C++:
+int max_val = pole[0];
+for (int i = 1; i &lt; n; i++)
+  if (pole[i] > max_val) max_val = pole[i];</code>
+<p><strong>Symboly vývojového diagramu:</strong></p>
+<ul class="nl">
+<li><strong>Ovál</strong> – začiatok (Štart) a koniec (Koniec)</li>
+<li><strong>Obdĺžnik</strong> – príkaz, výpočet, priradenie</li>
+<li><strong>Šikmobočník</strong> – vstup (čítaj) alebo výstup (vypíš)</li>
+<li><strong>Kosoštvorec</strong> – podmienka (vetvenie) — výstupy Áno / Nie</li>
+<li><strong>Šípky</strong> – smer toku algoritmu</li>
+</ul>`,it:'Digitalizácia zvuku',is_:[],in_:`<p><strong>Digitalizácia zvuku</strong> = prevod analógového (spojitého) zvuku na digitálny (číselný) formát.</p>
+<table class="ntbl"><tr><th>Parameter</th><th>Popis</th><th>Typické hodnoty</th></tr>
+<tr><td>Vzorkovacia frekvencia</td><td>Koľkokrát za sekundu meríme amplitúdu</td><td>44 100 Hz (CD), 48 000 Hz (video)</td></tr>
+<tr><td>Bitová hĺbka</td><td>Presnosť merania amplitúdy</td><td>16-bit (65 536 úrovní), 24-bit (štúdio)</td></tr>
+<tr><td>Kanály</td><td>Mono, Stereo, Surround</td><td>Stereo = 2 kanály</td></tr></table>
+<ul class="nl">
+<li><strong>Vzorkovanie (sampling)</strong> – meranie okamžitej amplitúdy v pravidelných intervaloch</li>
+<li><strong>Kvantizácia</strong> – zaokrúhlenie na najbližšiu diskrétnu úroveň (bitová hĺbka)</li>
+<li><strong>Nyquistov teorém</strong> – frekvencia vzorkovania musí byť aspoň 2× väčšia ako max. frekvencia zvuku (sluch max 20 kHz → aspoň 40 kHz, preto 44,1 kHz)</li>
+</ul>
+<p><strong>Formáty:</strong> WAV (nekomprimovaný, veľký), MP3 (stratová kompresia, malý), FLAC (bezstratový, kvalitný), AAC, OGG.</p>`},
+];
+
+
+let starred=JSON.parse(localStorage.getItem('inf_s')||'[]');
+let filt='all', curIdx=-1, filtList=[];
+function save(){localStorage.setItem('inf_s',JSON.stringify(starred));}
+
+function card(z){
+  const isStar=starred.includes(z.n);
+  const ps=z.ps.map(s=>`<li>${s}</li>`).join('');
+  const is=z.is_.map(s=>`<li>${s}</li>`).join('');
+  return `<div class="card ${isStar?'starred':''}" data-num="${z.n}">
+    <div class="ch"><div class="cn">Z${z.n}</div><div class="ct">Zadanie ${z.n}</div>
+    <button class="sb ${isStar?'active':''}" data-num="${z.n}">${isStar?'★':'☆'}</button></div>
+    <div class="cb">
+      <div class="sec p"><div class="sl2">// Programovanie C++</div><div class="sto">${z.pt}</div>${ps?`<ul class="ss">${ps}</ul>`:''}</div>
+      <div class="sec i"><div class="sl2">// Základy informatiky</div><div class="sto">${z.it}</div>${is?`<ul class="ss">${is}</ul>`:''}</div>
+    </div>
+    <div class="chint">Klikni pre poznámky →</div>
+  </div>`;
+}
+
+function renderAll(){
+  const q=document.getElementById('si').value.toLowerCase().trim();
+  const grid=document.getElementById('grid');
+  filtList=Z.filter(z=>{
+    const m=!q||`z${z.n}`.includes(q)||z.pt.toLowerCase().includes(q)||z.it.toLowerCase().includes(q)||z.ps.some(s=>s.toLowerCase().includes(q))||z.is_.some(s=>s.toLowerCase().includes(q));
+    if(!m)return false;
+    if(filt==='starred')return starred.includes(z.n);
+    return true;
+  });
+  grid.innerHTML=filtList.length===0?`<div class="empty">// Žiadne výsledky</div>`:filtList.map(card).join('');
+  grid.querySelectorAll('.sb').forEach(b=>b.addEventListener('click',e=>{
+    e.stopPropagation();
+    const n=parseInt(b.dataset.num);
+    starred=starred.includes(n)?starred.filter(x=>x!==n):[...starred,n];
+    save();renderAll();updateStarUI();
+  }));
+  grid.querySelectorAll('.card').forEach((c,idx)=>c.addEventListener('click',e=>{
+    if(e.target.classList.contains('sb'))return;
+    openDetail(idx);
+  }));
+}
+
+function openDetail(idx){
+  curIdx=idx;
+  const z=filtList[idx];
+  document.getElementById('dbadge').textContent=`Z${z.n}`;
+  document.getElementById('dbody').innerHTML=`
+    <div class="dtitle">Zadanie Z${z.n}</div>
+    <div class="ds">
+      <div class="dsh p"><div class="dot"></div>Programovanie C++ — ${z.pt}</div>
+      <div class="dtop">${z.pt}</div>
+      <div class="dc">${z.pn}</div>
+    </div>
+    <div class="ds">
+      <div class="dsh i"><div class="dot"></div>Základy informatiky — ${z.it}</div>
+      <div class="dtop">${z.it}</div>
+      <div class="dc">${z.in_}</div>
+    </div>`;
+  const ov=document.getElementById('dov');
+  ov.classList.add('open');ov.scrollTop=0;
+  document.getElementById('prev').disabled=idx===0;
+  document.getElementById('next').disabled=idx===filtList.length-1;
+  document.body.style.overflow='hidden';
+}
+
+function closeDetail(){
+  document.getElementById('dov').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.getElementById('back').addEventListener('click',closeDetail);
+document.getElementById('prev').addEventListener('click',()=>{if(curIdx>0)openDetail(curIdx-1);});
+document.getElementById('next').addEventListener('click',()=>{if(curIdx<filtList.length-1)openDetail(curIdx+1);});
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('dov').classList.contains('open'))return;
+  if(e.key==='Escape')closeDetail();
+  if(e.key==='ArrowLeft'&&curIdx>0)openDetail(curIdx-1);
+  if(e.key==='ArrowRight'&&curIdx<filtList.length-1)openDetail(curIdx+1);
+});
+
+function updateStarUI(){
+  const c=starred.length;
+  const sc=document.getElementById('sc');
+  sc.textContent=c;sc.style.display=c>0?'flex':'none';
+  const sl=document.getElementById('sl');
+  sl.innerHTML=c===0?'<li style="color:var(--txm)">Žiadne označené.</li>'
+    :[...starred].sort((a,b)=>a-b).map(n=>{const z=Z[n-1];return `<li onclick="scrollToCard(${n})"><span>Z${n}</span>${z.pt}</li>`;}).join('');
+}
+
+function scrollToCard(n){
+  document.getElementById('sp').classList.remove('open');
+  filt='all';document.getElementById('si').value='';
+  document.querySelectorAll('.fb').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));
+  renderAll();
+  setTimeout(()=>{const c=document.querySelector(`[data-num="${n}"]`);if(c)c.scrollIntoView({behavior:'smooth',block:'center'});},100);
+}
+
+document.getElementById('si').addEventListener('input',renderAll);
+document.querySelectorAll('.fb').forEach(b=>b.addEventListener('click',()=>{
+  filt=b.dataset.filter;
+  document.querySelectorAll('.fb').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');renderAll();
+}));
+document.getElementById('stb').addEventListener('click',()=>document.getElementById('sp').classList.toggle('open'));
+document.getElementById('cpb').addEventListener('click',()=>document.getElementById('sp').classList.remove('open'));
+renderAll();updateStarUI();
+
+
+
+const ZADANIA_CVICENIA = [
+  {
+    id: "hadas_cislo",
+    kategoria: "Cykly",
+    nazov: "Hra Hádaj číslo + záznam do súboru",
+    popis: "Používateľ zadá hornú hranicu N a počet pokusov. Program vygeneruje náhodné číslo z intervalu <0; N>. Hráč háda číslo, program povie väčšie/menšie. Hra skončí uhádnutím alebo vyčerpaním pokusov. Výsledok hry zapíš do súboru hra_log.txt vo formáte: Cislo: 16 | Pokusy: 3/5 | Vysledok: NEUHÁDOL"
+  },
+  {
+    id: "nsn",
+    kategoria: "Cykly",
+    nazov: "Najmenší spoločný násobok + txt súbor",
+    popis: "Načítaj dvojice čísel zo súboru cisla.txt (každý riadok = dve čísla). Pre každú dvojicu vypočítaj NSN a výsledky zapíš do súboru nsn_vysledky.txt. Formát: NSN(12, 15) = 60"
+  },
+  {
+    id: "nsd",
+    kategoria: "Cykly",
+    nazov: "Najväčší spoločný deliteľ + txt súbor",
+    popis: "Načítaj dvojice čísel zo súboru cisla.txt (každý riadok = dve čísla). Pre každú dvojicu vypočítaj NSD Euklidovým algoritmom a výsledky zapíš do nsd_vysledky.txt. Formát: NSD(18, 12) = 6"
+  },
+  {
+    id: "fibonacci",
+    kategoria: "Cykly",
+    nazov: "Fibonacciho postupnosť + zápis do súboru",
+    popis: "Používateľ zadá počet členov n. Program vypočíta a vypíše n členov Fibonacciho postupnosti po 5 čísel na riadok. Všetky členy zapíš do súboru fibonacci.txt (každé číslo na nový riadok) a na koniec súboru dopíš: Celkovy pocet clenov: N"
+  },
+  {
+    id: "eratostenes_cykly",
+    kategoria: "Cykly",
+    nazov: "Eratostenovo sito + zápis do súboru",
+    popis: "Používateľ zadá hornú hranicu n. Program zobrazí čísla 1 až n, pričom násobky každého čísla (okrem neho samého) nahradí hviezdičkou (*). Nájde a vypíše všetky prvočísla. Do súboru prvocisla.txt zapíš na prvý riadok: Prvocisla do N: a na druhý riadok prvočísla oddelené medzerami."
+  },
+  {
+    id: "prevod_sustav",
+    kategoria: "Funkcie & Makrá",
+    nazov: "Prevod čísla medzi sústav ami + zápis do súboru",
+    popis: "Definujte makrá/funkcie BINARNE_CISLO(n) a DESIATKOVE_CISLO(b). Program: 1) Používateľ zadá desiatkovú hodnotu → zobraz binárny tvar, 2) Používateľ zadá binárne číslo → zobraz desiatkovú hodnotu. Každú konverziu zapíš do konverzie.txt. Formát: DEC 123 -> BIN 1111011"
+  },
+  {
+    id: "linearna_funkcia",
+    kategoria: "Funkcie & Makrá",
+    nazov: "Lineárna funkcia – analýza + zápis do súboru",
+    popis: "Používateľ zadá koeficienty a, b lineárnej funkcie f: y = ax + b. Program určí či je rastúca/klesajúca/konštantná, priesečník s osou x (Px = [-b/a; 0]), priesečník s osou y (Py = [0; b]) a predpis inverznej funkcie. Výsledky zapíš do linearna_funkcia.txt."
+  },
+  {
+    id: "prvocislo_rozklad",
+    kategoria: "Funkcie & Makrá",
+    nazov: "Prvočíselný rozklad + txt súbory",
+    popis: "Definujte funkciu pre prvočíselný rozklad čísla n (napr. 72 = 2 * 2 * 2 * 3 * 3). Načítaj čísla zo súboru vstup.txt (každé číslo na samostatnom riadku). Pre každé číslo vypočítaj rozklad a výsledky zapíš do rozklady.txt."
+  },
+  {
+    id: "faktorial_kombinacne",
+    kategoria: "Funkcie & Makrá",
+    nazov: "Faktoriál a kombinačné číslo + zápis do súboru",
+    popis: "Definujte funkciu FAKTORIAL(n). Pomocou nej vypočítajte kombinačné číslo C(n, k) = n! / (k! * (n-k)!). Program: 1) Zadaj n → vypíše n!, 2) Zadaj n a k → vypíše kombinačné číslo. Každý výpočet zapíš do vysledky.txt. Formát: FAKTORIAL(5) = 120, KOMBINACNE(5, 2) = 10"
+  },
+  {
+    id: "kvadraticka_tabulacia",
+    kategoria: "Funkcie & Makrá",
+    nazov: "Kvadratická funkcia – tabulácia a korene + zápis",
+    popis: "Pevný predpis: f(x) = x² - 3x + 2. Pomocou makra/funkcie: Používateľ zadá interval [a; b]. Program vypíše tabuľku hodnôt f(x) pre každé celé x z intervalu a nájde korene f(x) = 0. Program sa opakuje kým používateľ nezadá ukončenie. Poslednú tabuľku a korene zapíš do tabulacia.txt."
+  },
+  {
+    id: "trojuholnik",
+    kategoria: "Príkazy vetvenia",
+    nazov: "Trojuholník zo súradníc bodov + zápis do súboru",
+    popis: "Načítaj súradnice bodov A, B, C zo súboru body.txt (každý bod na jednom riadku). Zisti, či tieto body tvoria trojuholník. Ak áno, vypočítaj dĺžky strán, obvod a obsah (Heronom). Výsledky zapíš do trojuholnik.txt."
+  },
+  {
+    id: "posledne_prvocislo",
+    kategoria: "Príkazy vetvenia",
+    nazov: "Posledné prvočíslo pred číslom + txt súbory",
+    popis: "Načítaj zoznam čísel zo súboru vstup.txt (každé na novom riadku). Pre každé číslo n nájdi posledné prvočíslo menšie ako n. Ošetri špeciálne prípady: n=2 → 2 je najmenšie prvočíslo, n<2 → žiadne prvočíslo neexistuje. Výsledky zapíš do vysledky.txt."
+  },
+  {
+    id: "sustava_rovnic",
+    kategoria: "Príkazy vetvenia",
+    nazov: "Sústava lineárnych rovníc + txt súbory",
+    popis: "Sústava: ax + by = c a dx + ey = f. Riešenie Cramerovym pravidlom. Načítaj koeficienty (a, b, c, d, e, f) zo súboru sustavy.txt (každá sústava na jednom riadku). Pre každú sústavu nájdi riešenie a výsledky zapíš do sustav_riesenia.txt."
+  },
+  {
+    id: "kalkulacka",
+    kategoria: "Príkazy vetvenia",
+    nazov: "Kalkulačka + záznam do súboru",
+    popis: "Program opakovane: načíta dve čísla a, b, používateľ vyberie operáciu (+, -, *, /), zobrazí výsledok (pri delení nulou upozorni), opýta sa Chceš pokračovať? a/n, na konci vypíše celkový počet operácií. Každú operáciu zapíš do historia.txt. Formát: 4 / 3 = 1.33"
+  },
+  {
+    id: "kvadraticka_rovnica",
+    kategoria: "Príkazy vetvenia",
+    nazov: "Riešenie kvadratickej rovnice + zápis do súboru",
+    popis: "Používateľ zadá koeficienty a, b, c rovnice ax² + bx + c = 0. Program ošetrí všetky prípady: a=0,b=0,c=0 (nekonečne veľa riešení), a=0,b=0,c≠0 (nemá riešenie), a=0,b≠0 (lineárna), a≠0,D>0 (dve korene), a≠0,D=0 (jeden), a≠0,D<0 (žiadne reálne). Výsledky zapíš do rovnica.txt."
+  },
+  {
+    id: "otocenie_matice",
+    kategoria: "Dvojrozmerné pole",
+    nazov: "Otočenie matice o 90° + txt súbory",
+    popis: "Načítaj maticu (rozmery m×n a prvky) zo súboru matica.txt. Zobraz pôvodnú maticu a maticu otočenú o 90° doprava. Otočenú maticu zapíš do súboru otocena.txt. Formát matica.txt: prvý riadok = rozmery (napr. 3 3), ďalej prvky riadok po riadku."
+  },
+  {
+    id: "sucin_matic",
+    kategoria: "Dvojrozmerné pole",
+    nazov: "Súčin matíc A × B + txt súbory",
+    popis: "Načítaj matice A (m×n) a B (n×p) zo súborov maticaA.txt a maticaB.txt. Skontroluj či je súčin možný (počet stĺpcov A = počet riadkov B). Vypočítaj súčin C = A × B a výsledok zapíš do sucin.txt."
+  },
+  {
+    id: "transponovana_matica",
+    kategoria: "Dvojrozmerné pole",
+    nazov: "Transponovaná matica + txt súbory",
+    popis: "Načítaj maticu (m×n) zo súboru matica.txt. Zobraz pôvodnú a transponovanú maticu. Transponovanú maticu (n×m) zapíš do transponovana.txt. Prvý riadok súboru = nové rozmery."
+  },
+  {
+    id: "sucet_stlpcov",
+    kategoria: "Dvojrozmerné pole",
+    nazov: "Súčet stĺpcov matice + txt súbory",
+    popis: "Načítaj maticu (m×n) zo súboru matica.txt. Zobraz maticu a vypočítaj súčet každého stĺpca. Výsledky zapíš do sucty_stlpcov.txt. Formát: Sucet stlpca 1: 13"
+  },
+  {
+    id: "sucet_dvoch_matic",
+    kategoria: "Dvojrozmerné pole",
+    nazov: "Súčet dvoch matíc + txt súbory",
+    popis: "Načítaj matice A a B zo súborov maticaA.txt a maticaB.txt. Skontroluj či majú rovnaké rozmery – ak nie, vypíš chybu. Ak áno, vypočítaj súčet C = A + B a zapíš ho do sucet.txt. Program sa opakuje (pýta sa Pokračovať? a/n) kým používateľ nezadá n."
+  },
+  {
+    id: "zalozny_server",
+    kategoria: "Jednorozmerné pole",
+    nazov: "Záložný server + txt súbory",
+    popis: "Načítaj výkony 15 serverov zo súboru servery.txt (čísla oddelené medzerami). Program určí hlavný server (najvyšší výkon) a záložný server (druhý najvyšší výkon). Výsledky vypíše na obrazovku a zapíše do vysledok.txt."
+  },
+  {
+    id: "eratostenes_pole",
+    kategoria: "Jednorozmerné pole",
+    nazov: "Eratostenovo sito (pole) + zápis do súboru",
+    popis: "Pomocou jednorozmerného poľa (bool/int) implementuj Eratostenovo sito. Nájdi všetky prvočísla v intervale <2; N> (N zadá používateľ). Do súboru prvocisla.txt zapíš: prvý riadok Prvocisla do N:, druhý riadok prvočísla oddelené medzerami."
+  },
+  {
+    id: "spolocne_prvky",
+    kategoria: "Jednorozmerné pole",
+    nazov: "Spoločné prvky troch polí + txt súbory",
+    popis: "Načítaj tri polia zo súboru polia.txt (každý riadok: počet prvkov, potom prvky). Nájdi prvky, ktoré sa vyskytujú vo všetkých troch poliach súčasne. Výsledok (spoločné prvky alebo ziadne) zapíš do spolocne.txt."
+  },
+  {
+    id: "skalarny_vektorovy",
+    kategoria: "Jednorozmerné pole",
+    nazov: "Skalárny a vektorový súčin vektorov + txt súbory",
+    popis: "Načítaj súradnice dvoch 3D vektorov u a v zo súboru vektory.txt. Vypočítaj skalárny súčin (u·v = u1*v1 + u2*v2 + u3*v3) a vektorový súčin (u × v). Výsledky zapíš do suciny.txt."
+  },
+  {
+    id: "dvojice_sucet",
+    kategoria: "Jednorozmerné pole",
+    nazov: "Dvojice prvkov so zadaným súčtom + txt súbory",
+    popis: "Načítaj pole čísel a cieľový súčet zo súboru vstup.txt (prvý riadok = počet prvkov, druhý = prvky, tretí = cieľový súčet). Nájdi všetky dvojice prvkov (a[i], a[j]) kde i < j, ktorých súčet = cieľ. Výsledné dvojice a ich počet zapíš do dvojice.txt."
+  },
+  {
+    id: "rodne_cislo",
+    kategoria: "Reťazce",
+    nazov: "Rodné číslo – parsovanie + txt súbory",
+    popis: "Načítaj rodné čísla zo súboru rodnecisla.txt (každé na novom riadku). Pre každé rodné číslo (formát RRMMDD) urč dátum narodenia a pohlavie (muž: MM=01-12, žena: MM=51-62). Výsledky zapíš do osoby.txt. Formát: 810905 -> 05.09.1981, Muz"
+  },
+  {
+    id: "kacacie_cislo",
+    kategoria: "Reťazce",
+    nazov: "Kačacie číslo + txt súbory",
+    popis: "Kačacie číslo je kladné číslo obsahujúce cifru 0 (nie na začiatku). Načítaj čísla zo súboru cisla.txt. Pre každé číslo zisti, či je kačacie alebo nie. Výsledky zapíš do kacacie.txt. Formát: 70423 -> je kacacie cislo"
+  },
+  {
+    id: "pocetnost_pismen",
+    kategoria: "Reťazce",
+    nazov: "Početnosť písmen abecedy + txt súbory",
+    popis: "Načítaj text zo súboru text.txt. Vypočítaj koľkokrát sa vyskytuje každé písmeno abecedy (a-z, A-Z oddelene). Výsledky (tabuľka + percentá) zapíš do statistika.txt."
+  },
+  {
+    id: "caesarova_sifra",
+    kategoria: "Reťazce",
+    nazov: "Caesarova šifra + txt súbory",
+    popis: "Načítaj text zo súboru plaintext.txt a kľúč n (posun) zo súboru kluc.txt. Zašifruj text Caesarovou šifrou (každé písmeno posuň o n miest v abecede). Zašifrovaný text zapíš do zasifrovany.txt. Formát: Povodny text: janko | Posun (n): 4 | Zasifrovany text: neros"
+  },
+  {
+    id: "palindrom",
+    kategoria: "Reťazce",
+    nazov: "Palindróm + txt súbory",
+    popis: "Načítaj reťazce zo súboru retazce.txt (každý na novom riadku). Pre každý reťazec zisti, či je palindróm (medzery ignoruj, nerozlišuj veľké/malé písmená). Výsledky zapíš do palindromy.txt. Formát: jelenovi pivo nelej -> JE palindrom"
+  },
+  {
+    id: "teploty",
+    kategoria: "Textové súbory",
+    nazov: "Teploty – generovanie a analýza zo súboru",
+    popis: "Program vygeneruje 15 náhodných celých čísel (teploty) z intervalu (-10; 25) a zapíše ich do teploty.txt. Potom načíta obsah a vypíše: počet mrazivých dní (teplota < 0), počet letných dní (teplota >= 20), počet dní s teplotou presne 0, najnižšiu teplotu a jej pozície."
+  },
+  {
+    id: "vyskyt_pismen",
+    kategoria: "Textové súbory",
+    nazov: "Výskyt písmen v súbore s percentami",
+    popis: "Načítaj text zo súboru text.txt. Pre každé písmeno malej abecedy (a-z) vypočítaj absolútny počet výskytov a percentuálne zastúpenie zo všetkých písmen. Výsledky zobraz v tabuľkovom formáte (3 riadky: písmená, počty, percentá)."
+  },
+  {
+    id: "telefonny_zoznam",
+    kategoria: "Textové súbory",
+    nazov: "Telefónny zoznam – vyhľadávanie a pridávanie",
+    popis: "Program načíta telefónny zoznam zo súboru kontakty.txt (formát: Meno Priezvisko Cislo). Používateľ zadá meno a priezvisko: ak existuje → zobrazí číslo. Ak neexistuje → opýta sa Chceš ho pridať? a/n, ak áno → pridá na koniec kontakty.txt."
+  },
+  {
+    id: "delitelnost",
+    kategoria: "Textové súbory",
+    nazov: "Deliteľnosť čísel zo súboru",
+    popis: "Súbor cisla.txt obsahuje celé čísla (každé na novom riadku). Používateľ zadá číslo n. Program nájde všetky čísla zo súboru, ktoré sú deliteľné číslom n a vypíše ich na obrazovku."
+  }
+];
+
+
+// ===== CVIČENIA LOGIKA =====
+let cvKatFilter = 'Všetky';
+let cvCurrentZadanie = null;
+
+function getCvKategorie() {
+  const kats = ['Všetky', ...new Set(ZADANIA_CVICENIA.map(z => z.kategoria))];
+  return kats;
+}
+
+function renderCvGrid() {
+  const q = document.getElementById('cvSearch').value.toLowerCase().trim();
+  const grid = document.getElementById('cvGrid');
+  const filtered = ZADANIA_CVICENIA.filter(z => {
+    const matchKat = cvKatFilter === 'Všetky' || z.kategoria === cvKatFilter;
+    const matchQ = !q || z.nazov.toLowerCase().includes(q) || z.kategoria.toLowerCase().includes(q) || z.popis.toLowerCase().includes(q);
+    return matchKat && matchQ;
+  });
+
+  grid.innerHTML = filtered.length === 0
+    ? `<div class="empty">// Žiadne cvičenia</div>`
+    : filtered.map((z, i) => `
+      <div class="cv-card" onclick="openCvDetail('${z.id}')">
+        <div class="cv-card-header">
+          <span class="cv-kat-badge">${z.kategoria}</span>
+          <span class="cv-card-num">#${(i+1).toString().padStart(2,'0')}</span>
+        </div>
+        <div class="cv-card-body">
+          <div class="cv-card-nazov">${z.nazov}</div>
+          <div class="cv-card-popis">${z.popis}</div>
+        </div>
+        <div class="cv-card-hint">Klikni pre AI riešenie ⚡</div>
+      </div>`).join('');
+}
+
+function renderCvKatBtns() {
+  const kats = getCvKategorie();
+  const container = document.getElementById('cvKatBtns');
+  container.innerHTML = kats.map(k => `
+    <button class="fb ${k === cvKatFilter ? 'active' : ''}" onclick="setCvKat('${k}')">${k}</button>`).join('');
+}
+
+function setCvKat(kat) {
+  cvKatFilter = kat;
+  renderCvKatBtns();
+  renderCvGrid();
+}
+
+function openCvDetail(id) {
+  const z = ZADANIA_CVICENIA.find(x => x.id === id);
+  if (!z) return;
+  cvCurrentZadanie = z;
+
+  document.getElementById('cvDetailKat').textContent = z.kategoria;
+  document.getElementById('cvDetailNazov').textContent = z.nazov;
+  document.getElementById('cvDetailPopis').textContent = z.popis;
+  document.getElementById('cvGrid').style.display = 'none';
+  document.getElementById('cvDetail').style.display = 'block';
+  document.getElementById('cvOutput').style.display = 'none';
+  document.getElementById('cvLoading').style.display = 'none';
+  document.getElementById('cvError').style.display = 'none';
+  document.getElementById('cvCode').textContent = '';
+  document.getElementById('cvGenBtn').disabled = false;
+  document.getElementById('cvGenBtn').innerHTML = '<span class="cv-gen-icon">⚡</span> Generovať riešenie v C++';
+  document.querySelector('.cv-controls').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+
+document.getElementById('cvDetailBack').addEventListener('click', () => {
+  document.getElementById('cvDetail').style.display = 'none';
+  document.getElementById('cvGrid').style.display = 'grid';
+  document.querySelector('.cv-controls').style.display = 'flex';
+  cvCurrentZadanie = null;
+});
+
+document.getElementById('cvGenBtn').addEventListener('click', async () => {
+  if (!cvCurrentZadanie) return;
+  const btn = document.getElementById('cvGenBtn');
+  const loading = document.getElementById('cvLoading');
+  const output = document.getElementById('cvOutput');
+  const errorDiv = document.getElementById('cvError');
+  const codeEl = document.getElementById('cvCode');
+  const loadingText = document.getElementById('cvLoadingText');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="cv-gen-icon">⏳</span> Generujem...';
+  loading.style.display = 'block';
+  output.style.display = 'none';
+  errorDiv.style.display = 'none';
+  codeEl.textContent = '';
+
+  const msgs = [
+    'Analyzujem zadanie...',
+    'Navrhujem algoritmus...',
+    'Píšem C++ kód...',
+    'Pridávam komentáre...',
+    'Dokončujem riešenie...'
+  ];
+  let mi = 0;
+  const interval = setInterval(() => {
+    mi = (mi + 1) % msgs.length;
+    loadingText.textContent = msgs[mi];
+  }, 1800);
+
+  const prompt = `Si skúsený učiteľ C++ na strednej škole. Napíš kompletné, funkčné riešenie v C++ pre nasledujúce zadanie:
+
+ZADANIE (kategória: ${cvCurrentZadanie.kategoria}):
+${cvCurrentZadanie.nazov}
+
+POPIS:
+${cvCurrentZadanie.popis}
+
+POŽIADAVKY NA RIEŠENIE:
+- Kód musí byť v C++ (štandard C++11 alebo vyšší)
+- Zahrň všetky potrebné #include hlavičky
+- Použi slovenské komentáre vysvetľujúce každú dôležitú časť
+- Kód musí byť prehľadný a dobre naformátovaný
+- Všetky vstupy zo súborov simuluj priamo v kóde (vytvor príkladové dáta) keďže nemáme skutočné súbory
+- Pre súbory: ukáž čítanie aj zápis, ale pri čítaní použi hardcoded testovacie dáta ak súbor neexistuje
+- Pridaj hlavičkový komentár s popisom čo program robí
+- Kód musí byť spustiteľný bez úprav
+
+Odpovedz IBA čistým C++ kódom, bez markdown blokov, bez vysvetlení pred alebo po kóde. Len samotný zdrojový kód.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    clearInterval(interval);
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error?.message || `HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    let code = data.content?.map(b => b.text || '').join('') || '';
+
+    // Strip markdown code blocks if present
+    code = code.replace(/^```(?:cpp|c\+\+)?\n?/i, '').replace(/\n?```\s*$/i, '').trim();
+
+    codeEl.textContent = code;
+    output.style.display = 'block';
+    loading.style.display = 'none';
+    btn.disabled = false;
+    btn.innerHTML = '<span class="cv-gen-icon">🔄</span> Regenerovať';
+
+  } catch(e) {
+    clearInterval(interval);
+    loading.style.display = 'none';
+    errorDiv.style.display = 'block';
+    errorDiv.textContent = `Chyba: ${e.message}`;
+    btn.disabled = false;
+    btn.innerHTML = '<span class="cv-gen-icon">⚡</span> Skúsiť znova';
+  }
+});
+
+document.getElementById('cvCopy').addEventListener('click', () => {
+  const code = document.getElementById('cvCode').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.getElementById('cvCopy');
+    btn.textContent = '✓ Skopírované!';
+    setTimeout(() => btn.textContent = '📋 Kopírovať', 2000);
+  });
+});
+
+document.getElementById('cvSearch').addEventListener('input', renderCvGrid);
+
+// NAVIGATION
+function showCvicenia() {
+  document.querySelector('header').style.display = 'none';
+  document.querySelector('.ctrl').style.display = 'none';
+  document.querySelector('main').style.display = 'none';
+  document.querySelector('footer').style.display = 'none';
+  document.getElementById('sp').style.display = 'none';
+  document.getElementById('dov').classList.remove('open');
+  document.querySelector('.stb').style.display = 'none';
+  document.querySelector('.nav-cvicenia-btn').style.display = 'none';
+  document.getElementById('cviceniaSekcia').style.display = 'block';
+  document.getElementById('cvGrid').style.display = 'grid';
+  document.getElementById('cvDetail').style.display = 'none';
+  document.querySelector('.cv-controls').style.display = 'flex';
+  renderCvKatBtns();
+  renderCvGrid();
+  window.scrollTo(0, 0);
+}
+
+function showZadania() {
+  document.querySelector('header').style.display = '';
+  document.querySelector('.ctrl').style.display = '';
+  document.querySelector('main').style.display = '';
+  document.querySelector('footer').style.display = '';
+  document.querySelector('.stb').style.display = '';
+  document.querySelector('.nav-cvicenia-btn').style.display = '';
+  document.getElementById('cviceniaSekcia').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+
+document.getElementById('cvBack').addEventListener('click', showZadania);
+
+</script>
+
+<!-- ===== CVIČENIA SEKCIA ===== -->
+<div id="cviceniaSekcia" style="display:none">
+
+<div class="cv-header">
+  <button class="cv-back" id="cvBack">← Späť na zadania</button>
+  <h2 class="cv-title">Cvičenia – Riešenia v C++</h2>
+  <p class="cv-sub">Klikni na cvičenie a AI vygeneruje riešenie v C++</p>
+</div>
+
+<div class="cv-controls">
+  <div class="sw" style="max-width:400px">
+    <input type="text" id="cvSearch" placeholder="Hľadaj cvičenie...">
+  </div>
+  <div class="fbs" id="cvKatBtns"></div>
+</div>
+
+<div id="cvGrid" class="cv-grid"></div>
+
+<!-- Detail cvičenia -->
+<div id="cvDetail" style="display:none">
+  <div class="cv-detail-header">
+    <button class="cv-back-sm" id="cvDetailBack">← Späť na cvičenia</button>
+    <div class="cv-detail-badge" id="cvDetailKat"></div>
+  </div>
+  <div class="cv-detail-body">
+    <h3 id="cvDetailNazov"></h3>
+    <div class="cv-popis-box">
+      <div class="cv-popis-label">// Zadanie</div>
+      <p id="cvDetailPopis"></p>
+    </div>
+    <button class="cv-gen-btn" id="cvGenBtn">
+      <span class="cv-gen-icon">⚡</span>
+      Generovať riešenie v C++
+    </button>
+    <div id="cvOutput" style="display:none">
+      <div class="cv-output-header">
+        <span class="cv-output-label">// Riešenie C++</span>
+        <button class="cv-copy-btn" id="cvCopy">📋 Kopírovať</button>
+      </div>
+      <pre id="cvCode" class="cv-code"></pre>
+    </div>
+    <div id="cvLoading" style="display:none">
+      <div class="cv-loading">
+        <div class="cv-spinner"></div>
+        <span id="cvLoadingText">Generujem riešenie...</span>
+      </div>
+    </div>
+    <div id="cvError" style="display:none" class="cv-error"></div>
+  </div>
+</div>
+
+</div>
+<!-- ===== KONIEC CVIČENIA ===== -->
+
+
+<button class="nav-cvicenia-btn" onclick="showCvicenia()">⚡ Cvičenia C++</button>
+</body>
+</html>
