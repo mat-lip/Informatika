@@ -1196,10 +1196,7 @@ renderAll();updateStarUI();
 
 
 const RIESENIA = {
-  "hadas_cislo": `#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <fstream>
+  "hadas_cislo": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
@@ -1236,21 +1233,18 @@ int main() {
         cout << "Nevyhral si. Spravne cislo bolo: " << tajne << endl;
     }
 
-    // Zapis vysledku do suboru
+    // Zapis do suboru hra_log.txt
     ofstream log("hra_log.txt", ios::app);
-    log << "Cislo: " << tajne
-        << " | Pokusy: " << pokus << "/" << maxPokusy
+    log << "Cislo: " << tajne << " | Pokusy: " << pokus << "/" << maxPokusy
         << " | Vysledok: " << (uhadol ? "UHADOL" : "NEUHADOL") << endl;
     log.close();
 
-    cout << "Vysledok bol zapisany do hra_log.txt" << endl;
+    cout << "Vysledok zapisany do hra_log.txt" << endl;
     return 0;
 }`,
-  "nsn": `#include <iostream>
-#include <fstream>
+  "nsn": `#include<bits/stdc++.h>
 using namespace std;
 
-// Euklidov algoritmus pre NSD
 int nsd(int a, int b) {
     while (b != 0) {
         int t = b;
@@ -1260,35 +1254,33 @@ int nsd(int a, int b) {
     return a;
 }
 
-// NSN pomocou NSD: NSN(a,b) = (a*b) / NSD(a,b)
 int nsn(int a, int b) {
     return (a / nsd(a, b)) * b;
 }
 
 int main() {
-    // Simulacia suboru cisla.txt
-    int vstup[][2] = {{12, 15}, {8, 6}, {7, 3}};
-    int pocet = 3;
+    ifstream vstup("cisla.txt");
+    if (!vstup) {
+        cout << "Chyba: nemozno otvorit cisla.txt" << endl;
+        return 1;
+    }
 
     ofstream vystup("nsn_vysledky.txt");
-
-    cout << "=== Najmensi spolocny nasobok ===" << endl;
-    for (int i = 0; i < pocet; i++) {
-        int a = vstup[i][0], b = vstup[i][1];
+    int a, b;
+    while (vstup >> a >> b) {
         int vysledok = nsn(a, b);
         cout << "NSN(" << a << ", " << b << ") = " << vysledok << endl;
         vystup << "NSN(" << a << ", " << b << ") = " << vysledok << endl;
     }
 
+    vstup.close();
     vystup.close();
     cout << "Vysledky zapisane do nsn_vysledky.txt" << endl;
     return 0;
 }`,
-  "nsd": `#include <iostream>
-#include <fstream>
+  "nsd": `#include<bits/stdc++.h>
 using namespace std;
 
-// Euklidov algoritmus pre NSD
 int nsd(int a, int b) {
     while (b != 0) {
         int t = b;
@@ -1299,26 +1291,26 @@ int nsd(int a, int b) {
 }
 
 int main() {
-    // Simulacia suboru cisla.txt
-    int vstup[][2] = {{18, 12}, {24, 18}, {100, 75}};
-    int pocet = 3;
+    ifstream vstup("cisla.txt");
+    if (!vstup) {
+        cout << "Chyba: nemozno otvorit cisla.txt" << endl;
+        return 1;
+    }
 
     ofstream vystup("nsd_vysledky.txt");
-
-    cout << "=== Najvacsi spolocny delitel (Euklidov algoritmus) ===" << endl;
-    for (int i = 0; i < pocet; i++) {
-        int a = vstup[i][0], b = vstup[i][1];
+    int a, b;
+    while (vstup >> a >> b) {
         int vysledok = nsd(a, b);
         cout << "NSD(" << a << ", " << b << ") = " << vysledok << endl;
         vystup << "NSD(" << a << ", " << b << ") = " << vysledok << endl;
     }
 
+    vstup.close();
     vystup.close();
     cout << "Vysledky zapisane do nsd_vysledky.txt" << endl;
     return 0;
 }`,
-  "fibonacci": `#include <iostream>
-#include <fstream>
+  "fibonacci": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
@@ -1326,82 +1318,76 @@ int main() {
     cout << "Zadaj pocet clenov Fibonacciho postupnosti: ";
     cin >> n;
 
-    ofstream subor("fibonacci.txt");
     cout << "Fibonacciho postupnost (" << n << " clenov):" << endl;
 
+    ofstream subor("fibonacci.txt");
     long long a = 0, b = 1;
     for (int i = 1; i <= n; i++) {
         cout << a;
-        subor << a << endl;
-
         if (i % 5 == 0 || i == n) cout << endl;
         else cout << "  ";
+
+        subor << a << endl;
 
         long long c = a + b;
         a = b;
         b = c;
     }
-
     subor << "Celkovy pocet clenov: " << n << endl;
     subor.close();
     cout << "Postupnost zapisana do fibonacci.txt" << endl;
     return 0;
 }`,
-  "eratostenes_cykly": `#include <iostream>
-#include <fstream>
+  "eratostenes_cykly": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    int n;
+    int n, cislo;
     cout << "Zadaj horny limit n: ";
     cin >> n;
+    cout << "Zadaj cislo, ktoreho nasobky nahradime *: ";
+    cin >> cislo;
 
-    // Pole pre Eratostenovo sito (true = je prvocislo)
-    bool sito[1001];
-    for (int i = 0; i <= n; i++) sito[i] = true;
-    sito[0] = sito[1] = false;
-
-    for (int i = 2; i * i <= n; i++) {
-        if (sito[i]) {
-            for (int j = i * i; j <= n; j += i)
-                sito[j] = false;
-        }
-    }
-
-    // Vypis cisiel s nahradenymi nasobkami
-    cout << "\\nCisla 1 az " << n << " (nasobky nahradene *):" << endl;
+    cout << "\\nCisla 1 az " << n << " (nasobky " << cislo << " nahradene *):" << endl;
     for (int i = 1; i <= n; i++) {
-        if (sito[i]) cout << i;
-        else         cout << "*";
+        if (i != cislo && i % cislo == 0) cout << "*";
+        else cout << i;
         if (i % 10 == 0) cout << endl;
         else cout << " ";
     }
     cout << endl;
 
-    // Zapis prvocisel do suboru
+    // Eratostenovo sito pre prvocisla
+    bool sito[1001];
+    for (int i = 0; i <= n; i++) sito[i] = true;
+    sito[0] = sito[1] = false;
+    for (int i = 2; i * i <= n; i++) {
+        if (sito[i])
+            for (int j = i * i; j <= n; j += i)
+                sito[j] = false;
+    }
+
+    cout << "\\nPrvocisla: ";
     ofstream subor("prvocisla.txt");
     subor << "Prvocisla do " << n << ":" << endl;
-    cout << "\\nPrvocisla: ";
     bool first = true;
     for (int i = 2; i <= n; i++) {
         if (sito[i]) {
             if (!first) { cout << " "; subor << " "; }
-            cout << i; subor << i;
+            cout << i;
+            subor << i;
             first = false;
         }
     }
     cout << endl;
     subor << endl;
     subor.close();
-    cout << "Zapisane do prvocisla.txt" << endl;
+    cout << "Prvocisla zapisane do prvocisla.txt" << endl;
     return 0;
 }`,
-  "prevod_sustav": `#include <iostream>
-#include <fstream>
-#include <string>
+  "prevod_sustav": `#include<bits/stdc++.h>
 using namespace std;
 
-// Desiatkovove cislo -> binarny retazec
 string decToBin(int n) {
     if (n == 0) return "0";
     string bin = "";
@@ -1412,7 +1398,6 @@ string decToBin(int n) {
     return bin;
 }
 
-// Binarny retazec -> desiatkovova hodnota
 int binToDec(string bin) {
     int dec = 0, mocnina = 1;
     for (int i = bin.size() - 1; i >= 0; i--) {
@@ -1423,9 +1408,8 @@ int binToDec(string bin) {
 }
 
 int main() {
-    ofstream log("konverzie.txt");
+    ofstream subor("konverzie.txt", ios::app);
     char pokracuj = 'a';
-
     do {
         cout << "\\n1 - DEC -> BIN | 2 - BIN -> DEC | 0 - Koniec: ";
         int volba; cin >> volba;
@@ -1436,29 +1420,24 @@ int main() {
             cin >> dec;
             string bin = decToBin(dec);
             cout << "BIN: " << bin << endl;
-            log << "DEC " << dec << " -> BIN " << bin << endl;
+            subor << "DEC " << dec << " -> BIN " << bin << endl;
         } else if (volba == 2) {
             string bin;
             cout << "Zadaj binarne cislo: ";
             cin >> bin;
             int dec = binToDec(bin);
             cout << "DEC: " << dec << endl;
-            log << "BIN " << bin << " -> DEC " << dec << endl;
-        } else {
-            break;
-        }
+            subor << "BIN " << bin << " -> DEC " << dec << endl;
+        } else break;
 
         cout << "Pokracovat? (a/n): ";
         cin >> pokracuj;
     } while (pokracuj == 'a');
-
-    log.close();
+    subor.close();
     cout << "Konverzie zapisane do konverzie.txt" << endl;
     return 0;
 }`,
-  "linearna_funkcia": `#include <iostream>
-#include <fstream>
-#include <iomanip>
+  "linearna_funkcia": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
@@ -1468,54 +1447,51 @@ int main() {
     cout << "b = "; cin >> b;
 
     ofstream subor("linearna_funkcia.txt");
+    cout << fixed << setprecision(2);
+    subor << fixed << setprecision(2);
 
+    // Predpis
     cout << "\\nPredpis: f: y = " << a << "x";
-    if (b >= 0) cout << " + " << b;
-    else        cout << " - " << (-b);
-    cout << endl;
+    subor << "Predpis: f: y = " << a << "x";
+    if (b >= 0) { cout << " + " << b; subor << " + " << b; }
+    else        { cout << " - " << (-b); subor << " - " << (-b); }
+    cout << endl; subor << endl;
 
-    // Typ funkcie
     string typ;
     if (a > 0)      typ = "rastuca";
     else if (a < 0) typ = "klesajuca";
     else            typ = "konstantna";
     cout << "Typ: " << typ << endl;
+    subor << "Typ: " << typ << endl;
 
-    // Priesecniky
     if (a != 0) {
         double px = -b / a;
-        cout << fixed << setprecision(2);
         cout << "Px = [" << px << "; 0]" << endl;
         cout << "Py = [0; " << b << "]" << endl;
+        subor << "Px = [" << px << "; 0]" << endl;
+        subor << "Py = [0; " << b << "]" << endl;
         double invA = 1.0 / a;
         double invB = -b / a;
         cout << "Inverzna: f: y = " << invA << "x";
-        if (invB >= 0) cout << " + " << invB;
-        else           cout << " - " << (-invB);
-        cout << endl;
-
-        subor << "Predpis: f: y = " << a << "x" << (b>=0?" + ":" - ") << abs(b) << endl;
-        subor << "Typ: " << typ << endl;
-        subor << "Px = [" << px << "; 0]" << endl;
-        subor << "Py = [0; " << b << "]" << endl;
-        subor << "Inverzna: f: y = " << invA << "x" << (invB>=0?" + ":" - ") << abs(invB) << endl;
+        subor << "Inverzna: f: y = " << invA << "x";
+        if (invB >= 0) { cout << " + " << invB; subor << " + " << invB; }
+        else           { cout << " - " << (-invB); subor << " - " << (-invB); }
+        cout << endl; subor << endl;
     } else {
         cout << "Funkcia nema priesecnik s osou x (a=0)" << endl;
         cout << "Py = [0; " << b << "]" << endl;
         cout << "Inverzna neexistuje" << endl;
-        subor << "Konstantna funkcia, inverzna neexistuje." << endl;
+        subor << "Px neexistuje (a=0)" << endl;
+        subor << "Py = [0; " << b << "]" << endl;
+        subor << "Inverzna neexistuje" << endl;
     }
-
     subor.close();
-    cout << "\\nVysledky zapisane do linearna_funkcia.txt" << endl;
+    cout << "Analyza zapisana do linearna_funkcia.txt" << endl;
     return 0;
 }`,
-  "prvocislo_rozklad": `#include <iostream>
-#include <fstream>
-#include <vector>
+  "prvocislo_rozklad": `#include<bits/stdc++.h>
 using namespace std;
 
-// Vrati prvocisleny rozklad cisla n
 string rozklad(int n) {
     if (n <= 1) return to_string(n);
     string result = "";
@@ -1536,25 +1512,27 @@ string rozklad(int n) {
 }
 
 int main() {
-    // Simulacia suboru vstup.txt
-    int cisla[] = {72, 36, 100, 45};
-    int pocet = 4;
-
-    ofstream vystup("rozklady.txt");
-    cout << "=== Prvocisleny rozklad ===" << endl;
-
-    for (int i = 0; i < pocet; i++) {
-        string r = rozklad(cisla[i]);
-        cout << cisla[i] << " = " << r << endl;
-        vystup << cisla[i] << " = " << r << endl;
+    ifstream vstup("vstup.txt");
+    if (!vstup) {
+        cout << "Chyba: nemozno otvorit vstup.txt" << endl;
+        return 1;
     }
 
+    ofstream vystup("rozklady.txt");
+    int n;
+    while (vstup >> n) {
+        int orig = n;
+        string r = rozklad(n);
+        cout << orig << " = " << r << endl;
+        vystup << orig << " = " << r << endl;
+    }
+
+    vstup.close();
     vystup.close();
-    cout << "Zapisane do rozklady.txt" << endl;
+    cout << "Rozklady zapisane do rozklady.txt" << endl;
     return 0;
 }`,
-  "faktorial_kombinacne": `#include <iostream>
-#include <fstream>
+  "faktorial_kombinacne": `#include<bits/stdc++.h>
 using namespace std;
 
 long long FAKTORIAL(int n) {
@@ -1568,9 +1546,8 @@ long long KOMBINACNE(int n, int k) {
 }
 
 int main() {
-    ofstream log("vysledky.txt");
+    ofstream subor("vysledky.txt", ios::app);
     char pokracuj = 'a';
-
     do {
         cout << "\\n1 - Faktorial | 2 - Kombinacne cislo | 0 - Koniec: ";
         int volba; cin >> volba;
@@ -1578,38 +1555,34 @@ int main() {
         if (volba == 1) {
             int n;
             cout << "n = "; cin >> n;
-            long long f = FAKTORIAL(n);
-            cout << "FAKTORIAL(" << n << ") = " << f << endl;
-            log << "FAKTORIAL(" << n << ") = " << f << endl;
+            long long res = FAKTORIAL(n);
+            cout << "FAKTORIAL(" << n << ") = " << res << endl;
+            subor << "FAKTORIAL(" << n << ") = " << res << endl;
         } else if (volba == 2) {
             int n, k;
             cout << "n = "; cin >> n;
             cout << "k = "; cin >> k;
-            long long c = KOMBINACNE(n, k);
-            cout << "KOMBINACNE(" << n << ", " << k << ") = " << c << endl;
-            log << "KOMBINACNE(" << n << ", " << k << ") = " << c << endl;
+            long long res = KOMBINACNE(n, k);
+            cout << "KOMBINACNE(" << n << ", " << k << ") = " << res << endl;
+            subor << "KOMBINACNE(" << n << ", " << k << ") = " << res << endl;
         } else break;
 
         cout << "Pokracovat? (a/n): ";
         cin >> pokracuj;
     } while (pokracuj == 'a');
-
-    log.close();
-    cout << "Zapísané do vysledky.txt" << endl;
+    subor.close();
+    cout << "Vypocty zapisane do vysledky.txt" << endl;
     return 0;
 }`,
-  "kvadraticka_tabulacia": `#include <iostream>
-#include <fstream>
-#include <iomanip>
+  "kvadraticka_tabulacia": `#include<bits/stdc++.h>
 using namespace std;
 
-// f(x) = x^2 - 3x + 2
 #define F(x) ((x)*(x) - 3*(x) + 2)
 
 int main() {
-    ofstream subor;
     char pokracuj = 'a';
-
+    int lastA, lastB;
+    bool maNiecoZapisat = false;
     do {
         int a, b;
         cout << "Zadaj interval [a; b]:" << endl;
@@ -1618,20 +1591,14 @@ int main() {
 
         if (a >= b) { cout << "Chyba: a musi byt mensie ako b!" << endl; continue; }
 
-        subor.open("tabulacia.txt");
-        subor << "Predpis: f(x) = x^2 - 3x + 2" << endl;
-        subor << "Interval: [" << a << "; " << b << "]" << endl;
-
         cout << "\\nPredpis: f(x) = x^2 - 3x + 2" << endl;
         cout << setw(6) << "x" << setw(8) << "f(x)" << endl;
-        subor << setw(6) << "x" << setw(8) << "f(x)" << endl;
 
         string korene = "";
         bool najdeneKorene = false;
         for (int x = a; x <= b; x++) {
             int fx = F(x);
             cout << setw(6) << x << setw(8) << fx << endl;
-            subor << setw(6) << x << setw(8) << fx << endl;
             if (fx == 0) {
                 if (najdeneKorene) korene += ", ";
                 korene += "x=" + to_string(x);
@@ -1639,69 +1606,86 @@ int main() {
             }
         }
 
-        if (najdeneKorene) {
-            cout << "Korene: " << korene << endl;
-            subor << "Korene: " << korene << endl;
-        } else {
-            cout << "Ziadne korene v intervale." << endl;
-            subor << "Ziadne korene v intervale." << endl;
-        }
-        subor.close();
+        if (najdeneKorene) cout << "Korene: " << korene << endl;
+        else               cout << "Ziadne korene v intervale." << endl;
+
+        lastA = a; lastB = b;
+        maNiecoZapisat = true;
 
         cout << "Pokracovat? (a/n): ";
         cin >> pokracuj;
     } while (pokracuj == 'a');
 
-    cout << "Posledna tabulacia zapisana do tabulacia.txt" << endl;
+    // Zapis poslednej tabulky do suboru
+    if (maNiecoZapisat) {
+        ofstream subor("tabulacia.txt");
+        subor << "Predpis: f(x) = x^2 - 3x + 2" << endl;
+        subor << "Interval: [" << lastA << "; " << lastB << "]" << endl;
+        subor << left << setw(6) << "x" << setw(8) << "f(x)" << endl;
+        string korene = "";
+        bool najdeneKorene = false;
+        for (int x = lastA; x <= lastB; x++) {
+            int fx = F(x);
+            subor << left << setw(6) << x << setw(8) << fx << endl;
+            if (fx == 0) {
+                if (najdeneKorene) korene += ", ";
+                korene += "x=" + to_string(x);
+                najdeneKorene = true;
+            }
+        }
+        if (najdeneKorene) subor << "Korene: " << korene << endl;
+        else               subor << "Ziadne korene v intervale." << endl;
+        subor.close();
+        cout << "Posledna tabulka zapisana do tabulacia.txt" << endl;
+    }
     return 0;
 }`,
-  "trojuholnik": `#include <iostream>
-#include <fstream>
-#include <cmath>
-#include <iomanip>
+  "trojuholnik": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia suboru body.txt: A(3,4) B(-1,5) C(0,8)
-    double ax=3, ay=4, bx=-1, by=5, cx=0, cy=8;
-    cout << "Body zo suboru body.txt: A(" << ax << "," << ay
-         << ") B(" << bx << "," << by << ") C(" << cx << "," << cy << ")" << endl;
+    ifstream vstup("body.txt");
+    if (!vstup) {
+        cout << "Chyba: nemozno otvorit body.txt" << endl;
+        return 1;
+    }
 
-    // Dlzky stran
-    double a = sqrt((cx-bx)*(cx-bx) + (cy-by)*(cy-by)); // BC
-    double b = sqrt((cx-ax)*(cx-ax) + (cy-ay)*(cy-ay)); // AC
-    double c = sqrt((bx-ax)*(bx-ax) + (by-ay)*(by-ay)); // AB
+    double ax, ay, bx, by, cx, cy;
+    vstup >> ax >> ay >> bx >> by >> cx >> cy;
+    vstup.close();
 
+    double a = sqrt((cx-bx)*(cx-bx) + (cy-by)*(cy-by));
+    double b = sqrt((cx-ax)*(cx-ax) + (cy-ay)*(cy-ay));
+    double c = sqrt((bx-ax)*(bx-ax) + (by-ay)*(by-ay));
+
+    ofstream subor("trojuholnik.txt");
     cout << fixed << setprecision(2);
-    cout << "Strany: a=" << a << ", b=" << b << ", c=" << c << endl;
+    subor << fixed << setprecision(2);
 
-    // Trojuholnikova nerovnost
+    cout << "Body: A(" << ax << "," << ay << ") B(" << bx << "," << by << ") C(" << cx << "," << cy << ")" << endl;
+    subor << "Body: A(" << ax << "," << ay << ") B(" << bx << "," << by << ") C(" << cx << "," << cy << ")" << endl;
+
     if (a+b > c && a+c > b && b+c > a) {
         double obvod = a + b + c;
         double s = obvod / 2.0;
         double obsah = sqrt(s*(s-a)*(s-b)*(s-c));
-
-        cout << "Trojuholnik EXISTUJE." << endl;
+        cout << "Trojuholnik existuje." << endl;
+        cout << "Strany: a=" << a << ", b=" << b << ", c=" << c << endl;
         cout << "Obvod: " << obvod << endl;
         cout << "Obsah (Heron): " << obsah << endl;
-
-        ofstream f("trojuholnik.txt");
-        f << fixed << setprecision(2);
-        f << "Body: A(" << ax << "," << ay << ") B(" << bx << "," << by << ") C(" << cx << "," << cy << ")" << endl;
-        f << "Trojuholnik existuje." << endl;
-        f << "Strany: a=" << a << ", b=" << b << ", c=" << c << endl;
-        f << "Obvod: " << obvod << endl;
-        f << "Obsah: " << obsah << endl;
-        f.close();
+        subor << "Trojuholnik existuje." << endl;
+        subor << "Strany: a=" << a << ", b=" << b << ", c=" << c << endl;
+        subor << "Obvod: " << obvod << endl;
+        subor << "Obsah (Heron): " << obsah << endl;
     } else {
         cout << "Body NETVORIA trojuholnik!" << endl;
+        subor << "Body netvoria trojuholnik." << endl;
     }
-
+    subor.close();
     cout << "Vysledky zapisane do trojuholnik.txt" << endl;
     return 0;
 }`,
-  "posledne_prvocislo": `#include <iostream>
-#include <fstream>
+  "posledne_prvocislo": `#include<bits/stdc++.h>
 using namespace std;
 
 bool jePrvocislo(int n) {
@@ -1718,86 +1702,74 @@ int poslednePrvocislo(int n) {
 }
 
 int main() {
-    // Simulacia suboru vstup.txt
-    int cisla[] = {23, 2, 1, 50, 10};
-    int pocet = 5;
+    ifstream vstup("vstup.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit vstup.txt" << endl; return 1; }
 
     ofstream vystup("vysledky.txt");
-    cout << "=== Posledne prvocislo pred n ===" << endl;
-
-    for (int i = 0; i < pocet; i++) {
-        int n = cisla[i];
-        string riadok = to_string(n) + " -> ";
-
-        if (n <= 2) {
-            if (n == 2) riadok += "2 je najmenšie prvočíslo";
-            else        riadok += "Žiadne prvočíslo menšie ako 2 neexistuje";
+    int n;
+    while (vstup >> n) {
+        string riadok;
+        if (n < 2) {
+            riadok = to_string(n) + " -> Ziadne prvocislo mensie ako 2 neexistuje";
+        } else if (n == 2) {
+            riadok = "2 -> 2 je najmenšie prvočíslo";
         } else {
-            int p = poslednePrvocislo(n);
-            riadok += "posledne prvocislo: " + to_string(p);
+            riadok = to_string(n) + " -> posledne prvocislo: " + to_string(poslednePrvocislo(n));
         }
-
         cout << riadok << endl;
         vystup << riadok << endl;
     }
-
+    vstup.close();
     vystup.close();
-    cout << "Zapisane do vysledky.txt" << endl;
+    cout << "Vysledky zapisane do vysledky.txt" << endl;
     return 0;
 }`,
-  "sustava_rovnic": `#include <iostream>
-#include <fstream>
-#include <iomanip>
+  "sustava_rovnic": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia suboru sustavy.txt: "2 1 3 1 -1 6"
-    double sustavy[][6] = {{2,1,3,1,-1,6}, {3,2,5,-1,4,8}};
-    int pocet = 2;
+    ifstream vstup("sustavy.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit sustavy.txt" << endl; return 1; }
 
     ofstream vystup("sustav_riesenia.txt");
     cout << fixed << setprecision(2);
-    cout << "=== Sústava lineárnych rovníc (Cramerovo pravidlo) ===" << endl;
+    vystup << fixed << setprecision(2);
 
-    for (int i = 0; i < pocet; i++) {
-        double a=sustavy[i][0], b=sustavy[i][1], c=sustavy[i][2];
-        double d=sustavy[i][3], e=sustavy[i][4], f=sustavy[i][5];
-
-        cout << "\\nSustava: " << a << "x + " << b << "y = " << c
-             << ", " << d << "x + " << e << "y = " << f << endl;
+    double a, b, c, d, e, f;
+    while (vstup >> a >> b >> c >> d >> e >> f) {
+        string sustava = to_string((int)a) + "x + " + to_string((int)b) + "y = " + to_string((int)c)
+                       + ", " + to_string((int)d) + "x + (" + to_string((int)e) + ")y = " + to_string((int)f);
+        cout << "Sustava: " << sustava << endl;
+        vystup << "Sustava: " << sustava << endl;
 
         double D  = a*e - b*d;
         double Dx = c*e - b*f;
         double Dy = a*f - c*d;
 
-        vystup << "Sustava: " << a << "x + (" << b << ")y = " << c
-               << ", " << d << "x + (" << e << ")y = " << f << endl;
-
         if (D == 0) {
-            cout << "Sústava nemá jediné riešenie (D=0)." << endl;
-            vystup << "Žiadne jediné riešenie (D=0)." << endl;
+            cout << "Sustava nema jedine riesenie (D=0)." << endl;
+            vystup << "Sustava nema jedine riesenie (D=0)." << endl;
         } else {
-            double x = Dx / D, y = Dy / D;
-            cout << "Riesenie: x=" << x << ", y=" << y << endl;
-            vystup << "Riesenie: x=" << x << ", y=" << y << endl;
+            string ries = "Riesenie: x=" + to_string(Dx/D).substr(0,4) + ", y=" + to_string(Dy/D).substr(0,4);
+            cout << "Riesenie: x=" << Dx/D << ", y=" << Dy/D << endl;
+            vystup << "Riesenie: x=" << Dx/D << ", y=" << Dy/D << endl;
         }
+        vystup << endl;
     }
-
+    vstup.close();
     vystup.close();
-    cout << "\\nZapisane do sustav_riesenia.txt" << endl;
+    cout << "Riesenia zapisane do sustav_riesenia.txt" << endl;
     return 0;
 }`,
-  "kalkulacka": `#include <iostream>
-#include <fstream>
-#include <iomanip>
+  "kalkulacka": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    ofstream log("historia.txt");
     int celkovo = 0, uspesne = 0;
     char pokracuj = 'a';
-
     cout << fixed << setprecision(2);
+
+    ofstream hist("historia.txt");
 
     do {
         double a, b;
@@ -1805,53 +1777,38 @@ int main() {
         cout << "\\nZadaj: cislo operacia cislo (napr. 4 + 3): ";
         cin >> a >> op >> b;
 
-        double vysledok = 0;
-        bool ok = true;
-        string riadok = to_string((int)a);
-        riadok += " " + string(1,op) + " " + to_string((int)b) + " = ";
+        string zaznam = to_string(a).substr(0,4) + " " + op + " " + to_string(b).substr(0,4) + " = ";
+        bool uspech = true;
 
-        if      (op == '+') vysledok = a + b;
-        else if (op == '-') vysledok = a - b;
-        else if (op == '*') vysledok = a * b;
+        if      (op == '+') { double r = a+b; cout << "= " << r << endl; hist << a << " + " << b << " = " << r << endl; uspesne++; }
+        else if (op == '-') { double r = a-b; cout << "= " << r << endl; hist << a << " - " << b << " = " << r << endl; uspesne++; }
+        else if (op == '*') { double r = a*b; cout << "= " << r << endl; hist << a << " * " << b << " = " << r << endl; uspesne++; }
         else if (op == '/') {
-            if (b == 0) {
-                cout << "CHYBA: delenie nulou!" << endl;
-                riadok += "CHYBA: delenie nulou";
-                ok = false;
-            } else {
-                vysledok = a / b;
-            }
-        } else { cout << "Neznama operacia!" << endl; continue; }
-
-        if (ok) {
-            cout << "Vysledok: " << vysledok << endl;
-            riadok += to_string(vysledok);
-            uspesne++;
-        }
-
-        log << riadok << endl;
+            if (b == 0) { cout << "CHYBA: delenie nulou!" << endl; hist << a << " / " << b << " = CHYBA: delenie nulou" << endl; uspech = false; }
+            else { double r = a/b; cout << "= " << r << endl; hist << a << " / " << b << " = " << r << endl; uspesne++; }
+        } else { cout << "Neznama operacia!" << endl; uspech = false; }
         celkovo++;
 
         cout << "Pokracovat? (a/n): ";
         cin >> pokracuj;
     } while (pokracuj == 'a');
 
-    log << "Celkovo operacii: " << celkovo << " (" << uspesne << " uspesnych)" << endl;
-    log.close();
-    cout << "\\nCelkovo operacii: " << celkovo << endl;
+    hist << "Celkovo operacii: " << celkovo << " (" << uspesne << " uspesnych)" << endl;
+    hist.close();
+
+    cout << "\\nCelkovo operacii: " << celkovo << " (" << uspesne << " uspesnych)" << endl;
     cout << "Historia zapisana do historia.txt" << endl;
     return 0;
 }`,
-  "kvadraticka_rovnica": `#include <iostream>
-#include <fstream>
-#include <cmath>
-#include <iomanip>
+  "kvadraticka_rovnica": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    ofstream log("rovnica.txt");
-    log << fixed << setprecision(4);
     char pokracuj = 'a';
+    cout << fixed << setprecision(4);
+
+    ofstream subor("rovnica.txt");
+    subor << fixed << setprecision(4);
 
     do {
         double a, b, c;
@@ -1860,48 +1817,46 @@ int main() {
         cout << "b = "; cin >> b;
         cout << "c = "; cin >> c;
 
-        log << "---" << endl;
-        log << "Koeficienty: a=" << a << ", b=" << b << ", c=" << c << endl;
+        subor << "Koeficienty: a=" << a << ", b=" << b << ", c=" << c << endl;
 
         if (a == 0 && b == 0 && c == 0) {
             cout << "Nekonecne vela rieseni." << endl;
-            log << "Nekonecne vela rieseni." << endl;
+            subor << "Nekonecne vela rieseni." << endl;
         } else if (a == 0 && b == 0) {
             cout << "Nema riesenie." << endl;
-            log << "Nema riesenie." << endl;
+            subor << "Nema riesenie." << endl;
         } else if (a == 0) {
-            double x = -c / b;
+            double x = -c/b;
             cout << "Linearna rovnica, x = " << x << endl;
-            log << "Linearna rovnica, x = " << x << endl;
+            subor << "x = " << x << endl;
         } else {
             double D = b*b - 4*a*c;
-            log << "D = " << D << endl;
+            cout << "D = " << D << endl;
+            subor << "D = " << D << endl;
             if (D > 0) {
-                double x1 = (-b + sqrt(D)) / (2*a);
-                double x2 = (-b - sqrt(D)) / (2*a);
-                cout << "D=" << D << " -> x1=" << x1 << ", x2=" << x2 << endl;
-                log << "x1=" << x1 << ", x2=" << x2 << endl;
+                double x1 = (-b+sqrt(D))/(2*a), x2 = (-b-sqrt(D))/(2*a);
+                cout << "x1=" << x1 << ", x2=" << x2 << endl;
+                subor << "x1=" << x1 << ", x2=" << x2 << endl;
             } else if (D == 0) {
-                double x = -b / (2*a);
-                cout << "D=0 -> x12=" << x << endl;
-                log << "x12=" << x << endl;
+                double x12 = -b/(2*a);
+                cout << "x12=" << x12 << endl;
+                subor << "x12 = " << x12 << endl;
             } else {
-                cout << "D=" << D << " -> Ziadne realne korene." << endl;
-                log << "Ziadne realne korene." << endl;
+                cout << "Ziadne realne korene." << endl;
+                subor << "Ziadne realne korene." << endl;
             }
         }
+        subor << "---" << endl;
 
         cout << "Pokracovat? (a/n): ";
         cin >> pokracuj;
     } while (pokracuj == 'a');
 
-    log.close();
-    cout << "Zapisane do rovnica.txt" << endl;
+    subor.close();
+    cout << "Vysledky zapisane do rovnica.txt" << endl;
     return 0;
 }`,
-  "otocenie_matice": `#include <iostream>
-#include <fstream>
-#include <iomanip>
+  "otocenie_matice": `#include<bits/stdc++.h>
 using namespace std;
 
 void vypisMaticu(int m[][10], int riadky, int stlpce) {
@@ -1913,14 +1868,21 @@ void vypisMaticu(int m[][10], int riadky, int stlpce) {
 }
 
 int main() {
-    // Simulacia suboru matica.txt (3x3)
-    int riadky = 3, stlpce = 3;
-    int m[10][10] = {{1,2,3},{4,5,6},{7,8,9}};
+    ifstream vstup("matica.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit matica.txt" << endl; return 1; }
+
+    int riadky, stlpce;
+    vstup >> riadky >> stlpce;
+
+    int m[10][10];
+    for (int i = 0; i < riadky; i++)
+        for (int j = 0; j < stlpce; j++)
+            vstup >> m[i][j];
+    vstup.close();
 
     cout << "Povodna matica (" << riadky << "x" << stlpce << "):" << endl;
     vypisMaticu(m, riadky, stlpce);
 
-    // Otocenie o 90 stupnov doprava: m_out[j][riadky-1-i] = m[i][j]
     int otocena[10][10];
     for (int i = 0; i < riadky; i++)
         for (int j = 0; j < stlpce; j++)
@@ -1929,74 +1891,81 @@ int main() {
     cout << "\\nOtocena matica o 90 stupnov doprava (" << stlpce << "x" << riadky << "):" << endl;
     vypisMaticu(otocena, stlpce, riadky);
 
-    ofstream subor("otocena.txt");
+    ofstream vystup("otocena.txt");
     for (int i = 0; i < stlpce; i++) {
-        for (int j = 0; j < riadky; j++)
-            subor << setw(4) << otocena[i][j];
-        subor << endl;
+        for (int j = 0; j < riadky; j++) {
+            if (j > 0) vystup << " ";
+            vystup << otocena[i][j];
+        }
+        vystup << endl;
     }
-    subor.close();
-    cout << "\\nOtocena matica zapisana do otocena.txt" << endl;
+    vystup.close();
+    cout << "Otocena matica zapisana do otocena.txt" << endl;
     return 0;
 }`,
-  "sucin_matic": `#include <iostream>
-#include <fstream>
-#include <iomanip>
+  "sucin_matic": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Matica A (2x3) a B (3x2) zo suborov
-    int mA = 2, nA = 3;
-    int mB = 3, nB = 2;
-    int A[10][10] = {{1,2,3},{4,5,6}};
-    int B[10][10] = {{7,8},{9,10},{11,12}};
+    ifstream fA("maticaA.txt"), fB("maticaB.txt");
+    if (!fA) { cout << "Chyba: nemozno otvorit maticaA.txt" << endl; return 1; }
+    if (!fB) { cout << "Chyba: nemozno otvorit maticaB.txt" << endl; return 1; }
 
-    cout << "Matica A (" << mA << "x" << nA << "):" << endl;
-    for (int i = 0; i < mA; i++) {
-        for (int j = 0; j < nA; j++) cout << setw(4) << A[i][j];
-        cout << endl;
-    }
-    cout << "Matica B (" << mB << "x" << nB << "):" << endl;
-    for (int i = 0; i < mB; i++) {
-        for (int j = 0; j < nB; j++) cout << setw(4) << B[i][j];
-        cout << endl;
-    }
+    int mA, nA, mB, nB;
+    fA >> mA >> nA;
+    int A[10][10];
+    for (int i = 0; i < mA; i++)
+        for (int j = 0; j < nA; j++) fA >> A[i][j];
+    fA.close();
+
+    fB >> mB >> nB;
+    int B[10][10];
+    for (int i = 0; i < mB; i++)
+        for (int j = 0; j < nB; j++) fB >> B[i][j];
+    fB.close();
 
     if (nA != mB) {
         cout << "CHYBA: sucin nie je mozny! (stlpce A != riadky B)" << endl;
         return 1;
     }
 
-    // Vypocet C = A x B (mA x nB)
     int C[10][10] = {};
     for (int i = 0; i < mA; i++)
         for (int j = 0; j < nB; j++)
             for (int k = 0; k < nA; k++)
                 C[i][j] += A[i][k] * B[k][j];
 
-    cout << "\\nSucin C = A x B (" << mA << "x" << nB << "):" << endl;
-    ofstream subor("sucin.txt");
-    subor << "Sucin A x B (" << mA << "x" << nB << "):" << endl;
+    cout << "Sucin C = A x B (" << mA << "x" << nB << "):" << endl;
+    ofstream vystup("sucin.txt");
+    vystup << "Sucin A x B (" << mA << "x" << nB << "):" << endl;
     for (int i = 0; i < mA; i++) {
         for (int j = 0; j < nB; j++) {
             cout << setw(4) << C[i][j];
-            subor << setw(4) << C[i][j];
+            if (j > 0) vystup << " ";
+            vystup << C[i][j];
         }
-        cout << endl; subor << endl;
+        cout << endl;
+        vystup << endl;
     }
-    subor.close();
-    cout << "Zapisane do sucin.txt" << endl;
+    vystup.close();
+    cout << "Sucin zapisany do sucin.txt" << endl;
     return 0;
 }`,
-  "transponovana_matica": `#include <iostream>
-#include <fstream>
-#include <iomanip>
+  "transponovana_matica": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia matica.txt: 5x3
-    int riadky = 5, stlpce = 3;
-    int m[10][10] = {{2,9,5},{7,9,1},{8,2,7},{4,5,6},{6,6,6}};
+    ifstream vstup("matica.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit matica.txt" << endl; return 1; }
+
+    int riadky, stlpce;
+    vstup >> riadky >> stlpce;
+
+    int m[10][10];
+    for (int i = 0; i < riadky; i++)
+        for (int j = 0; j < stlpce; j++)
+            vstup >> m[i][j];
+    vstup.close();
 
     cout << "Povodna matica (" << riadky << "x" << stlpce << "):" << endl;
     for (int i = 0; i < riadky; i++) {
@@ -2005,29 +1974,36 @@ int main() {
     }
 
     cout << "\\nTransponovana matica (" << stlpce << "x" << riadky << "):" << endl;
-    ofstream subor("transponovana.txt");
-    subor << stlpce << " " << riadky << endl;
-
+    ofstream vystup("transponovana.txt");
+    vystup << stlpce << " " << riadky << endl;
     for (int j = 0; j < stlpce; j++) {
         for (int i = 0; i < riadky; i++) {
             cout << setw(4) << m[i][j];
-            subor << setw(4) << m[i][j];
+            if (i > 0) vystup << " ";
+            vystup << m[i][j];
         }
-        cout << endl; subor << endl;
+        cout << endl;
+        vystup << endl;
     }
-    subor.close();
+    vystup.close();
     cout << "Transponovana matica zapisana do transponovana.txt" << endl;
     return 0;
 }`,
-  "sucet_stlpcov": `#include <iostream>
-#include <fstream>
-#include <iomanip>
+  "sucet_stlpcov": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia matica.txt: 5x4
-    int riadky = 5, stlpce = 4;
-    int m[10][10] = {{4,3,0,0},{-2,0,-1,0},{3,6,6,-1},{6,-1,3,6},{2,6,-1,2}};
+    ifstream vstup("matica.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit matica.txt" << endl; return 1; }
+
+    int riadky, stlpce;
+    vstup >> riadky >> stlpce;
+
+    int m[10][10];
+    for (int i = 0; i < riadky; i++)
+        for (int j = 0; j < stlpce; j++)
+            vstup >> m[i][j];
+    vstup.close();
 
     cout << "Matica (" << riadky << "x" << stlpce << "):" << endl;
     for (int i = 0; i < riadky; i++) {
@@ -2035,101 +2011,104 @@ int main() {
         cout << endl;
     }
 
-    ofstream subor("sucty_stlpcov.txt");
     cout << "\\nSucty stlpcov:" << endl;
-
+    ofstream vystup("sucty_stlpcov.txt");
     for (int j = 0; j < stlpce; j++) {
         int sucet = 0;
         for (int i = 0; i < riadky; i++) sucet += m[i][j];
         cout << "Stlpec " << j+1 << ": " << sucet << endl;
-        subor << "Sucet stlpca " << j+1 << ": " << sucet << endl;
+        vystup << "Sucet stlpca " << j+1 << ": " << sucet << endl;
     }
-
-    subor.close();
-    cout << "Zapisane do sucty_stlpcov.txt" << endl;
+    vystup.close();
+    cout << "Sucty zapisane do sucty_stlpcov.txt" << endl;
     return 0;
 }`,
-  "sucet_dvoch_matic": `#include <iostream>
-#include <fstream>
-#include <iomanip>
+  "sucet_dvoch_matic": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
     char pokracuj = 'a';
-
     do {
-        // Simulacia maticA.txt a maticB.txt: obe 2x3
-        int rA=2, cA=3, rB=2, cB=3;
-        int A[10][10] = {{-3,0,-3},{1,-5,-2}};
-        int B[10][10] = {{1,0,1},{3,-1,3}};
+        ifstream fA("maticaA.txt"), fB("maticaB.txt");
+        if (!fA || !fB) { cout << "Chyba: nemozno otvorit maticaA.txt alebo maticaB.txt" << endl; return 1; }
+
+        int rA, cA, rB, cB;
+        fA >> rA >> cA;
+        int A[10][10];
+        for (int i = 0; i < rA; i++)
+            for (int j = 0; j < cA; j++) fA >> A[i][j];
+        fA.close();
+
+        fB >> rB >> cB;
+        int B[10][10];
+        for (int i = 0; i < rB; i++)
+            for (int j = 0; j < cB; j++) fB >> B[i][j];
+        fB.close();
 
         if (rA != rB || cA != cB) {
             cout << "CHYBA: Matice nemaju rovnake rozmery!" << endl;
         } else {
             cout << "Sucet A + B (" << rA << "x" << cA << "):" << endl;
-            ofstream subor("sucet.txt");
-            subor << "Sucet A + B (" << rA << "x" << cA << "):" << endl;
+            ofstream vystup("sucet.txt");
+            vystup << "Sucet A + B (" << rA << "x" << cA << "):" << endl;
             for (int i = 0; i < rA; i++) {
                 for (int j = 0; j < cA; j++) {
-                    int s = A[i][j] + B[i][j];
-                    cout << setw(5) << s;
-                    subor << setw(5) << s;
+                    cout << setw(5) << A[i][j] + B[i][j];
+                    if (j > 0) vystup << " ";
+                    vystup << A[i][j] + B[i][j];
                 }
-                cout << endl; subor << endl;
+                cout << endl;
+                vystup << endl;
             }
-            subor.close();
-            cout << "Zapisane do sucet.txt" << endl;
+            vystup.close();
+            cout << "Sucet zapisany do sucet.txt" << endl;
         }
 
         cout << "Pokracovat? (a/n): ";
         cin >> pokracuj;
     } while (pokracuj == 'a');
-
     return 0;
 }`,
-  "zalozny_server": `#include <iostream>
-#include <fstream>
+  "zalozny_server": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia suboru servery.txt
-    int vykony[] = {124,145,120,170,168,153,197,103,159,126,126,152,139,196,197};
-    int n = 15;
+    ifstream vstup("servery.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit servery.txt" << endl; return 1; }
 
-    cout << "Vykony: ";
-    for (int i = 0; i < n; i++) cout << vykony[i] << " ";
-    cout << endl;
+    int vykony[100], n = 0;
+    while (vstup >> vykony[n]) n++;
+    vstup.close();
 
-    // Najdi maximum a druhe maximum
     int max1 = -1, max2 = -1;
     for (int i = 0; i < n; i++) {
         if (vykony[i] > max1) { max2 = max1; max1 = vykony[i]; }
         else if (vykony[i] > max2 && vykony[i] != max1) max2 = vykony[i];
     }
 
+    cout << "Vykony: ";
+    for (int i = 0; i < n; i++) cout << vykony[i] << (i<n-1?" ":"");
+    cout << endl;
     cout << "Hlavny server (max vykon): " << max1 << endl;
     cout << "Zalozny server (2. najvyssi): " << max2 << endl;
 
-    ofstream subor("vysledok.txt");
-    subor << "Vykony: ";
-    for (int i = 0; i < n; i++) subor << vykony[i] << " ";
-    subor << endl;
-    subor << "Hlavny server (max vykon): " << max1 << endl;
-    subor << "Zalozny server (2. najvyssi): " << max2 << endl;
-    subor.close();
-    cout << "Zapisane do vysledok.txt" << endl;
+    ofstream vystup("vysledok.txt");
+    vystup << "Vykony: ";
+    for (int i = 0; i < n; i++) vystup << vykony[i] << (i<n-1?" ":"");
+    vystup << endl;
+    vystup << "Hlavny server (max vykon): " << max1 << endl;
+    vystup << "Zalozny server (2. najvyssi): " << max2 << endl;
+    vystup.close();
+    cout << "Vysledok zapisany do vysledok.txt" << endl;
     return 0;
 }`,
-  "eratostenes_pole": `#include <iostream>
-#include <fstream>
+  "eratostenes_pole": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
     int N;
-    cout << "Zadaj horny limit N: ";
-    cin >> N;
+    cout << "Zadaj horny limit N: "; cin >> N;
 
-    // Pole bool: true = prvocislo
     bool sito[10001];
     for (int i = 0; i <= N; i++) sito[i] = true;
     sito[0] = sito[1] = false;
@@ -2141,251 +2120,246 @@ int main() {
         }
     }
 
-    ofstream subor("prvocisla.txt");
     cout << "Prvocisla do " << N << ":" << endl;
+    ofstream subor("prvocisla.txt");
     subor << "Prvocisla do " << N << ":" << endl;
-
     bool first = true;
     for (int i = 2; i <= N; i++) {
         if (sito[i]) {
             if (!first) { cout << " "; subor << " "; }
-            cout << i; subor << i;
+            cout << i;
+            subor << i;
             first = false;
         }
     }
-    cout << endl; subor << endl;
+    cout << endl;
+    subor << endl;
     subor.close();
-    cout << "Zapisane do prvocisla.txt" << endl;
+    cout << "Prvocisla zapisane do prvocisla.txt" << endl;
     return 0;
 }`,
-  "spolocne_prvky": `#include <iostream>
-#include <fstream>
-#include <algorithm>
+  "spolocne_prvky": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia polia.txt: tri riadky
-    int p1[] = {1,2,4,4,4,5}, n1=6;
-    int p2[] = {1,2,3,4,4},   n2=5;
-    int p3[] = {2,3,3,3,4,4,4}, n3=7;
+    ifstream vstup("polia.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit polia.txt" << endl; return 1; }
+
+    int n1, n2, n3;
+    int p1[100], p2[100], p3[100];
+
+    vstup >> n1;
+    for (int i = 0; i < n1; i++) vstup >> p1[i];
+    vstup >> n2;
+    for (int i = 0; i < n2; i++) vstup >> p2[i];
+    vstup >> n3;
+    for (int i = 0; i < n3; i++) vstup >> p3[i];
+    vstup.close();
 
     sort(p1, p1+n1);
     sort(p2, p2+n2);
     sort(p3, p3+n3);
 
-    ofstream subor("spolocne.txt");
-    cout << "Spolocne prvky: ";
-    subor << "Spolocne prvky: ";
+    string spolocne = "";
     bool najdene = false;
-
-    // Prejdi p1, hladaj v p2 aj p3
-    int i=0;
+    int i = 0;
     while (i < n1) {
         int v = p1[i];
-        // Pocet v p1
         int c1=0; int ii=i;
         while (ii<n1 && p1[ii]==v) { c1++; ii++; }
-        int c2=0;
-        for (int j=0;j<n2;j++) if (p2[j]==v) c2++;
-        int c3=0;
-        for (int j=0;j<n3;j++) if (p3[j]==v) c3++;
+        int c2=0; for (int j=0;j<n2;j++) if (p2[j]==v) c2++;
+        int c3=0; for (int j=0;j<n3;j++) if (p3[j]==v) c3++;
         int cnt = min({c1,c2,c3});
         for (int k=0; k<cnt; k++) {
-            cout << v << " "; subor << v << " ";
+            if (najdene) spolocne += " ";
+            spolocne += to_string(v);
             najdene = true;
         }
         i = ii;
     }
 
-    if (!najdene) { cout << "ziadne"; subor << "ziadne"; }
-    cout << endl; subor << endl;
-    subor.close();
-    cout << "Zapisane do spolocne.txt" << endl;
+    string vystupStr = najdene ? "Spolocne prvky: " + spolocne : "Spolocne prvky: ziadne";
+    cout << vystupStr << endl;
+
+    ofstream vystup("spolocne.txt");
+    vystup << vystupStr << endl;
+    vystup.close();
+    cout << "Vysledok zapisany do spolocne.txt" << endl;
     return 0;
 }`,
-  "skalarny_vektorovy": `#include <iostream>
-#include <fstream>
+  "skalarny_vektorovy": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia vektory.txt: u=(1,-1,3), v=(2,0,3)
-    int u[] = {1, -1, 3};
-    int v[] = {2, 0, 3};
+    ifstream vstup("vektory.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit vektory.txt" << endl; return 1; }
 
-    cout << "Vektor u: (" << u[0] << ", " << u[1] << ", " << u[2] << ")" << endl;
-    cout << "Vektor v: (" << v[0] << ", " << v[1] << ", " << v[2] << ")" << endl;
+    int u[3], v[3];
+    vstup >> u[0] >> u[1] >> u[2];
+    vstup >> v[0] >> v[1] >> v[2];
+    vstup.close();
 
-    // Skalarny sucin
     int skalar = u[0]*v[0] + u[1]*v[1] + u[2]*v[2];
-    cout << "Skalarny sucin u.v = " << skalar << endl;
-
-    // Vektorovy sucin
     int w0 = u[1]*v[2] - u[2]*v[1];
     int w1 = u[2]*v[0] - u[0]*v[2];
     int w2 = u[0]*v[1] - u[1]*v[0];
+
+    cout << "Vektor u: (" << u[0] << ", " << u[1] << ", " << u[2] << ")" << endl;
+    cout << "Vektor v: (" << v[0] << ", " << v[1] << ", " << v[2] << ")" << endl;
+    cout << "Skalarny sucin u.v = " << skalar << endl;
     cout << "Vektorovy sucin u x v = (" << w0 << ", " << w1 << ", " << w2 << ")" << endl;
 
-    ofstream subor("suciny.txt");
-    subor << "Vektor u: (" << u[0] << ", " << u[1] << ", " << u[2] << ")" << endl;
-    subor << "Vektor v: (" << v[0] << ", " << v[1] << ", " << v[2] << ")" << endl;
-    subor << "Skalarny sucin u.v = " << skalar << endl;
-    subor << "Vektorovy sucin u x v = (" << w0 << ", " << w1 << ", " << w2 << ")" << endl;
-    subor.close();
-    cout << "Zapisane do suciny.txt" << endl;
+    ofstream vystup("suciny.txt");
+    vystup << "Vektor u: (" << u[0] << ", " << u[1] << ", " << u[2] << ")" << endl;
+    vystup << "Vektor v: (" << v[0] << ", " << v[1] << ", " << v[2] << ")" << endl;
+    vystup << "Skalarny sucin u.v = " << skalar << endl;
+    vystup << "Vektorovy sucin u x v = (" << w0 << ", " << w1 << ", " << w2 << ")" << endl;
+    vystup.close();
+    cout << "Vysledky zapisane do suciny.txt" << endl;
     return 0;
 }`,
-  "dvojice_sucet": `#include <iostream>
-#include <fstream>
+  "dvojice_sucet": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia vstup.txt
-    int pole[] = {1,2,4,5,10,4,9,3,8,8,7,1,5,2,2};
-    int n = 15, ciel = 5;
+    ifstream vstup("vstup.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit vstup.txt" << endl; return 1; }
+
+    int n;
+    vstup >> n;
+    int pole[100];
+    for (int i = 0; i < n; i++) vstup >> pole[i];
+    int ciel;
+    vstup >> ciel;
+    vstup.close();
 
     cout << "Cielovy sucet: " << ciel << endl;
     cout << "Dvojice:" << endl;
 
-    ofstream subor("dvojice.txt");
-    subor << "Cielovy sucet: " << ciel << endl;
-    subor << "Dvojice:" << endl;
+    ofstream vystup("dvojice.txt");
+    vystup << "Cielovy sucet: " << ciel << endl;
+    vystup << "Dvojice:" << endl;
 
     int pocet = 0;
     for (int i = 0; i < n; i++) {
         for (int j = i + 1; j < n; j++) {
             if (pole[i] + pole[j] == ciel) {
                 cout << pole[i] << " " << pole[j] << endl;
-                subor << pole[i] << " " << pole[j] << endl;
+                vystup << pole[i] << " " << pole[j] << endl;
                 pocet++;
             }
         }
     }
-
     cout << "Pocet dvojic: " << pocet << endl;
-    subor << "Pocet dvojic: " << pocet << endl;
-    subor.close();
-    cout << "Zapisane do dvojice.txt" << endl;
+    vystup << "Pocet dvojic: " << pocet << endl;
+    vystup.close();
+    cout << "Vysledky zapisane do dvojice.txt" << endl;
     return 0;
 }`,
-  "rodne_cislo": `#include <iostream>
-#include <fstream>
-#include <string>
+  "rodne_cislo": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia rodnecisla.txt
-    string cisla[] = {"810905", "815905", "046113"};
-    int pocet = 3;
+    ifstream vstup("rodnecisla.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit rodnecisla.txt" << endl; return 1; }
 
     ofstream vystup("osoby.txt");
-    cout << "=== Parsovanie rodnych cisel ===" << endl;
-
-    for (int i = 0; i < pocet; i++) {
-        string rc = cisla[i];
+    string rc;
+    while (vstup >> rc) {
+        if (rc.size() < 6) continue;
         int rr = stoi(rc.substr(0, 2));
         int mm = stoi(rc.substr(2, 2));
         int dd = stoi(rc.substr(4, 2));
 
-        // Pohlavie
         bool zena = (mm > 50);
         if (zena) mm -= 50;
-
-        // Rok narodenia
         int rok = (rr >= 54) ? 1900 + rr : 2000 + rr;
 
         string riadok = rc + " -> "
-            + (dd < 10 ? "0" : "") + to_string(dd) + "."
-            + (mm < 10 ? "0" : "") + to_string(mm) + "."
+            + (dd<10?"0":"") + to_string(dd) + "."
+            + (mm<10?"0":"") + to_string(mm) + "."
             + to_string(rok) + ", "
             + (zena ? "Zena" : "Muz");
 
         cout << riadok << endl;
         vystup << riadok << endl;
     }
-
+    vstup.close();
     vystup.close();
-    cout << "Zapisane do osoby.txt" << endl;
+    cout << "Vysledky zapisane do osoby.txt" << endl;
     return 0;
 }`,
-  "kacacie_cislo": `#include <iostream>
-#include <fstream>
-#include <string>
+  "kacacie_cislo": `#include<bits/stdc++.h>
 using namespace std;
 
 bool jeKacacie(string s) {
-    // Nezacina nulou a obsahuje 0 niekde vo vnutri
-    if (s[0] == '0') return false;        // zacina nulou -> nie
+    if (s[0] == '0') return false;
     for (int i = 1; i < (int)s.size(); i++)
-        if (s[i] == '0') return true;     // 0 na neprvej pozicii -> kacacie
+        if (s[i] == '0') return true;
     return false;
 }
 
 int main() {
-    // Simulacia cisla.txt
-    string cisla[] = {"70423", "0902", "0948", "00421", "12300"};
-    int pocet = 5;
+    ifstream vstup("cisla.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit cisla.txt" << endl; return 1; }
 
-    ofstream subor("kacacie.txt");
-    cout << "=== Kacacie cisla ===" << endl;
-
-    for (int i = 0; i < pocet; i++) {
-        string vysledok = cisla[i] + " -> "
-            + (jeKacacie(cisla[i]) ? "je kacacie cislo" : "NIE je kacacie cislo");
-        cout << vysledok << endl;
-        subor << vysledok << endl;
+    ofstream vystup("kacacie.txt");
+    string cislo;
+    while (vstup >> cislo) {
+        string riadok = cislo + " -> " + (jeKacacie(cislo) ? "je kacacie cislo" : "NIE je kacacie cislo");
+        cout << riadok << endl;
+        vystup << riadok << endl;
     }
-
-    subor.close();
-    cout << "Zapisane do kacacie.txt" << endl;
+    vstup.close();
+    vystup.close();
+    cout << "Vysledky zapisane do kacacie.txt" << endl;
     return 0;
 }`,
-  "pocetnost_pismen": `#include <iostream>
-#include <fstream>
-#include <string>
+  "pocetnost_pismen": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia text.txt
-    string text = "Dnes nam nasnezilo. Budeme musiet kydat sneh.";
-    cout << "Text: " << text << endl;
+    ifstream vstup("text.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit text.txt" << endl; return 1; }
+
+    string text = "", riadok;
+    while (getline(vstup, riadok)) {
+        if (!text.empty()) text += " ";
+        text += riadok;
+    }
+    vstup.close();
 
     int male[26] = {}, velke[26] = {};
-    int celkom = 0;
-
     for (char c : text) {
-        if (c >= 'a' && c <= 'z') { male[c-'a']++; celkom++; }
-        else if (c >= 'A' && c <= 'Z') { velke[c-'A']++; celkom++; }
+        if (c >= 'a' && c <= 'z') male[c-'a']++;
+        else if (c >= 'A' && c <= 'Z') velke[c-'A']++;
     }
 
-    ofstream subor("statistika.txt");
-    subor << "Text: " << text << endl;
-
+    cout << "Text: " << text << endl;
     cout << "\\nPocetnost malych pismen:" << endl;
-    subor << "Pocetnost malych pismen:" << endl;
-    for (int i = 0; i < 26; i++) {
-        if (male[i] > 0) {
-            cout << (char)('a'+i) << ": " << male[i] << "  ";
-            subor << (char)('a'+i) << ": " << male[i] << " | ";
-        }
-    }
+    for (int i = 0; i < 26; i++)
+        if (male[i] > 0) cout << (char)('a'+i) << ": " << male[i] << "  ";
+    cout << endl;
+    cout << "\\nPocetnost velkych pismen:" << endl;
+    for (int i = 0; i < 26; i++)
+        if (velke[i] > 0) cout << (char)('A'+i) << ": " << velke[i] << "  ";
     cout << endl;
 
-    cout << "\\nPocetnost velkych pismen:" << endl;
-    subor << "\\nPocetnost velkych pismen:" << endl;
-    for (int i = 0; i < 26; i++) {
-        if (velke[i] > 0) {
-            cout << (char)('A'+i) << ": " << velke[i] << "  ";
-            subor << (char)('A'+i) << ": " << velke[i] << " | ";
-        }
-    }
-    cout << endl;
-    subor.close();
-    cout << "\\nZapisane do statistika.txt" << endl;
+    ofstream vystup("statistika.txt");
+    vystup << "Text: " << text << endl;
+    vystup << "Pocetnost malych pismen:" << endl;
+    for (int i = 0; i < 26; i++)
+        vystup << (char)('a'+i) << ": " << male[i] << " | ";
+    vystup << endl;
+    vystup << "Pocetnost velkych pismen:" << endl;
+    for (int i = 0; i < 26; i++)
+        if (velke[i] > 0) vystup << (char)('A'+i) << ": " << velke[i] << " | ";
+    vystup << endl;
+    vystup.close();
+    cout << "Statistika zapisana do statistika.txt" << endl;
     return 0;
 }`,
-  "caesarova_sifra": `#include <iostream>
-#include <fstream>
-#include <string>
+  "caesarova_sifra": `#include<bits/stdc++.h>
 using namespace std;
 
 string sifra(string text, int n) {
@@ -2402,73 +2376,56 @@ string sifra(string text, int n) {
 }
 
 int main() {
-    // Simulacia plaintext.txt a kluc.txt
-    string text = "janko";
-    int kluc = 4;
+    ifstream fText("plaintext.txt"), fKluc("kluc.txt");
+    if (!fText) { cout << "Chyba: nemozno otvorit plaintext.txt" << endl; return 1; }
+    if (!fKluc) { cout << "Chyba: nemozno otvorit kluc.txt" << endl; return 1; }
+
+    string text; getline(fText, text); fText.close();
+    int kluc; fKluc >> kluc; fKluc.close();
 
     string zasifrovany = sifra(text, kluc);
-    string desifrovany = sifra(zasifrovany, -kluc);
 
-    cout << "Povodny text:    " << text << endl;
-    cout << "Posun (n):       " << kluc << endl;
-    cout << "Zasifrovany:     " << zasifrovany << endl;
-    cout << "Desifrovany:     " << desifrovany << endl;
+    cout << "Povodny text: " << text << endl;
+    cout << "Posun (n): " << kluc << endl;
+    cout << "Zasifrovany text: " << zasifrovany << endl;
 
-    ofstream subor("zasifrovany.txt");
-    subor << "Povodny text: " << text << endl;
-    subor << "Posun (n): " << kluc << endl;
-    subor << "Zasifrovany text: " << zasifrovany << endl;
-    subor.close();
-    cout << "Zapisane do zasifrovany.txt" << endl;
+    ofstream vystup("zasifrovany.txt");
+    vystup << "Povodny text: " << text << endl;
+    vystup << "Posun (n): " << kluc << endl;
+    vystup << "Zasifrovany text: " << zasifrovany << endl;
+    vystup.close();
+    cout << "Zasifrovany text zapisany do zasifrovany.txt" << endl;
     return 0;
 }`,
-  "palindrom": `#include <iostream>
-#include <fstream>
-#include <string>
-#include <algorithm>
+  "palindrom": `#include<bits/stdc++.h>
 using namespace std;
 
 bool jePalindrom(string s) {
-    // Odstran medzery a preved na male pismena
     string clean = "";
-    for (char c : s) {
+    for (char c : s)
         if (c != ' ') clean += tolower(c);
-    }
     string rev = clean;
     reverse(rev.begin(), rev.end());
     return clean == rev;
 }
 
 int main() {
-    // Simulacia retazce.txt
-    string retazce[] = {
-        "jelenovi pivo nelej",
-        "ahoj",
-        "racecar",
-        "Janko poobede isiel",
-        "level"
-    };
-    int pocet = 5;
+    ifstream vstup("retazce.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit retazce.txt" << endl; return 1; }
 
-    ofstream subor("palindromy.txt");
-    cout << "=== Palindromy ===" << endl;
-
-    for (int i = 0; i < pocet; i++) {
-        bool palindrom = jePalindrom(retazce[i]);
-        string riadok = "\\"" + retazce[i] + "\\" -> "
-            + (palindrom ? "JE palindrom" : "NIE je palindrom");
+    ofstream vystup("palindromy.txt");
+    string text;
+    while (getline(vstup, text)) {
+        string riadok = "\\"" + text + "\\" -> " + (jePalindrom(text) ? "JE palindrom" : "NIE je palindrom");
         cout << riadok << endl;
-        subor << riadok << endl;
+        vystup << riadok << endl;
     }
-
-    subor.close();
-    cout << "Zapisane do palindromy.txt" << endl;
+    vstup.close();
+    vystup.close();
+    cout << "Vysledky zapisane do palindromy.txt" << endl;
     return 0;
 }`,
-  "teploty": `#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <ctime>
+  "teploty": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
@@ -2511,22 +2468,28 @@ int main() {
     cout << endl;
     return 0;
 }`,
-  "vyskyt_pismen": `#include <iostream>
-#include <fstream>
-#include <string>
-#include <iomanip>
+  "vyskyt_pismen": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia text.txt
-    string text = "programovanie v cplus plus je super a zaujimave";
+    ifstream vstup("text.txt");
+    if (!vstup) { cout << "Chyba: nemozno otvorit text.txt" << endl; return 1; }
+
+    string text = "", riadok;
+    while (getline(vstup, riadok)) {
+        if (!text.empty()) text += " ";
+        text += riadok;
+    }
+    vstup.close();
+
     cout << "Text: " << text << endl;
 
     int pocet[26] = {};
     int celkom = 0;
 
     for (char c : text) {
-        if (c >= 'a' && c <= 'z') { pocet[c-'a']++; celkom++; }
+        char lc = tolower(c);
+        if (lc >= 'a' && lc <= 'z') { pocet[lc-'a']++; celkom++; }
     }
 
     // Vypis tabulky
@@ -2544,9 +2507,7 @@ int main() {
     cout << endl;
     return 0;
 }`,
-  "telefonny_zoznam": `#include <iostream>
-#include <fstream>
-#include <string>
+  "telefonny_zoznam": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
@@ -2596,106 +2557,93 @@ int main() {
 
     return 0;
 }`,
-  "delitelnost": `#include <iostream>
-#include <fstream>
+  "delitelnost": `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
-    // Simulacia cisla.txt — kazde cislo na novom riadku
-    int cisla[] = {12, 7, 24, 9, 36, 14, 100, 15, 48, 22};
-    int pocet = 10;
-
     int n;
     cout << "Zadaj delitel n: ";
     cin >> n;
 
+    ifstream subor("cisla.txt");
+    if (!subor) { cout << "Chyba: nemozno otvorit cisla.txt" << endl; return 1; }
+
     cout << "\\nCisla delitelne " << n << ":" << endl;
     bool najdene = false;
-
-    for (int i = 0; i < pocet; i++) {
-        if (cisla[i] % n == 0) {
-            cout << cisla[i] << endl;
+    int x;
+    while (subor >> x) {
+        if (x % n == 0) {
+            cout << x << endl;
             najdene = true;
         }
     }
+    subor.close();
 
     if (!najdene) cout << "(ziadne)" << endl;
-
-    // Vypis zo suboru (ak existuje)
-    ifstream subor("cisla.txt");
-    if (subor.is_open()) {
-        cout << "\\n(Zo suboru cisla.txt):" << endl;
-        int x;
-        while (subor >> x) {
-            if (x % n == 0) cout << x << endl;
-        }
-        subor.close();
-    }
-
     return 0;
 }`,
 };
 
 const CV_ZADANIA = [
-  {id:"hadas_cislo",kat:"Cykly",nazov:"Hra Hádaj číslo + záznam do súboru",popis:"Používateľ zadá hornú hranicu N a počet pokusov. Program vygeneruje náhodné číslo z intervalu &lt;0;N&gt;. Hráč háda číslo, program povie väčšie/menšie. Výsledok sa zapíše do hra_log.txt.",
+  {id:"hadas_cislo",kat:"Cykly",nazov:"Hra Hádaj číslo",popis:"Používateľ zadá hornú hranicu N a počet pokusov. Program vygeneruje náhodné číslo z intervalu &lt;0;N&gt;. Hráč háda číslo, program povie väčšie/menšie. Na konci sa vypíše výsledok.",
    bg:"#4ade80",dark:"#16a34a",light:"rgba(74,222,128,.1)"},
-  {id:"nsn",kat:"Cykly",nazov:"Najmenší spoločný násobok + txt súbor",popis:"Pre dvojice čísel zo súboru cisla.txt vypočítaj NSN a výsledky zapíš do nsn_vysledky.txt. Formát: NSN(12, 15) = 60",
+  {id:"nsn",kat:"Cykly",nazov:"Najmenší spoločný násobok",popis:"Opakovane načítaj dvojice čísel (cin). Pre každú dvojicu vypočítaj NSN pomocou NSD (Euklidov algoritmus). Formát výstupu: NSN(12, 15) = 60",
    bg:"#4ade80",dark:"#16a34a",light:"rgba(74,222,128,.1)"},
-  {id:"nsd",kat:"Cykly",nazov:"Najväčší spoločný deliteľ + txt súbor",popis:"Pre dvojice čísel zo cisla.txt vypočítaj NSD Euklidovým algoritmom a výsledky zapíš do nsd_vysledky.txt.",
+  {id:"nsd",kat:"Cykly",nazov:"Najväčší spoločný deliteľ",popis:"Opakovane načítaj dvojice čísel (cin). Pre každú dvojicu vypočítaj NSD Euklidovým algoritmom a výsledok vypíš na obrazovku.",
    bg:"#4ade80",dark:"#16a34a",light:"rgba(74,222,128,.1)"},
-  {id:"fibonacci",kat:"Cykly",nazov:"Fibonacciho postupnosť + zápis do súboru",popis:"Používateľ zadá n. Program vypíše n členov Fibonacciho postupnosti po 5 čísel na riadok a zapíše do fibonacci.txt.",
+  {id:"fibonacci",kat:"Cykly",nazov:"Fibonacciho postupnosť",popis:"Používateľ zadá n. Program vypíše n členov Fibonacciho postupnosti po 5 čísel na riadok na obrazovku.",
    bg:"#4ade80",dark:"#16a34a",light:"rgba(74,222,128,.1)"},
-  {id:"eratostenes_cykly",kat:"Cykly",nazov:"Eratostenovo sito + zápis do súboru",popis:"Zadaj hornú hranicu n. Zobraz čísla 1–n, nahraď násobky hviezdičkou (*). Nájdi prvočísla a zapíš do prvocisla.txt.",
+  {id:"eratostenes_cykly",kat:"Cykly",nazov:"Eratostenovo sito",popis:"Zadaj hornú hranicu n. Zobraz čísla 1–n, nahraď násobky hviezdičkou (*). Nájdi a vypíš všetky prvočísla na obrazovku.",
    bg:"#4ade80",dark:"#16a34a",light:"rgba(74,222,128,.1)"},
-  {id:"prevod_sustav",kat:"Funkcie & Makrá",nazov:"Prevod čísla medzi sústav ami + zápis",popis:"Funkcie decToBin(n) a binToDec(b). Prevod desiatková↔binárna. Každú konverziu zapíš do konverzie.txt.",
+  {id:"prevod_sustav",kat:"Funkcie & Makrá",nazov:"Prevod čísla medzi sústavami",popis:"Funkcie decToBin(n) a binToDec(b). Opakovane prevádza čísla desiatková↔binárna. Výsledky sa vypíšu na obrazovku.",
    bg:"#f472b6",dark:"#be185d",light:"rgba(244,114,182,.1)"},
-  {id:"linearna_funkcia",kat:"Funkcie & Makrá",nazov:"Lineárna funkcia – analýza + súbor",popis:"Zadaj koeficienty a, b (f: y=ax+b). Program určí typ, priesečníky s osami a inverznú funkciu. Výsledky → linearna_funkcia.txt.",
+  {id:"linearna_funkcia",kat:"Funkcie & Makrá",nazov:"Lineárna funkcia – analýza",popis:"Zadaj koeficienty a, b (f: y=ax+b). Program určí typ (rastúca/klesajúca), priesečníky s osami a inverznú funkciu. Výsledky sa vypíšu na obrazovku.",
    bg:"#f472b6",dark:"#be185d",light:"rgba(244,114,182,.1)"},
-  {id:"prvocislo_rozklad",kat:"Funkcie & Makrá",nazov:"Prvočíselný rozklad + txt súbory",popis:"Funkcia pre prvočíselný rozklad (72=2*2*2*3*3). Načítaj čísla zo vstup.txt, výsledky → rozklady.txt.",
+  {id:"prvocislo_rozklad",kat:"Funkcie & Makrá",nazov:"Prvočíselný rozklad",popis:"Funkcia pre prvočíselný rozklad (72=2*2*2*3*3). Opakovane načítava čísla (cin) a vypísuje ich rozklad na obrazovku.",
    bg:"#f472b6",dark:"#be185d",light:"rgba(244,114,182,.1)"},
-  {id:"faktorial_kombinacne",kat:"Funkcie & Makrá",nazov:"Faktoriál a kombinačné číslo + súbor",popis:"Funkcia FAKTORIAL(n). Vypočítaj n! a kombinačné číslo C(n,k)=n!/(k!*(n-k)!). Každý výpočet → vysledky.txt.",
+  {id:"faktorial_kombinacne",kat:"Funkcie & Makrá",nazov:"Faktoriál a kombinačné číslo",popis:"Funkcia FAKTORIAL(n). Opakovane vypočítava n! a kombinačné číslo C(n,k)=n!/(k!*(n-k)!). Výsledky sa vypíšu na obrazovku.",
    bg:"#f472b6",dark:"#be185d",light:"rgba(244,114,182,.1)"},
-  {id:"kvadraticka_tabulacia",kat:"Funkcie & Makrá",nazov:"Kvadratická funkcia – tabulácia a korene",popis:"Pevný predpis f(x)=x²-3x+2. Makro F(x). Tabulácia hodnôt v intervale [a;b] + hľadanie koreňov. Výsledky → tabulacia.txt.",
+  {id:"kvadraticka_tabulacia",kat:"Funkcie & Makrá",nazov:"Kvadratická funkcia – tabulácia a korene",popis:"Pevný predpis f(x)=x²-3x+2. Makro F(x). Tabulácia hodnôt v intervale [a;b] + hľadanie koreňov. Výsledky sa vypíšu na obrazovku.",
    bg:"#f472b6",dark:"#be185d",light:"rgba(244,114,182,.1)"},
-  {id:"trojuholnik",kat:"Príkazy vetvenia",nazov:"Trojuholník zo súradníc bodov + súbor",popis:"Načítaj body A,B,C zo body.txt. Zisti či tvoria trojuholník, vypočítaj strany, obvod a obsah (Heron). → trojuholnik.txt.",
+  {id:"trojuholnik",kat:"Príkazy vetvenia",nazov:"Trojuholník zo súradníc bodov",popis:"Zadaj súradnice bodov A, B, C (cin). Zisti či tvoria trojuholník, vypočítaj strany, obvod a obsah (Herón). Výsledky na obrazovku.",
    bg:"#fb923c",dark:"#c2410c",light:"rgba(251,146,60,.1)"},
-  {id:"posledne_prvocislo",kat:"Príkazy vetvenia",nazov:"Posledné prvočíslo pred číslom + súbor",popis:"Pre každé n zo vstup.txt nájdi posledné prvočíslo menšie ako n. Špeciálne prípady: n=2, n&lt;2. → vysledky.txt.",
+  {id:"posledne_prvocislo",kat:"Príkazy vetvenia",nazov:"Posledné prvočíslo pred číslom",popis:"Opakovane načítaj číslo n (cin). Nájdi posledné prvočíslo menšie ako n. Špeciálne prípady: n=2, n&lt;2. Výsledok na obrazovku.",
    bg:"#fb923c",dark:"#c2410c",light:"rgba(251,146,60,.1)"},
-  {id:"sustava_rovnic",kat:"Príkazy vetvenia",nazov:"Sústava lineárnych rovníc + súbor",popis:"Sústava: ax+by=c, dx+ey=f. Riešenie Cramerovym pravidlom. Koeficienty zo sustavy.txt → sustav_riesenia.txt.",
+  {id:"sustava_rovnic",kat:"Príkazy vetvenia",nazov:"Sústava lineárnych rovníc",popis:"Sústava: ax+by=c, dx+ey=f. Koeficienty zadaj cez cin. Riešenie Cramerovým pravidlom. Výsledok sa vypíše na obrazovku.",
    bg:"#fb923c",dark:"#c2410c",light:"rgba(251,146,60,.1)"},
-  {id:"kalkulacka",kat:"Príkazy vetvenia",nazov:"Kalkulačka + záznam do súboru",popis:"Opakovane načíta dve čísla a operáciu (+,-,*,/). Ošetrí delenie nulou. Každú operáciu zapíše do historia.txt.",
+  {id:"kalkulacka",kat:"Príkazy vetvenia",nazov:"Kalkulačka",popis:"Opakovane načíta dve čísla a operáciu (+,-,*,/). Ošetrí delenie nulou. Výsledky sa vypíšu na obrazovku.",
    bg:"#fb923c",dark:"#c2410c",light:"rgba(251,146,60,.1)"},
-  {id:"kvadraticka_rovnica",kat:"Príkazy vetvenia",nazov:"Riešenie kvadratickej rovnice + súbor",popis:"Rovnica ax²+bx+c=0. Ošetrí všetky prípady: a=0, D&gt;0, D=0, D&lt;0. Výsledky → rovnica.txt.",
+  {id:"kvadraticka_rovnica",kat:"Príkazy vetvenia",nazov:"Riešenie kvadratickej rovnice",popis:"Rovnica ax²+bx+c=0. Koeficienty zadaj cez cin. Ošetrí všetky prípady: a=0, D&gt;0, D=0, D&lt;0. Výsledky na obrazovku.",
    bg:"#fb923c",dark:"#c2410c",light:"rgba(251,146,60,.1)"},
-  {id:"otocenie_matice",kat:"Dvojrozmerné pole",nazov:"Otočenie matice o 90° + txt súbory",popis:"Načítaj maticu (m×n) zo matica.txt. Zobraz pôvodnú a otočenú o 90° doprava. → otocena.txt.",
+  {id:"otocenie_matice",kat:"Dvojrozmerné pole",nazov:"Otočenie matice o 90°",popis:"Zadaj rozmery a prvky matice (cin). Zobraz pôvodnú a otočenú o 90° doprava na obrazovku.",
    bg:"#a78bfa",dark:"#6d28d9",light:"rgba(167,139,250,.1)"},
-  {id:"sucin_matic",kat:"Dvojrozmerné pole",nazov:"Súčin matíc A×B + txt súbory",popis:"Načítaj matice A(m×n) a B(n×p). Skontroluj možnosť súčinu, vypočítaj C=A×B. → sucin.txt.",
+  {id:"sucin_matic",kat:"Dvojrozmerné pole",nazov:"Súčin matíc A×B",popis:"Zadaj matice A(m×n) a B(n×p) cez cin. Skontroluj možnosť súčinu, vypočítaj C=A×B a vypíš na obrazovku.",
    bg:"#a78bfa",dark:"#6d28d9",light:"rgba(167,139,250,.1)"},
-  {id:"transponovana_matica",kat:"Dvojrozmerné pole",nazov:"Transponovaná matica + txt súbory",popis:"Načítaj maticu (m×n) zo matica.txt. Zobraz pôvodnú a transponovanú (n×m). → transponovana.txt.",
+  {id:"transponovana_matica",kat:"Dvojrozmerné pole",nazov:"Transponovaná matica",popis:"Zadaj rozmery a prvky matice (cin). Zobraz pôvodnú a transponovanú (n×m) na obrazovku.",
    bg:"#a78bfa",dark:"#6d28d9",light:"rgba(167,139,250,.1)"},
-  {id:"sucet_stlpcov",kat:"Dvojrozmerné pole",nazov:"Súčet stĺpcov matice + txt súbory",popis:"Načítaj maticu zo matica.txt. Vypočítaj súčet každého stĺpca. → sucty_stlpcov.txt.",
+  {id:"sucet_stlpcov",kat:"Dvojrozmerné pole",nazov:"Súčet stĺpcov matice",popis:"Zadaj rozmery a prvky matice (cin). Vypočítaj a vypíš súčet každého stĺpca na obrazovku.",
    bg:"#a78bfa",dark:"#6d28d9",light:"rgba(167,139,250,.1)"},
-  {id:"sucet_dvoch_matic",kat:"Dvojrozmerné pole",nazov:"Súčet dvoch matíc + txt súbory",popis:"Načítaj matice A a B. Skontroluj rovnaké rozmery, vypočítaj C=A+B. → sucet.txt. Opakuje sa.",
+  {id:"sucet_dvoch_matic",kat:"Dvojrozmerné pole",nazov:"Súčet dvoch matíc",popis:"Zadaj matice A a B (cin). Skontroluj rovnaké rozmery, vypočítaj C=A+B a vypíš na obrazovku. Opakuje sa.",
    bg:"#a78bfa",dark:"#6d28d9",light:"rgba(167,139,250,.1)"},
-  {id:"zalozny_server",kat:"Jednorozmerné pole",nazov:"Záložný server + txt súbory",popis:"Načítaj výkony 15 serverov zo servery.txt. Nájdi hlavný (max) a záložný (2. najvyšší). → vysledok.txt.",
+  {id:"zalozny_server",kat:"Jednorozmerné pole",nazov:"Záložný server",popis:"Zadaj počet serverov a ich výkony (cin). Nájdi hlavný (max) a záložný (2. najvyšší výkon). Výsledok na obrazovku.",
    bg:"#38bdf8",dark:"#0369a1",light:"rgba(56,189,248,.1)"},
-  {id:"eratostenes_pole",kat:"Jednorozmerné pole",nazov:"Eratostenovo sito (pole) + súbor",popis:"Implementuj Eratostenovo sito pomocou bool poľa. Nájdi všetky prvočísla do N. → prvocisla.txt.",
+  {id:"eratostenes_pole",kat:"Jednorozmerné pole",nazov:"Eratostenovo sito (pole)",popis:"Implementuj Eratostenovo sito pomocou bool poľa. Zadaj N (cin), nájdi a vypíš všetky prvočísla do N na obrazovku.",
    bg:"#38bdf8",dark:"#0369a1",light:"rgba(56,189,248,.1)"},
-  {id:"spolocne_prvky",kat:"Jednorozmerné pole",nazov:"Spoločné prvky troch polí + súbory",popis:"Načítaj tri polia zo polia.txt. Nájdi prvky, ktoré sa vyskytujú vo všetkých troch. → spolocne.txt.",
+  {id:"spolocne_prvky",kat:"Jednorozmerné pole",nazov:"Spoločné prvky troch polí",popis:"Zadaj tri polia (cin). Nájdi prvky, ktoré sa vyskytujú vo všetkých troch poliach. Výsledok vypíš na obrazovku.",
    bg:"#38bdf8",dark:"#0369a1",light:"rgba(56,189,248,.1)"},
-  {id:"skalarny_vektorovy",kat:"Jednorozmerné pole",nazov:"Skalárny a vektorový súčin vektorov",popis:"Načítaj 3D vektory u, v zo vektory.txt. Vypočítaj skalárny (u·v) a vektorový súčin (u×v). → suciny.txt.",
+  {id:"skalarny_vektorovy",kat:"Jednorozmerné pole",nazov:"Skalárny a vektorový súčin vektorov",popis:"Zadaj 3D vektory u, v (cin). Vypočítaj skalárny súčin (u·v) a vektorový súčin (u×v). Výsledky na obrazovku.",
    bg:"#38bdf8",dark:"#0369a1",light:"rgba(56,189,248,.1)"},
-  {id:"dvojice_sucet",kat:"Jednorozmerné pole",nazov:"Dvojice prvkov so zadaným súčtom",popis:"Načítaj pole a cieľový súčet zo vstup.txt. Nájdi všetky dvojice (a[i],a[j]) kde i&lt;j a ich súčet=cieľ. → dvojice.txt.",
+  {id:"dvojice_sucet",kat:"Jednorozmerné pole",nazov:"Dvojice prvkov so zadaným súčtom",popis:"Zadaj pole a cieľový súčet (cin). Nájdi všetky dvojice (a[i],a[j]) kde i&lt;j a ich súčet=cieľ. Výsledky na obrazovku.",
    bg:"#38bdf8",dark:"#0369a1",light:"rgba(56,189,248,.1)"},
-  {id:"rodne_cislo",kat:"Reťazce",nazov:"Rodné číslo – parsovanie + txt súbory",popis:"Načítaj rodné čísla (RRMMDD) zo rodnecisla.txt. Urči dátum narodenia a pohlavie. → osoby.txt.",
+  {id:"rodne_cislo",kat:"Reťazce",nazov:"Rodné číslo – parsovanie",popis:"Opakovane načítaj rodné číslo (RRMMDD) cez cin. Urči dátum narodenia a pohlavie. Výsledok sa vypíše na obrazovku.",
    bg:"#fbbf24",dark:"#b45309",light:"rgba(251,191,36,.1)"},
-  {id:"kacacie_cislo",kat:"Reťazce",nazov:"Kačacie číslo + txt súbory",popis:"Kačacie číslo: kladné, obsahuje 0, ale nezačína 0. Načítaj zo cisla.txt a zisti pre každé. → kacacie.txt.",
+  {id:"kacacie_cislo",kat:"Reťazce",nazov:"Kačacie číslo",popis:"Kačacie číslo: kladné, obsahuje 0, ale nezačína 0. Opakovane načítaj číslo (cin) a zisti či je kačacie. Výsledok na obrazovku.",
    bg:"#fbbf24",dark:"#b45309",light:"rgba(251,191,36,.1)"},
-  {id:"pocetnost_pismen",kat:"Reťazce",nazov:"Početnosť písmen abecedy + txt súbory",popis:"Načítaj text zo text.txt. Vypočítaj výskyt každého písmena a–z, A–Z oddelene. → statistika.txt.",
+  {id:"pocetnost_pismen",kat:"Reťazce",nazov:"Početnosť písmen abecedy",popis:"Načítaj text cez getline (cin). Vypočítaj a vypíš výskyt každého písmena a–z, A–Z oddelene na obrazovku.",
    bg:"#fbbf24",dark:"#b45309",light:"rgba(251,191,36,.1)"},
-  {id:"caesarova_sifra",kat:"Reťazce",nazov:"Caesarova šifra + txt súbory",popis:"Načítaj text zo plaintext.txt a posun n zo kluc.txt. Zašifruj Caesarovou šifrou. → zasifrovany.txt.",
+  {id:"caesarova_sifra",kat:"Reťazce",nazov:"Caesarova šifra",popis:"Načítaj text (getline cin) a posun n (cin). Zašifruj Caesarovou šifrou a aj dešifruj späť. Výsledky na obrazovku.",
    bg:"#fbbf24",dark:"#b45309",light:"rgba(251,191,36,.1)"},
-  {id:"palindrom",kat:"Reťazce",nazov:"Palindróm + txt súbory",popis:"Načítaj reťazce zo retazce.txt. Pre každý zisti či je palindróm (ignoruj medzery a veľkosť). → palindromy.txt.",
+  {id:"palindrom",kat:"Reťazce",nazov:"Palindróm",popis:"Opakovane načítaj reťazec (getline cin). Pre každý zisti či je palindróm (ignoruj medzery a veľkosť písmen). Výsledok na obrazovku.",
    bg:"#fbbf24",dark:"#b45309",light:"rgba(251,191,36,.1)"},
   {id:"teploty",kat:"Textové súbory",nazov:"Teploty – generovanie a analýza",popis:"Vygeneruj 15 náhodných teplôt z (−10;25) do teploty.txt. Načítaj a vypíš: mrazivé/letné dni, minimum a jeho pozície.",
    bg:"#f87171",dark:"#b91c1c",light:"rgba(248,113,113,.1)"},
@@ -2759,7 +2707,6 @@ function openCvDetail(id) {
 
   document.getElementById('cvGrid').style.display = 'none';
   document.querySelector('.cv-controls').style.display = 'none';
-  document.getElementById('cvMainHeader').style.display = 'none';
   document.getElementById('cvDetail').style.display = 'block';
 
   document.getElementById('cvDetKat').textContent = z.kat;
@@ -2789,9 +2736,7 @@ function closeCvDetail() {
   document.getElementById('cvDetail').style.display = 'none';
   document.getElementById('cvGrid').style.display = 'grid';
   document.querySelector('.cv-controls').style.display = 'flex';
-  document.getElementById('cvMainHeader').style.display = 'flex';
   cvOpen = null;
-  window.scrollTo(0, 0);
 }
 
 function showCvicenia() {
@@ -2823,28 +2768,6 @@ function showZadania() {
   window.scrollTo(0,0);
 }
 
-document.getElementById('cvBack').addEventListener('click', showZadania);
-document.getElementById('cvDetBack').addEventListener('click', closeCvDetail);
-document.getElementById('cvDetBackZadania').addEventListener('click', showZadania);
-document.getElementById('cvSearch').addEventListener('input', e => {
-  cvSearch_ = e.target.value;
-  renderCvGrid();
-});
-document.getElementById('cvCopy').addEventListener('click', () => {
-  navigator.clipboard.writeText(document.getElementById('cvDetCode').textContent).then(() => {
-    const b = document.getElementById('cvCopy');
-    b.textContent = '✓ Skopírované!';
-    setTimeout(() => b.textContent = '📋 Kopírovať', 2000);
-  });
-});
-document.addEventListener('keydown', e => {
-  if (document.getElementById('cvSekcia').style.display === 'none') return;
-  if (document.getElementById('cvDetail').style.display !== 'none') {
-    if (e.key === 'Escape') closeCvDetail();
-    if (e.key === 'ArrowLeft') document.getElementById('cvPrev').click();
-    if (e.key === 'ArrowRight') document.getElementById('cvNext').click();
-  }
-});
 
 </script>
 
@@ -2872,8 +2795,7 @@ document.addEventListener('keydown', e => {
   <!-- Detail -->
   <div id="cvDetail" style="display:none">
     <div class="cv-det-header" id="cvDetHeader">
-      <button class="cv-back-btn" id="cvDetBack">← Späť na cvičenia</button>
-      <button class="cv-back-btn" id="cvDetBackZadania" style="border-color:var(--a1);color:var(--a1)">⌂ Zadania</button>
+      <button class="cv-back-btn" id="cvDetBack">← Späť</button>
       <span class="cv-det-kat" id="cvDetKat"></span>
       <div style="flex:1"></div>
       <div style="display:flex;gap:.5rem">
@@ -2898,6 +2820,30 @@ document.addEventListener('keydown', e => {
 </div>
 <button class="cv-nav-btn" onclick="showCvicenia()">⚡ Cvičenia C++</button>
 <!-- ===== KONIEC CVIČENÍ ===== -->
+
+<script>
+document.getElementById('cvBack').addEventListener('click', showZadania);
+document.getElementById('cvDetBack').addEventListener('click', closeCvDetail);
+document.getElementById('cvSearch').addEventListener('input', e => {
+  cvSearch_ = e.target.value;
+  renderCvGrid();
+});
+document.getElementById('cvCopy').addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('cvDetCode').textContent).then(() => {
+    const b = document.getElementById('cvCopy');
+    b.textContent = '✓ Skopírované!';
+    setTimeout(() => b.textContent = '📋 Kopírovať', 2000);
+  });
+});
+document.addEventListener('keydown', e => {
+  if (document.getElementById('cvSekcia').style.display === 'none') return;
+  if (document.getElementById('cvDetail').style.display !== 'none') {
+    if (e.key === 'Escape') closeCvDetail();
+    if (e.key === 'ArrowLeft') document.getElementById('cvPrev').click();
+    if (e.key === 'ArrowRight') document.getElementById('cvNext').click();
+  }
+});
+</script>
 
 </body>
 </html>
