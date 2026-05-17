@@ -2759,6 +2759,7 @@ function openCvDetail(id) {
 
   document.getElementById('cvGrid').style.display = 'none';
   document.querySelector('.cv-controls').style.display = 'none';
+  document.getElementById('cvMainHeader').style.display = 'none';
   document.getElementById('cvDetail').style.display = 'block';
 
   document.getElementById('cvDetKat').textContent = z.kat;
@@ -2788,7 +2789,9 @@ function closeCvDetail() {
   document.getElementById('cvDetail').style.display = 'none';
   document.getElementById('cvGrid').style.display = 'grid';
   document.querySelector('.cv-controls').style.display = 'flex';
+  document.getElementById('cvMainHeader').style.display = 'flex';
   cvOpen = null;
+  window.scrollTo(0, 0);
 }
 
 function showCvicenia() {
@@ -2822,6 +2825,7 @@ function showZadania() {
 
 document.getElementById('cvBack').addEventListener('click', showZadania);
 document.getElementById('cvDetBack').addEventListener('click', closeCvDetail);
+document.getElementById('cvDetBackZadania').addEventListener('click', showZadania);
 document.getElementById('cvSearch').addEventListener('input', e => {
   cvSearch_ = e.target.value;
   renderCvGrid();
@@ -2868,7 +2872,8 @@ document.addEventListener('keydown', e => {
   <!-- Detail -->
   <div id="cvDetail" style="display:none">
     <div class="cv-det-header" id="cvDetHeader">
-      <button class="cv-back-btn" id="cvDetBack">← Späť</button>
+      <button class="cv-back-btn" id="cvDetBack">← Späť na cvičenia</button>
+      <button class="cv-back-btn" id="cvDetBackZadania" style="border-color:var(--a1);color:var(--a1)">⌂ Zadania</button>
       <span class="cv-det-kat" id="cvDetKat"></span>
       <div style="flex:1"></div>
       <div style="display:flex;gap:.5rem">
