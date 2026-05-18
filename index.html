@@ -168,7 +168,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
 .cv-code-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--a1);font-weight:700;text-transform:uppercase;letter-spacing:.1em}
 .cv-copy-btn{background:var(--sur2);border:1px solid var(--bor);color:var(--txd);font-family:'JetBrains Mono',monospace;font-size:.72rem;padding:.3rem .7rem;border-radius:3px;cursor:pointer;transition:all .2s}
 .cv-copy-btn:hover{border-color:var(--a1);color:var(--a1)}
-.cv-code-block{background:rgba(0,0,0,.55);border:1px solid var(--bor);border-left:3px solid var(--a1);border-radius:5px;padding:1.2rem;font-family:'JetBrains Mono',monospace;font-size:.79rem;color:#c9f7c9;white-space:pre;overflow-x:auto;line-height:1.65;max-height:70vh;overflow-y:auto}
+.cv-code-block{background:rgba(0,0,0,.55);border:1px solid var(--bor);border-left:3px solid var(--a1);border-radius:5px;padding:1.2rem;font-family:'JetBrains Mono',monospace;font-size:.79rem;color:#c9f7c9;white-space:pre;overflow-x:auto;line-height:1.65;overflow-y:visible}
 @media(max-width:600px){.cv-grid{grid-template-columns:1fr;padding:1rem}.cv-det-body{padding:1.5rem 1rem 3rem}}
 
 </style>
@@ -2681,6 +2681,7 @@ const CV_ZADANIA = [
 let cvFilter = 'Všetky';
 let cvSearch_ = '';
 let cvOpen = null;
+let cvFilteredAtOpen = [];
 
 function cvGetFiltered() {
   const q = cvSearch_.toLowerCase();
@@ -2743,13 +2744,12 @@ function openCvDetail(id) {
   document.getElementById('cvDetCodeWrap').style.borderColor = `rgba(0,0,0,.4)`;
   document.getElementById('cvDetCodeWrap').style.borderLeft = `3px solid ${z.bg}`;
 
-  // Prev / Next (top)
-  const filtered = cvGetFiltered();
+  // Prev / Next — naviguj cez všetky cvičenia (bez ohľadu na filter/search)
+  cvFilteredAtOpen = CV_ZADANIA;
+  const filtered = cvFilteredAtOpen;
   const idx = filtered.findIndex(x => x.id === id);
   document.getElementById('cvPrev').disabled = idx <= 0;
   document.getElementById('cvNext').disabled = idx >= filtered.length - 1;
-  document.getElementById('cvPrev').onclick = () => { if(idx>0) openCvDetail(filtered[idx-1].id); };
-  document.getElementById('cvNext').onclick = () => { if(idx<filtered.length-1) openCvDetail(filtered[idx+1].id); };
 
   // Bottom nav bar
   const bn = document.getElementById('cvBottomNav');
@@ -2794,10 +2794,13 @@ function showCvicenia() {
 }
 
 function cvBnNav(dir) {
-  const filtered = cvGetFiltered();
+  if (!cvOpen) { console.log('cvBnNav: cvOpen je null'); return; }
+  const filtered = cvFilteredAtOpen;
   const idx = filtered.findIndex(x => x.id === cvOpen.id);
-  const next = filtered[idx + dir];
-  if (next) openCvDetail(next.id);
+  console.log('cvBnNav dir='+dir+' idx='+idx+' filtered='+filtered.length+' cvOpen='+cvOpen.id);
+  if (idx === -1) return;
+  const target = filtered[idx + dir];
+  if (target) openCvDetail(target.id);
 }
 
 function showZadania() {
@@ -2842,8 +2845,8 @@ function showZadania() {
       <span class="cv-det-kat" id="cvDetKat"></span>
       <div style="flex:1"></div>
       <div style="display:flex;gap:.5rem">
-        <button class="cv-nav-sm" id="cvPrev">‹</button>
-        <button class="cv-nav-sm" id="cvNext">›</button>
+        <button class="cv-nav-sm" id="cvPrev" onclick="cvBnNav(-1)">&#8249;</button>
+        <button class="cv-nav-sm" id="cvNext" onclick="cvBnNav(1)">&#8250;</button>
       </div>
     </div>
     <div class="cv-det-body">
@@ -2856,7 +2859,7 @@ function showZadania() {
         <span class="cv-code-label">// Riešenie C++</span>
         <button class="cv-copy-btn" id="cvCopy">📋 Kopírovať</button>
       </div>
-      <pre id="cvDetCode" class="cv-code-block" id="cvDetCodeWrap"></pre>
+      <pre id="cvDetCodeWrap" class="cv-code-block"><code id="cvDetCode"></code></pre>
     </div>
   </div>
 
