@@ -137,8 +137,30 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px
 .cv-nav-sm{background:var(--sur2);border:1px solid var(--bor);color:var(--txm);font-family:'JetBrains Mono',monospace;font-size:1rem;width:32px;height:32px;border-radius:3px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .cv-nav-sm:hover{border-color:var(--a2);color:var(--a2)}
 .cv-nav-sm:disabled{opacity:.3;cursor:default}
-.cv-det-body{max-width:860px;margin:0 auto;padding:2rem 2rem 4rem}
-.cv-det-nazov{font-size:1.4rem;font-weight:800;color:var(--tx);margin-bottom:1.2rem}
+.cv-det-body{max-width:860px;margin:0 auto;padding:2rem 2rem 6rem}
+
+/* ===== BOTTOM NAV BAR ===== */
+.cv-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:none;
+  background:rgba(15,17,23,.97);backdrop-filter:blur(12px);
+  border-top:1px solid var(--bor);padding:.75rem 1.5rem;
+  align-items:center;justify-content:space-between;gap:1rem}
+.cv-bottom-nav.visible{display:flex}
+.cv-bn-arrow{background:var(--sur2);border:1px solid var(--bor);color:var(--txm);
+  font-size:1.4rem;width:48px;height:48px;border-radius:6px;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.cv-bn-arrow:hover:not(:disabled){background:var(--a2);border-color:var(--a2);color:#000}
+.cv-bn-arrow:disabled{opacity:.25;cursor:default}
+.cv-bn-center{flex:1;display:flex;flex-direction:column;align-items:center;gap:.2rem;min-width:0}
+.cv-bn-title{font-size:.85rem;color:var(--txd);font-family:'JetBrains Mono',monospace;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center}
+.cv-bn-counter{font-size:.7rem;color:var(--txm);font-family:'JetBrains Mono',monospace}
+@media(max-width:600px){
+  .cv-grid{grid-template-columns:1fr;padding:1rem}
+  .cv-det-body{padding:1.5rem 1rem 5rem}
+  .cv-bn-arrow{width:42px;height:42px;font-size:1.2rem}
+  .cv-bn-title{font-size:.75rem}
+}.cv-det-nazov{font-size:1.4rem;font-weight:800;color:var(--tx);margin-bottom:1.2rem}
 .cv-det-popis-box{background:rgba(56,189,248,.05);border:1px solid rgba(56,189,248,.2);border-left:3px solid var(--a2);border-radius:4px;padding:.9rem 1.1rem;margin-bottom:1.4rem}
 .cv-det-popis-label{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--a2);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
 .cv-det-popis-box p{font-size:.87rem;color:var(--tx);line-height:1.7}
@@ -2721,13 +2743,26 @@ function openCvDetail(id) {
   document.getElementById('cvDetCodeWrap').style.borderColor = `rgba(0,0,0,.4)`;
   document.getElementById('cvDetCodeWrap').style.borderLeft = `3px solid ${z.bg}`;
 
-  // Prev / Next
+  // Prev / Next (top)
   const filtered = cvGetFiltered();
   const idx = filtered.findIndex(x => x.id === id);
   document.getElementById('cvPrev').disabled = idx <= 0;
   document.getElementById('cvNext').disabled = idx >= filtered.length - 1;
   document.getElementById('cvPrev').onclick = () => { if(idx>0) openCvDetail(filtered[idx-1].id); };
   document.getElementById('cvNext').onclick = () => { if(idx<filtered.length-1) openCvDetail(filtered[idx+1].id); };
+
+  // Bottom nav bar
+  const bn = document.getElementById('cvBottomNav');
+  bn.classList.add('visible');
+  document.getElementById('cvBnTitle').textContent = z.nazov;
+  document.getElementById('cvBnTitle').style.color = z.bg;
+  document.getElementById('cvBnCounter').textContent = `${idx + 1} / ${filtered.length}`;
+  const bnPrev = document.getElementById('cvBnPrev');
+  const bnNext = document.getElementById('cvBnNext');
+  bnPrev.disabled = idx <= 0;
+  bnNext.disabled = idx >= filtered.length - 1;
+  bnPrev.dataset.targetId = idx > 0 ? filtered[idx-1].id : '';
+  bnNext.dataset.targetId = idx < filtered.length-1 ? filtered[idx+1].id : '';
 
   window.scrollTo(0,0);
 }
@@ -2736,6 +2771,7 @@ function closeCvDetail() {
   document.getElementById('cvDetail').style.display = 'none';
   document.getElementById('cvGrid').style.display = 'grid';
   document.querySelector('.cv-controls').style.display = 'flex';
+  document.getElementById('cvBottomNav').classList.remove('visible');
   cvOpen = null;
 }
 
@@ -2755,6 +2791,13 @@ function showCvicenia() {
   renderCvKatBtns();
   renderCvGrid();
   window.scrollTo(0,0);
+}
+
+function cvBnNav(dir) {
+  const filtered = cvGetFiltered();
+  const idx = filtered.findIndex(x => x.id === cvOpen.id);
+  const next = filtered[idx + dir];
+  if (next) openCvDetail(next.id);
 }
 
 function showZadania() {
@@ -2815,6 +2858,16 @@ function showZadania() {
       </div>
       <pre id="cvDetCode" class="cv-code-block" id="cvDetCodeWrap"></pre>
     </div>
+  </div>
+
+  <!-- Bottom navigation bar -->
+  <div class="cv-bottom-nav" id="cvBottomNav">
+    <button class="cv-bn-arrow" id="cvBnPrev" title="Predchádzajúce (←)" onclick="cvBnNav(-1)">‹</button>
+    <div class="cv-bn-center">
+      <div class="cv-bn-title" id="cvBnTitle">—</div>
+      <div class="cv-bn-counter" id="cvBnCounter"></div>
+    </div>
+    <button class="cv-bn-arrow" id="cvBnNext" title="Nasledujúce (→)" onclick="cvBnNav(1)">›</button>
   </div>
 
 </div>
